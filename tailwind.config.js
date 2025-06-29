@@ -10,11 +10,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Original eco-friendly colors (preserved)
         'deep-moss-black': '#1B2727',
         'forest-shadow': '#3C5148',
         'olive-verde': '#688E4E',
         'herbal-cream': '#B2C582',
         'mist-gray': '#D5DDDF',
+        // New Glamics-inspired colors
+        'glamics-pink': '#FF6B9D',
+        'glamics-purple': '#8B5CF6',
+        'glamics-indigo': '#6366F1',
+        'glamics-blue': '#3B82F6',
+        'glamics-teal': '#14B8A6',
+        'glamics-orange': '#F97316',
+        'glamics-yellow': '#F59E0B',
       },
       fontFamily: {
         sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],

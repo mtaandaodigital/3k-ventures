@@ -1,0 +1,173 @@
+{% comment %}
+  Category Showcase Section
+  Glamics-inspired category display with promotional banners
+{% endcomment %}
+
+<div class="py-16 md:py-24 bg-white dark:bg-gray-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    {% if section.settings.title != blank %}
+      <div class="text-center mb-16">
+        {% if section.settings.category_label != blank %}
+          <p class="text-pink-500 font-semibold text-sm uppercase tracking-wider mb-3">{{ section.settings.category_label }}</p>
+        {% endif %}
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">{{ section.settings.title }}</h2>
+        {% if section.settings.subtitle != blank %}
+          <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">{{ section.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <!-- Category Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'category_card' %}
+            <div class="group relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2" {{ block.shopify_attributes }}>
+              <div class="relative h-80 md:h-96">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 600 | image_tag: 
+                    class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-110',
+                    alt: block.settings.title | escape
+                  }}
+                {% else %}
+                  <div class="w-full h-full bg-gradient-to-br from-pink-400 to-purple-600"></div>
+                {% endif %}
+                
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                
+                <!-- Content -->
+                <div class="absolute bottom-0 left-0 right-0 p-8">
+                  {% if block.settings.badge_text != blank %}
+                    <span class="inline-block bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-3">{{ block.settings.badge_text }}</span>
+                  {% endif %}
+                  
+                  {% if block.settings.title != blank %}
+                    <h3 class="text-white text-2xl md:text-3xl font-bold mb-2">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  
+                  {% if block.settings.description != blank %}
+                    <p class="text-white/90 text-lg mb-4">{{ block.settings.description }}</p>
+                  {% endif %}
+                  
+                  {% if block.settings.button_text != blank %}
+                    <a href="{{ block.settings.button_link }}" class="inline-flex items-center bg-white text-gray-900 font-bold py-3 px-6 rounded-full hover:bg-pink-500 hover:text-white transition-all duration-300 transform hover:scale-105">
+                      {{ block.settings.button_text }}
+                      <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                      </svg>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+    
+    {% if section.blocks.size == 0 %}
+      <div class="text-center py-16 border-2 border-dashed border-gray-300 rounded-3xl">
+        <p class="text-gray-500 text-lg">Add category blocks to display your collections</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category Showcase",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "category_label",
+      "label": "Category Label",
+      "default": "Trending Products"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover our amazing collections for every style"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_card",
+      "name": "Category Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "Trending Products"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Women's Collections"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Up to 22% off Gimbals"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Showcase",
+      "blocks": [
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "Women's Collections",
+            "description": "Up to 22% off Gimbals"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "Men's Collections",
+            "description": "Up to 22% off Gimbals"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "Kid's Collections",
+            "description": "Up to 22% off Gimbals"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

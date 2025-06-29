@@ -1,61 +1,78 @@
 {% comment %}
   Testimonials Section
-  Inspired by Allbirds clean, minimal design
+  Glamics-inspired customer reviews showcase
 {% endcomment %}
 
-<div class="py-16 bg-herbal-cream/30 dark:bg-deep-moss-black/30">
+<div class="py-16 md:py-24 bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {% if section.settings.title != blank %}
-      <div class="text-center mb-12">
-        <h2 class="section-title inline-block relative">{{ section.settings.title }}</h2>
+      <div class="text-center mb-16">
+        {% if section.settings.category_label != blank %}
+          <p class="text-pink-500 font-semibold text-sm uppercase tracking-wider mb-3">{{ section.settings.category_label }}</p>
+        {% endif %}
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">{{ section.settings.title }}</h2>
         {% if section.settings.subtitle != blank %}
-          <p class="subtitle mt-4 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
+          <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
         {% endif %}
       </div>
     {% endif %}
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {% for block in section.blocks %}
-        <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-md p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-1" {{ block.shopify_attributes }}>
-          <div class="flex items-center mb-6">
-            {% if block.settings.rating > 0 %}
-              <div class="flex text-olive-verde">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 transform" {{ block.shopify_attributes }}>
+          <!-- Quote -->
+          {% if block.settings.quote != blank %}
+            <div class="mb-6">
+              <svg class="w-8 h-8 text-pink-500 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
+              </svg>
+              <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed italic">{{ block.settings.quote }}</p>
+            </div>
+          {% endif %}
+          
+          <!-- Rating -->
+          {% if block.settings.rating > 0 %}
+            <div class="flex items-center mb-6">
+              <div class="flex text-yellow-400">
                 {% for i in (1..5) %}
                   {% if i <= block.settings.rating %}
                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
                     </svg>
                   {% else %}
-                    <svg class="w-5 h-5 text-mist-gray fill-current" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-gray-300 fill-current" viewBox="0 0 24 24">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
                     </svg>
                   {% endif %}
                 {% endfor %}
               </div>
-            {% endif %}
-          </div>
-          
-          {% if block.settings.quote != blank %}
-            <p class="text-deep-moss-black dark:text-mist-gray text-lg mb-6 italic">{{ block.settings.quote }}</p>
+            </div>
           {% endif %}
           
+          <!-- Author Info -->
           <div class="flex items-center">
             {% if block.settings.avatar != blank %}
               <div class="flex-shrink-0 mr-4">
                 {{ block.settings.avatar | image_url: width: 100 | image_tag: 
-                  class: 'h-12 w-12 rounded-full object-cover',
+                  class: 'h-16 w-16 rounded-full object-cover border-4 border-pink-100',
                   alt: block.settings.author_name
                 }}
+              </div>
+            {% else %}
+              <div class="flex-shrink-0 mr-4">
+                <div class="h-16 w-16 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
+                  <span class="text-white font-bold text-xl">{{ block.settings.author_name | slice: 0 }}</span>
+                </div>
               </div>
             {% endif %}
             
             <div>
               {% if block.settings.author_name != blank %}
-                <h4 class="text-deep-moss-black dark:text-mist-gray font-medium">{{ block.settings.author_name }}</h4>
+                <h4 class="text-gray-900 dark:text-white font-bold text-lg">{{ block.settings.author_name }}</h4>
               {% endif %}
               
               {% if block.settings.author_title != blank %}
-                <p class="text-forest-shadow dark:text-herbal-cream text-sm">{{ block.settings.author_title }}</p>
+                <p class="text-pink-500 font-medium text-sm">{{ block.settings.author_title }}</p>
               {% endif %}
             </div>
           </div>
@@ -79,15 +96,21 @@
   "settings": [
     {
       "type": "text",
+      "id": "category_label",
+      "label": "Category Label",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "text",
       "id": "title",
       "label": "Heading",
-      "default": "What Our Customers Say"
+      "default": "Product Reviews"
     },
     {
       "type": "text",
       "id": "subtitle",
       "label": "Subheading",
-      "default": "Read testimonials from our satisfied customers"
+      "default": "Our references are very valuable, the result of a great effort..."
     }
   ],
   "blocks": [
