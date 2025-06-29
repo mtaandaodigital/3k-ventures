@@ -10,8 +10,8 @@
 {
   "current": {
     "color_scheme": "light",
-    "primary_font": "Assistant, sans-serif",
-    "secondary_font": "Poppins, sans-serif",
+    "primary_font": "assistant_n4",
+    "secondary_font": "poppins_n4",
     "border_radius": 5,
     "container_width": 1200,
     "enable_animations": true,
@@ -32,16 +32,16 @@
   "presets": {
     "Default": {
       "color_scheme": "light",
-      "primary_font": "Assistant, sans-serif",
-      "secondary_font": "Poppins, sans-serif",
+      "primary_font": "assistant_n4",
+      "secondary_font": "poppins_n4",
       "border_radius": 5,
       "container_width": 1200,
       "enable_animations": true
     },
     "Dark Mode": {
       "color_scheme": "dark",
-      "primary_font": "Assistant, sans-serif",
-      "secondary_font": "Poppins, sans-serif",
+      "primary_font": "assistant_n4",
+      "secondary_font": "poppins_n4",
       "border_radius": 5,
       "container_width": 1200,
       "enable_animations": true

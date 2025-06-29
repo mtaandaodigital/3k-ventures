@@ -1,1 +1,61 @@
-[]
+[
+  {
+    "name": "Theme Settings",
+    "settings": [
+      {
+        "id": "color_scheme",
+        "type": "select",
+        "label": "Color Scheme",
+        "default": "light",
+        "options": [
+          {
+            "value": "light",
+            "label": "Light"
+          },
+          {
+            "value": "dark",
+            "label": "Dark"
+          }
+        ]
+      },
+      {
+        "id": "primary_font",
+        "type": "font_picker",
+        "label": "Primary Font",
+        "default": "assistant_n4"
+      },
+      {
+        "id": "secondary_font",
+        "type": "font_picker",
+        "label": "Secondary Font",
+        "default": "poppins_n4"
+      },
+      {
+        "id": "border_radius",
+        "type": "range",
+        "label": "Border Radius",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 5
+      },
+      {
+        "id": "container_width",
+        "type": "range",
+        "label": "Container Width",
+        "min": 1000,
+        "max": 1400,
+        "step": 20,
+        "unit": "px",
+        "default": 1200
+      },
+      {
+        "id": "enable_animations",
+        "type": "checkbox",
+        "label": "Enable Animations",
+        "default": true
+      }
+    ]
+  }
+]
