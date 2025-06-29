@@ -21,8 +21,9 @@
             <!-- Article Image -->
             <div class="relative overflow-hidden rounded-lg bg-mist-gray/20 dark:bg-forest-shadow/20 aspect-[16/10]">
               {% if article.image != blank %}
+                {% assign loading_attr = forloop.index <= 3 ? 'eager' : 'lazy' %}
                 {{ article.image | image_url: width: 600 | image_tag: 
-                  loading: forloop.index <= 3 ? 'eager' : 'lazy',
+                  loading: loading_attr,
                   class: 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105',
                   alt: article.title | escape
                 }}
