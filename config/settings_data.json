@@ -66,11 +66,12 @@
           "announcement_link": "",
           "announcement_link_text": "Learn More",
           "show_announcement_close": true,
+          "logo": "shopify://shop_images/3k.png",
           "logo_position": "left",
           "menu": "main-menu",
           "show_search_bar": true,
           "show_wishlist": true,
-          "show_account": true,
+          "show_account": false,
           "show_theme_toggle": true
         }
       },
