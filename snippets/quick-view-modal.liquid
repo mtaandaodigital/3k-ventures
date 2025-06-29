@@ -1,0 +1,106 @@
+<div id="quick-view-modal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <!-- Background overlay -->
+    <div id="quick-view-backdrop" class="fixed inset-0 bg-deep-moss-black bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+    <!-- Modal positioning -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <!-- Modal content -->
+    <div id="quick-view-content" class="inline-block align-bottom bg-white dark:bg-deep-moss-black rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+      <div class="absolute top-0 right-0 pt-4 pr-4">
+        <button id="quick-view-close" type="button" class="bg-white dark:bg-deep-moss-black rounded-md text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-verde">
+          <span class="sr-only">Close</span>
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="p-6 flex flex-col md:flex-row gap-6">
+        <!-- Loading spinner -->
+        <div id="quick-view-loading" class="flex items-center justify-center w-full h-64">
+          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-olive-verde"></div>
+        </div>
+        
+        <!-- Product content will be loaded here -->
+        <div id="quick-view-product-content" class="hidden">
+          <!-- Product image -->
+          <div class="w-full md:w-1/2">
+            <div class="relative overflow-hidden rounded-lg">
+              <img id="quick-view-product-image" src="" alt="" class="w-full h-auto object-cover rounded-lg">
+              <div id="quick-view-product-badge" class="absolute top-2 left-2 hidden"></div>
+            </div>
+          </div>
+          
+          <!-- Product details -->
+          <div class="w-full md:w-1/2">
+            <h2 id="quick-view-product-title" class="text-xl md:text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-2"></h2>
+            
+            <div class="flex items-center mb-4">
+              <p id="quick-view-product-price" class="text-lg font-medium text-deep-moss-black dark:text-mist-gray"></p>
+              <p id="quick-view-product-compare-price" class="ml-2 text-sm line-through text-gray-500 dark:text-gray-400 hidden"></p>
+            </div>
+            
+            <div id="quick-view-product-description" class="text-gray-700 dark:text-gray-300 mb-6 prose prose-sm dark:prose-invert"></div>
+            
+            <form id="quick-view-product-form" class="space-y-4">
+              <input type="hidden" id="quick-view-product-id" name="id" value="">
+              
+              <div id="quick-view-product-variants" class="hidden">
+                <label for="quick-view-variant-selector" class="block text-sm font-medium text-deep-moss-black dark:text-mist-gray mb-1">
+                  Options
+                </label>
+                <select id="quick-view-variant-selector" class="w-full px-3 py-2 text-sm rounded-lg border border-mist-gray dark:border-forest-shadow bg-white dark:bg-deep-moss-black/50 text-deep-moss-black dark:text-mist-gray focus:ring-2 focus:ring-olive-verde focus:border-olive-verde">
+                </select>
+              </div>
+              
+              <div>
+                <label for="quick-view-quantity" class="block text-sm font-medium text-deep-moss-black dark:text-mist-gray mb-1">Quantity</label>
+                <div class="flex rounded-lg border border-mist-gray dark:border-forest-shadow overflow-hidden">
+                  <button type="button" id="quick-view-quantity-minus" class="px-3 py-2 bg-gray-100 dark:bg-forest-shadow text-deep-moss-black dark:text-mist-gray hover:bg-gray-200 dark:hover:bg-forest-shadow/70 focus:outline-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                    </svg>
+                  </button>
+                  <input type="number" id="quick-view-quantity" name="quantity" value="1" min="1" class="w-full text-center border-0 focus:ring-0 bg-white dark:bg-deep-moss-black text-deep-moss-black dark:text-mist-gray">
+                  <button type="button" id="quick-view-quantity-plus" class="px-3 py-2 bg-gray-100 dark:bg-forest-shadow text-deep-moss-black dark:text-mist-gray hover:bg-gray-200 dark:hover:bg-forest-shadow/70 focus:outline-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="flex space-x-2">
+                <button type="submit" id="quick-view-add-to-cart" class="btn-primary flex-1 py-3 flex items-center justify-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
+                  Add to Cart
+                </button>
+                
+                <button type="button" id="quick-view-add-to-wishlist" class="btn-secondary py-3 px-4" aria-label="Add to Wishlist">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <div id="quick-view-error-message" class="text-red-500 text-sm hidden"></div>
+            </form>
+            
+            <div class="mt-4">
+              <a id="quick-view-view-details" href="#" class="text-olive-verde hover:text-forest-shadow dark:hover:text-herbal-cream transition-colors duration-200 flex items-center">
+                View full details
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

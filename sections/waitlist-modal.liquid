@@ -1,0 +1,116 @@
+{% if product.available == false and section.settings.enable_waitlist %}
+  <div id="waitlist-modal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-lg p-8 md:p-12 max-w-md relative">
+      <button id="waitlist-close" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <h2 class="text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Back in Stock Alert</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">
+        Be the first to know when this product is back in stock! Sign up with your email:
+      </p>
+      <form id="waitlist-form" action="#" method="post">
+        <label for="waitlist-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+        <input type="email" id="waitlist-email" name="contact[email]" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-500 dark:text-white rounded-lg">
+        <input type="hidden" name="contact[tags]" value="waitlist, {{ product.handle }}">
+        <button type="submit" class="btn-primary mt-4">Notify Me</button>
+        <p id="waitlist-message" class="text-green-500 mt-4 hidden">Thanks! We'll notify you when this product is back in stock.</p>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    /* Transition styles for modal */
+    .waitlist-modal-show {
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .waitlist-modal-hide {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+  </style>
+
+  <script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cache DOM elements - all at once to minimize DOM queries
+      const waitlistModal = document.getElementById('waitlist-modal');
+      const waitlistClose = document.getElementById('waitlist-close');
+      const waitlistForm = document.getElementById('waitlist-form');
+      const waitlistMessage = document.getElementById('waitlist-message');
+      const waitlistEmail = document.getElementById('waitlist-email');
+      
+      // Storage key for this product
+      const storageKey = 'waitlistShown_{{ product.handle }}';
+      
+      /**
+       * Show the waitlist modal with animation
+       */
+      function showWaitlistModal() {
+        if (waitlistModal) {
+          waitlistModal.classList.remove('hidden');
+          waitlistModal.classList.add('waitlist-modal-show');
+          waitlistModal.classList.remove('waitlist-modal-hide');
+        }
+      }
+      
+      /**
+       * Hide the waitlist modal with animation
+       */
+      function hideWaitlistModal() {
+        if (waitlistModal) {
+          localStorage.setItem(storageKey, 'true');
+          waitlistModal.classList.add('waitlist-modal-hide');
+          waitlistModal.classList.remove('waitlist-modal-show');
+          
+          // Wait for animation to complete before hiding
+          setTimeout(() => {
+            waitlistModal.classList.add('hidden');
+          }, 300);
+        }
+      }
+      
+      // Show modal after delay if not previously shown
+      if (localStorage.getItem(storageKey) !== 'true') {
+        setTimeout(showWaitlistModal, 10000); // Show after 10 seconds
+      }
+
+      // Close button event
+      waitlistClose?.addEventListener('click', hideWaitlistModal);
+
+      // Form submission
+      waitlistForm?.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Show success message
+        waitlistMessage?.classList.remove('hidden');
+        
+        // Hide modal
+        hideWaitlistModal();
+
+        // Basic implementation: You would typically send the email to a backend service here
+        if (waitlistEmail) {
+          console.log('Email added to waitlist:', waitlistEmail.value);
+          
+          // Optional: Clear the form for next time
+          waitlistForm.reset();
+        }
+      });
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Waitlist Modal",
+  "settings": [
+    {
+      "id": "enable_waitlist",
+      "type": "checkbox",
+      "label": "Enable Waitlist",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

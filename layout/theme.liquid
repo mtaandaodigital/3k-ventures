@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="h-full bg-gray-100 dark:bg-gray-900">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {%- if template contains 'product' -%}
+    <meta name="description" content="{{ product.description | strip_html | truncatewords: 50 }}">
+    <meta name="keywords" content="{{ product.tags | join: ', ' }}">
+    {%- elsif template contains 'collection' -%}
+    <meta name="description" content="{{ collection.description | strip_html | truncatewords: 50 }}">
+    <meta name="keywords" content="{{ collection.tags | join: ', ' }}">
+    {%- elsif template contains 'article' -%}
+    <meta name="description" content="{{ article.excerpt_or_content | strip_html | truncatewords: 50 }}">
+    <meta name="keywords" content="{{ article.tags | join: ', ' }}">
+    {%- else -%}
+    <meta name="description" content="{{ page_description | default: shop.description }}">
+    {%- endif -%}
+    
+    <title>{{ page_title | default: shop.name }}</title>
+    
+    {{ content_for_header }}
+
+    {{ 'theme.scss' | asset_url | stylesheet_tag }}
+    {{ 'application.css' | asset_url | stylesheet_tag }}
+    {{ 'theme.js' | asset_url | script_tag }}
+    {{ 'application.js' | asset_url | script_tag }}
+    
+    <!-- Enhanced UI/UX JavaScript -->
+    {{ 'wishlist.js' | asset_url | script_tag }}
+    {{ 'quick-view.js' | asset_url | script_tag }}
+    {{ 'recently-viewed.js' | asset_url | script_tag }}
+    {% if template contains 'product' %}
+      {{ 'product-page.js' | asset_url | script_tag }}
+    {% endif %}
+  </head>
+
+  <body class="h-full">
+    <div class="min-h-full">
+      {% section 'top-bar' %}
+      {% section 'header' %}
+      <main>
+        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          {{ content_for_layout }}
+        </div>
+      </main>
+    </div>
+
+    {% render 'bottom-nav' %}
+    {% section 'cookie-consent' %}
+    {% section 'store-notice' %}
+    {% section 'footer' %}
+    
+    <!-- UI Components -->
+    {% if template contains 'product' or template contains 'collection' %}
+      {% render 'quick-view-modal' %}
+    {% endif %}
+    
+    {% if template contains 'product' %}
+      {% render 'size-guide-modal' %}
+    {% endif %}
+
+    <script defer>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add a global variable to check if the customer is logged in
+        const isLoggedIn = {{ customer | json }};
+        
+        // Cache DOM elements
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        /**
+         * Set theme to dark mode
+         */
+        function setDarkTheme() {
+          htmlElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          themeToggleDarkIcon?.classList.add('hidden');
+          themeToggleLightIcon?.classList.remove('hidden');
+        }
+        
+        /**
+         * Set theme to light mode
+         */
+        function setLightTheme() {
+          htmlElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          themeToggleDarkIcon?.classList.remove('hidden');
+          themeToggleLightIcon?.classList.add('hidden');
+        }
+        
+        /**
+         * Toggle between light and dark themes
+         */
+        function toggleTheme() {
+          const currentTheme = localStorage.getItem('theme');
+          
+          if (currentTheme === 'light') {
+            setDarkTheme();
+          } else {
+            setLightTheme();
+          }
+        }
+        
+        // Initialize theme based on stored preference or system preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          setDarkTheme();
+        } else {
+          setLightTheme();
+        }
+        
+        // Add click event listener to theme toggle button
+        themeToggleBtn?.addEventListener('click', toggleTheme);
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+          if (!localStorage.getItem('theme')) {
+            // Only auto-switch if user hasn't manually set a preference
+            if (event.matches) {
+              setDarkTheme();
+            } else {
+              setLightTheme();
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

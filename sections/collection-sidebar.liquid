@@ -1,0 +1,25 @@
+<div class="collection-sidebar">
+  <h2 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-4">Filter By</h2>
+
+  {% if collection.tags.size > 0 %}
+    <div>
+      <h3 class="text-lg font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Tags</h3>
+      <ul>
+        {% for tag in collection.tags %}
+          <li>
+            <a href="{{ collection.url }}?constraint={{ tag | handle }}" class="hover-underline text-gray-700 dark:text-gray-300">
+              {{ tag }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Collection Sidebar",
+  "settings": []
+}
+{% endschema %}

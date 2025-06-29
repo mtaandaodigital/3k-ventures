@@ -1,0 +1,97 @@
+{% if section.settings.enable_top_bar %}
+  <div class="top-bar bg-forest-shadow dark:bg-deep-moss-black text-mist-gray py-2 px-4">
+    <div class="container mx-auto flex items-center justify-between">
+      <div class="left-content">
+        {% if section.settings.phone_number != blank %}
+          <span class="mr-4">
+            <a href="tel:{{ section.settings.phone_number }}" class="top-bar-link hover:text-olive-verde">{{ section.settings.phone_number }}</a>
+          </span>
+        {% endif %}
+        {% if section.settings.email_address != blank %}
+          <span>
+            <a href="mailto:{{ section.settings.email_address }}" class="top-bar-link hover:text-olive-verde">{{ section.settings.email_address }}</a>
+          </span>
+        {% endif %}
+      </div>
+
+      <div class="right-content">
+        {% if section.settings.location_text != blank %}
+          <span class="mr-4">{{ section.settings.location_text }}</span>
+        {% endif %}
+        {% if section.settings.show_social_icons %}
+          {% if section.settings.facebook_url != blank %}
+            <a href="{{ section.settings.facebook_url }}" class="social-button facebook-button mr-2 hover:text-olive-verde" aria-label="Facebook">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.66 9.156 8.432 9.829V15.5H8.214v-3.043h2.219V9.963c0-2.204 1.333-3.403 3.219-3.403 1.816 0 2.741.133 2.741.133v3.013h-1.539c-1.012 0-1.244.63-1.244 1.533v1.857h2.531l-.408 3.043h-2.123v6.329C18.34 21.156 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+            </a>
+          {% endif %}
+          {% if section.settings.twitter_url != blank %}
+            <a href="{{ section.settings.twitter_url }}" class="social-button twitter-button mr-2 hover:text-olive-verde" aria-label="Twitter">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.672-6.253 11.672-11.673 0-.177 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.278 8.224 8.224 0 01-2.605.996 4.102 4.102 0 00-6.993 3.746 11.63 11.63 0 01-8.457-4.287 4.102 4.102 0 001.27 5.477 4.073 4.073 0 01-1.858-.513 4.102 4.102 0 003.834 2.85A8.236 8.236 0 011.96 18.72a11.65 11.65 0 006.328 1.584z" /></svg>
+            </a>
+          {% endif %}
+          {% if section.settings.instagram_url != blank %}
+            <a href="{{ section.settings.instagram_url }}" class="social-button instagram-button mr-2 hover:text-olive-verde" aria-label="Instagram">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.788.01 3.79.051 1.806.043 2.482.484 2.781.941.309.465.535 1.01.574 1.445.041.435.042.89.042 1.349V12c0 .459-.001.914-.042 1.349-.04.435.266.98.574 1.445.299.457.975-.898 2.781.941 1.002.042 1.36.05 3.79.05s-2.788-.008-3.79-.051c-1.806-.043-2.482-.484-2.781-.941-.309.465-.535-1.01-.574-1.445-.041-.435-.042-.89-.042-1.349V12c0-.459.001-.914.042-1.349.04-.435.266.98.574-1.445.299-.457.975-.898 2.781-.941 1.002-.042 1.36.05 3.79-.05s-2.788-.008-3.79-.051c-1.806-.043-2.482-.484-2.781-.941-.309.465-.535-1.01-.574-1.445-.041-.435-.042-.89-.042-1.349V12c0-.459.001-.914.042-1.349.04-.435.266.98.574-1.445.299-.457.975-.898 2.781-.941 1.002-.042 1.36.05 3.79-.05zM12 15.194a3.194 3.194 0 100-6.388 3.194 3.194 0 000 6.388z" clip-rule="evenodd" /></svg>
+            </a>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Top Bar",
+  "settings": [
+    {
+      "id": "enable_top_bar",
+      "type": "checkbox",
+      "label": "Enable Top Bar",
+      "default": true
+    },
+    {
+      "id": "phone_number",
+      "type": "text",
+      "label": "Phone Number",
+      "default": "+1 (555) 123-4567"
+    },
+    {
+      "id": "email_address",
+      "type": "text",
+      "label": "Email Address",
+      "default": "info@example.com"
+    },
+    {
+      "id": "location_text",
+      "type": "text",
+      "label": "Location Text",
+      "default": "123 Main Street, Anytown"
+    },
+    {
+      "id": "show_social_icons",
+      "type": "checkbox",
+      "label": "Show Social Icons",
+      "default": true
+    },
+    {
+      "id": "facebook_url",
+      "type": "text",
+      "label": "Facebook URL",
+      "default": "https://www.facebook.com/Shopify"
+    },
+    {
+      "id": "twitter_url",
+      "type": "text",
+      "label": "Twitter URL",
+      "default": "https://twitter.com/Shopify"
+    },
+    {
+      "id": "instagram_url",
+      "type": "text",
+      "label": "Instagram URL",
+      "default": "https://www.instagram.com/Shopify"
+    }
+  ]
+}
+{% endschema %}

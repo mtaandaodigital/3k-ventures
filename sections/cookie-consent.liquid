@@ -1,0 +1,361 @@
+{% if section.settings.enable_cookie_consent %}
+  {% unless customer.accepts_cookies %}
+    {%- assign delay_time = section.settings.delay_time | default: 5 -%}
+    
+    <style>
+      /* Base cookie modal styles */
+      #cookie-consent-modal {
+        /* Hardware acceleration for smoother animations */
+        will-change: transform;
+        /* Prevent text selection during animations */
+        user-select: none;
+      }
+      
+      /* Visibility states */
+      .cookie-modal-hidden {
+        display: none;
+      }
+      
+      /* Animation states with consistent transition properties */
+      .cookie-modal-show {
+        transform: translateY(0);
+        transition: transform 0.5s ease-in-out;
+      }
+      
+      .cookie-modal-hide {
+        transform: translateY(100%);
+        transition: transform 0.5s ease-in-out;
+      }
+    </style>
+    
+    <div id="cookie-consent-modal" class="fixed bottom-0 left-0 w-full bg-white dark:bg-deep-moss-black shadow-lg border-t border-mist-gray dark:border-forest-shadow py-4 px-4 md:px-8 z-50 cookie-modal-hidden cookie-modal-hide">
+      <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-start md:items-center">
+            {% if section.settings.show_cookie_icon %}
+              <div class="mr-3 text-olive-verde hidden md:block">
+                <!-- Optimized SVG with aria-hidden for accessibility and loading="lazy" for performance -->
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" loading="lazy" aria-hidden="true" focusable="false">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+            {% endif %}
+            
+            <div>
+              <h3 class="text-lg font-semibold text-deep-moss-black dark:text-mist-gray mb-1">{{ section.settings.cookie_title }}</h3>
+              <p class="text-sm text-gray-700 dark:text-gray-300 mb-2 md:mb-0">
+                {{ section.settings.cookie_message }}
+                <a href="{{ section.settings.privacy_policy_url }}" class="text-olive-verde hover:underline">{{ section.settings.privacy_policy_text }}</a>
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-2">
+            {% if section.settings.show_customize_option %}
+              <button id="cookie-consent-customize" class="btn-secondary text-sm py-2">
+                {{ section.settings.customize_button_text }}
+              </button>
+            {% endif %}
+            
+            <button id="cookie-consent-accept" class="btn-primary text-sm py-2">
+              {{ section.settings.accept_button_text }}
+            </button>
+          </div>
+        </div>
+        
+        {% if section.settings.show_customize_option %}
+          <div id="cookie-consent-options" class="mt-4 pt-4 border-t border-mist-gray dark:border-forest-shadow cookie-modal-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input id="cookie-necessary" name="cookie-necessary" type="checkbox" checked disabled class="h-4 w-4 text-olive-verde border-mist-gray rounded focus:ring-olive-verde">
+                </div>
+                <div class="ml-3 text-sm">
+                  <label for="cookie-necessary" class="font-medium text-deep-moss-black dark:text-mist-gray">{{ section.settings.necessary_cookies_title }}</label>
+                  <p class="text-gray-700 dark:text-gray-300">{{ section.settings.necessary_cookies_description }}</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input id="cookie-analytics" name="cookie-analytics" type="checkbox" class="h-4 w-4 text-olive-verde border-mist-gray rounded focus:ring-olive-verde">
+                </div>
+                <div class="ml-3 text-sm">
+                  <label for="cookie-analytics" class="font-medium text-deep-moss-black dark:text-mist-gray">{{ section.settings.analytics_cookies_title }}</label>
+                  <p class="text-gray-700 dark:text-gray-300">{{ section.settings.analytics_cookies_description }}</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input id="cookie-marketing" name="cookie-marketing" type="checkbox" class="h-4 w-4 text-olive-verde border-mist-gray rounded focus:ring-olive-verde">
+                </div>
+                <div class="ml-3 text-sm">
+                  <label for="cookie-marketing" class="font-medium text-deep-moss-black dark:text-mist-gray">{{ section.settings.marketing_cookies_title }}</label>
+                  <p class="text-gray-700 dark:text-gray-300">{{ section.settings.marketing_cookies_description }}</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input id="cookie-preferences" name="cookie-preferences" type="checkbox" class="h-4 w-4 text-olive-verde border-mist-gray rounded focus:ring-olive-verde">
+                </div>
+                <div class="ml-3 text-sm">
+                  <label for="cookie-preferences" class="font-medium text-deep-moss-black dark:text-mist-gray">{{ section.settings.preferences_cookies_title }}</label>
+                  <p class="text-gray-700 dark:text-gray-300">{{ section.settings.preferences_cookies_description }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-4 flex justify-end">
+              <button id="cookie-consent-save" class="btn-primary text-sm py-2">
+                {{ section.settings.save_preferences_text }}
+              </button>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <script defer>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Cache DOM elements - all at once to minimize DOM queries
+        const cookieConsentModal = document.getElementById('cookie-consent-modal');
+        const cookieConsentAccept = document.getElementById('cookie-consent-accept');
+        const cookieConsentCustomize = document.getElementById('cookie-consent-customize');
+        const cookieConsentOptions = document.getElementById('cookie-consent-options');
+        const cookieConsentSave = document.getElementById('cookie-consent-save');
+        const cookieAnalytics = document.getElementById('cookie-analytics');
+        const cookieMarketing = document.getElementById('cookie-marketing');
+        const cookiePreferences = document.getElementById('cookie-preferences');
+        
+        // Animation duration in ms - defined once to keep consistent
+        const ANIMATION_DURATION = 500;
+        
+        /**
+         * Creates a debounced function that delays invoking func until after wait milliseconds
+         * @param {Function} func - The function to debounce
+         * @param {number} wait - The number of milliseconds to delay
+         * @return {Function} The debounced function
+         */
+        function debounce(func, wait) {
+          let timeout;
+          return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+          };
+        }
+        
+        /**
+         * Set cookie preferences in localStorage
+         * @param {boolean} analytics - Whether analytics cookies are accepted
+         * @param {boolean} marketing - Whether marketing cookies are accepted
+         * @param {boolean} preferences - Whether preferences cookies are accepted
+         */
+        function setCookiePreferences(analytics, marketing, preferences) {
+          localStorage.setItem('cookieConsent', 'true');
+          localStorage.setItem('cookieAnalytics', analytics ? 'true' : 'false');
+          localStorage.setItem('cookieMarketing', marketing ? 'true' : 'false');
+          localStorage.setItem('cookiePreferences', preferences ? 'true' : 'false');
+        }
+        
+        /**
+         * Hide the cookie consent modal with animation
+         */
+        function hideCookieModal() {
+          cookieConsentModal.classList.remove('cookie-modal-show');
+          cookieConsentModal.classList.add('cookie-modal-hide');
+          // Use the constant for animation duration
+          setTimeout(() => {
+            cookieConsentModal.classList.add('cookie-modal-hidden');
+          }, ANIMATION_DURATION);
+        }
+        
+        /**
+         * Show the cookie consent modal with animation
+         */
+        function showCookieModal() {
+          cookieConsentModal.classList.remove('cookie-modal-hidden');
+          // Force a reflow before adding the show class for proper animation
+          void cookieConsentModal.offsetWidth;
+          cookieConsentModal.classList.add('cookie-modal-show');
+          cookieConsentModal.classList.remove('cookie-modal-hide');
+        }
+        
+        // Check if consent has been given
+        if (localStorage.getItem('cookieConsent') !== 'true') {
+          // Use a debounced timeout to show the modal
+          const showModalTimeout = setTimeout(showCookieModal, {{ delay_time | times: 1000 }}); // Show after delay
+        }
+
+        // Accept all cookies - with null check using optional chaining
+        cookieConsentAccept?.addEventListener('click', function() {
+          setCookiePreferences(true, true, true);
+          hideCookieModal();
+        });
+        
+        // Show customize options - use toggle for efficiency with debounce to prevent rapid toggling
+        if (cookieConsentCustomize && cookieConsentOptions) {
+          const debouncedToggle = debounce(function() {
+            cookieConsentOptions.classList.toggle('cookie-modal-hidden');
+          }, 200); // 200ms debounce time
+          
+          cookieConsentCustomize.addEventListener('click', debouncedToggle);
+        }
+        
+        // Save preferences - with null checks using optional chaining
+        cookieConsentSave?.addEventListener('click', function() {
+          setCookiePreferences(
+            cookieAnalytics?.checked || false,
+            cookieMarketing?.checked || false,
+            cookiePreferences?.checked || false
+          );
+          hideCookieModal();
+        });
+      });
+    </script>
+  {% endunless %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Cookie Consent",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "id": "enable_cookie_consent",
+      "type": "checkbox",
+      "label": "Enable Cookie Consent",
+      "default": true
+    },
+    {
+      "id": "show_cookie_icon",
+      "type": "checkbox",
+      "label": "Show Cookie Icon",
+      "default": true
+    },
+    {
+      "id": "delay_time",
+      "type": "range",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "sec",
+      "label": "Delay Before Showing",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "id": "cookie_title",
+      "type": "text",
+      "label": "Cookie Consent Title",
+      "default": "Cookie Consent"
+    },
+    {
+      "id": "cookie_message",
+      "type": "text",
+      "label": "Cookie Consent Message",
+      "default": "This website uses cookies to ensure you get the best experience."
+    },
+    {
+      "id": "privacy_policy_text",
+      "type": "text",
+      "label": "Privacy Policy Link Text",
+      "default": "Learn more"
+    },
+    {
+      "id": "privacy_policy_url",
+      "type": "url",
+      "label": "Privacy Policy URL",
+      "default": "/policies/privacy-policy"
+    },
+    {
+      "id": "accept_button_text",
+      "type": "text",
+      "label": "Accept Button Text",
+      "default": "Accept All"
+    },
+    {
+      "type": "header",
+      "content": "Customization Options"
+    },
+    {
+      "id": "show_customize_option",
+      "type": "checkbox",
+      "label": "Show Customize Option",
+      "default": true
+    },
+    {
+      "id": "customize_button_text",
+      "type": "text",
+      "label": "Customize Button Text",
+      "default": "Customize"
+    },
+    {
+      "id": "save_preferences_text",
+      "type": "text",
+      "label": "Save Preferences Button Text",
+      "default": "Save Preferences"
+    },
+    {
+      "type": "header",
+      "content": "Cookie Categories"
+    },
+    {
+      "id": "necessary_cookies_title",
+      "type": "text",
+      "label": "Necessary Cookies Title",
+      "default": "Necessary Cookies"
+    },
+    {
+      "id": "necessary_cookies_description",
+      "type": "text",
+      "label": "Necessary Cookies Description",
+      "default": "These cookies are essential for the website to function properly."
+    },
+    {
+      "id": "analytics_cookies_title",
+      "type": "text",
+      "label": "Analytics Cookies Title",
+      "default": "Analytics Cookies"
+    },
+    {
+      "id": "analytics_cookies_description",
+      "type": "text",
+      "label": "Analytics Cookies Description",
+      "default": "These cookies help us understand how visitors interact with our website."
+    },
+    {
+      "id": "marketing_cookies_title",
+      "type": "text",
+      "label": "Marketing Cookies Title",
+      "default": "Marketing Cookies"
+    },
+    {
+      "id": "marketing_cookies_description",
+      "type": "text",
+      "label": "Marketing Cookies Description",
+      "default": "These cookies are used to track visitors across websites to display relevant advertisements."
+    },
+    {
+      "id": "preferences_cookies_title",
+      "type": "text",
+      "label": "Preferences Cookies Title",
+      "default": "Preferences Cookies"
+    },
+    {
+      "id": "preferences_cookies_description",
+      "type": "text",
+      "label": "Preferences Cookies Description",
+      "default": "These cookies allow the website to remember choices you make and provide enhanced functionality."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,24 @@
+<div class="categories bg-herbal-cream dark:bg-deep-moss-black py-8 px-4">
+  <div class="container mx-auto">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for collection in collections %}
+        {% if collection.handle != 'frontpage' %}
+          <a href="{{ collection.url }}" class="product-card card flex flex-col items-center" aria-label="{{ collection.title }}">
+            {% if collection.featured_image %}
+              <img src="{{ collection.featured_image | img_url: 'medium' }}" alt="{{ collection.title | escape }}" class="rounded-lg object-cover aspect-w-1 aspect-h-1">
+            {% endif %}
+            <h3 class="text-lg font-semibold text-deep-moss-black dark:text-mist-gray mt-2">{{ collection.title }}</h3>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Categories",
+  "settings": []
+}
+{% endschema %}

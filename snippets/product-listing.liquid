@@ -1,0 +1,126 @@
+{% assign view_mode = section.settings.view_mode %}
+{% assign products_per_page = section.settings.products_per_page | plus: 0 %}
+{% assign image_aspect_ratio = section.settings.image_aspect_ratio | default: '1x1' %}
+
+{% case image_aspect_ratio %}
+  {% when '1x1' %}
+    {% assign aspect_w = 1 %}
+    {% assign aspect_h = 1 %}
+  {% when '4x3' %}
+    {% assign aspect_w = 4 %}
+    {% assign aspect_h = 3 %}
+  {% when '3x4' %}
+    {% assign aspect_w = 3 %}
+    {% assign aspect_h = 4 %}
+  {% when '16x9' %}
+    {% assign aspect_w = 16 %}
+    {% assign aspect_h = 9 %}
+  {% else %}
+    {% assign aspect_w = 1 %}
+    {% assign aspect_h = 1 %}
+{% endcase %}
+
+{% paginate collection.products by products_per_page %}
+
+{% if view_mode == 'grid' %}
+  <div class="grid-view grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {% for product in collection.products %}
+      <div class="product-card card relative animate-fade-in" style="animation-delay: {{ forloop.index | times: 0.1 }}s">
+        <a href="{{ product.url }}" class="block" aria-label="View {{ product.title }}">
+          <div class="relative overflow-hidden rounded-lg">
+            <img
+              data-src="{{ product.featured_image | img_url: 'medium' }}"
+              alt="{{ product.title | escape }}"
+              class="transition-transform duration-300 hover:scale-110 lazy rounded-lg object-cover w-full aspect-w-{{ aspect_w }} aspect-h-{{ aspect_h }}"
+              loading="lazy"
+            >
+            <div class="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
+            
+            {% if product.compare_at_price > product.price %}
+              <span class="absolute top-2 left-2 inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/10">
+                Sale
+              </span>
+            {% endif %}
+          </div>
+          <div class="mt-2">
+            <h3 class="text-lg font-semibold text-deep-moss-black dark:text-mist-gray hover-underline">{{ product.title }}</h3>
+            <div class="flex justify-between items-center mt-1">
+              <p class="text-gray-700 dark:text-gray-300">{{ product.price | money }}</p>
+              {% if product.available == false %}
+                <span class="inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                  Sold out
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </a>
+        <div class="absolute top-2 right-2 flex space-x-1">
+          <button onclick="toggleWishlist('{{ product.handle }}')" class="bg-white dark:bg-gray-700 rounded-full p-2 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" aria-label="Add to Wishlist" data-product-handle="{{ product.handle }}" data-wishlist-button>
+            <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+          </button>
+          
+          <button class="bg-white dark:bg-gray-700 rounded-full p-2 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" aria-label="Quick view" data-quick-view data-product-handle="{{ product.handle }}">
+            <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="list-view space-y-4">
+    {% for product in collection.products %}
+      <div class="product-card card relative flex items-center py-4 border-b border-mist-gray dark:border-forest-shadow animate-fade-in" style="animation-delay: {{ forloop.index | times: 0.1 }}s">
+        <a href="{{ product.url }}" class="flex items-center flex-1" aria-label="View {{ product.title }}">
+          <div class="relative w-24 h-24 sm:w-32 sm:h-32 mr-4 overflow-hidden rounded-lg">
+            <img
+              data-src="{{ product.featured_image | img_url: 'medium' }}"
+              alt="{{ product.title | escape }}"
+              class="transition-transform duration-300 hover:scale-110 lazy rounded-lg object-cover w-full h-full"
+              loading="lazy"
+            >
+            {% if product.compare_at_price > product.price %}
+              <span class="absolute top-1 left-1 inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/10">
+                Sale
+              </span>
+            {% endif %}
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold text-deep-moss-black dark:text-mist-gray hover-underline">{{ product.title }}</h3>
+            <div class="flex items-center mt-1">
+              <p class="text-gray-700 dark:text-gray-300 mr-2">{{ product.price | money }}</p>
+              {% if product.available == false %}
+                <span class="inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                  Sold out
+                </span>
+              {% endif %}
+            </div>
+            <p class="text-gray-700 dark:text-gray-300 mt-2 hidden sm:block">{{ product.description | strip_html | truncatewords: 20 }}</p>
+          </div>
+        </a>
+        <div class="flex space-x-1 ml-2">
+          <button onclick="toggleWishlist('{{ product.handle }}')" class="bg-white dark:bg-gray-700 rounded-full p-2 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" aria-label="Add to Wishlist" data-product-handle="{{ product.handle }}" data-wishlist-button>
+            <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+          </button>
+          
+          <button class="bg-white dark:bg-gray-700 rounded-full p-2 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" aria-label="Quick view" data-quick-view data-product-handle="{{ product.handle }}">
+            <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if paginate.pages > 1 %}
+  <div class="pagination mt-6 flex justify-center">
+    {{ paginate | default_pagination }}
+  </div>
+{% endif %}
+
+{% endpaginate %}

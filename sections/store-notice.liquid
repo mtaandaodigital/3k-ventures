@@ -1,0 +1,101 @@
+{% if section.settings.enable_store_notice %}
+  <div id="store-notice-modal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-lg p-8 md:p-12 max-w-md relative">
+      <button id="store-notice-close" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <h2 class="text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">{{ section.settings.title }}</h2>
+      <div class="text-gray-700 dark:text-gray-300 lazy-load-content">
+        {{ section.settings.content }}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Transition styles for modal */
+    .store-notice-show {
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .store-notice-hide {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+  </style>
+
+  <script defer>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cache DOM elements
+      const storeNoticeModal = document.getElementById('store-notice-modal');
+      const storeNoticeClose = document.getElementById('store-notice-close');
+      const contentDiv = document.querySelector('.lazy-load-content');
+      
+      /**
+       * Show the store notice modal with animation
+       */
+      function showStoreNotice() {
+        if (storeNoticeModal) {
+          storeNoticeModal.classList.remove('hidden');
+          storeNoticeModal.classList.add('store-notice-show');
+        }
+      }
+      
+      /**
+       * Hide the store notice modal with animation
+       */
+      function hideStoreNotice() {
+        if (storeNoticeModal) {
+          localStorage.setItem('storeNoticeShown', 'true');
+          storeNoticeModal.classList.add('store-notice-hide');
+          storeNoticeModal.classList.remove('store-notice-show');
+          
+          // Wait for animation to complete before hiding
+          setTimeout(() => {
+            storeNoticeModal.classList.add('hidden');
+          }, 300);
+        }
+      }
+      
+      // Lazy load content - only if element exists
+      if (contentDiv) {
+        contentDiv.innerHTML = `{{ section.settings.content }}`;
+      }
+      
+      // Show notice after delay if not previously shown
+      if (localStorage.getItem('storeNoticeShown') !== 'true') {
+        setTimeout(showStoreNotice, 7000); // Show after 7 seconds
+      }
+      
+      // Close button event with null check
+      storeNoticeClose?.addEventListener('click', hideStoreNotice);
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Store Notice",
+  "settings": [
+    {
+      "id": "enable_store_notice",
+      "type": "checkbox",
+      "label": "Enable Store Notice",
+      "default": false
+    },
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Important Announcement"
+    },
+    {
+      "id": "content",
+      "type": "richtext",
+      "label": "Content",
+      "default": "<p>Enter your store notice here.</p>"
+    }
+  ]
+}
+{% endschema %}

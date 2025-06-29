@@ -1,0 +1,28 @@
+<div class="trending-products bg-gray-100 dark:bg-gray-800 py-8 px-4">
+  <div class="container mx-auto">
+    <h2 class="section-title">Trending Products</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for product in collections.all.products limit: 4 %}
+        {% if product.metafields.custom.trending == 'true' %}
+          <div class="product-card relative">
+            <a href="{{ product.url }}" class="block" aria-label="View {{ product.title }}">
+              <div class="relative overflow-hidden">
+                <img data-src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title | escape }}" class="transition-transform duration-300 hover:scale-110 lazy rounded-lg object-cover aspect-w-1 aspect-h-1">
+                <div class="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mt-2 hover-underline">{{ product.title }}</h3>
+              <p class="text-gray-700 dark:text-gray-300">{{ product.price | money }}</p>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trending Products",
+  "settings": []
+}
+{% endschema %}

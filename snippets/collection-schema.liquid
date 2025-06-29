@@ -1,0 +1,10 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "CollectionPage",
+  "name": "{{ collection.title | escape }}",
+  "description": "{{ collection.description | strip_html | escape }}",
+  "url": "{{ shop.url }}{{ collection.url }}",
+  "image": "{{ collection.featured_image | img_url: 'master' | replace: '?', '%3F' | replace: '&', '%26' }}"
+}
+</script>

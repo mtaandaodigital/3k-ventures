@@ -1,0 +1,100 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex items-center mb-8">
+    <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" class="h-12 mr-4">
+    <h1 class="section-title">My Account</h1>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="card">
+      <h2 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Account Details</h2>
+      <p class="text-gray-700 dark:text-gray-300">Name: {{ customer.name }}</p>
+      <p class="text-gray-700 dark:text-gray-300">Email: {{ customer.email }}</p>
+      <a href="/account/addresses" class="hover-underline text-olive-verde dark:text-olive-verde">Manage Addresses</a>
+      <a href="/account/logout" class="hover-underline text-olive-verde dark:text-olive-verde">Logout</a>
+    </div>
+
+    <div class="card">
+      <h2 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Order History</h2>
+      {% if customer.orders.size > 0 %}
+        <ul>
+          {% for order in customer.orders %}
+            <li>
+              <a href="/account/orders/{{ order.name }}" class="hover-underline text-olive-verde dark:text-olive-verde">Order #{{ order.name }}</a>
+              <p class="text-gray-700 dark:text-gray-300">Date: {{ order.created_at | date: "%B %d, %Y" }}</p>
+              <p class="text-gray-700 dark:text-gray-300">Total: {{ order.total_price | money }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-gray-700 dark:text-gray-300">You have no previous orders.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Newsletter Subscription</h2>
+      <p class="text-gray-700 dark:text-gray-300">
+        You are currently subscribed to our newsletter.
+        <a href="#" class="hover-underline text-olive-verde dark:text-olive-verde">Unsubscribe</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div>
+    <h2 class="section-title">My Wishlist</h2>
+    <div id="wishlist-items" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function getCookie(name) {
+      let nameEQ = name + "=";
+      let ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    let wishlist = [];
+
+    if (isLoggedIn) {
+      wishlist = JSON.parse(localStorage.getItem('wishlist_user') || '[]');
+    } else {
+      wishlist = JSON.parse(getCookie('wishlist') || '[]');
+    }
+
+    const wishlistItemsContainer = document.getElementById('wishlist-items');
+
+    if (wishlist.length === 0) {
+      wishlistItemsContainer.innerHTML = '<p>Your wishlist is empty.</p>';
+      return;
+    }
+
+    wishlist.forEach(function(productHandle) {
+      fetch('/products/' + productHandle + '.json')
+        .then(response => response.json())
+        .then(data => {
+          const product = data.product;
+          const productCard = `
+            <div class="product-card relative">
+              <a href="${product.url}" class="block" aria-label="View ${product.title}">
+                <div class="relative overflow-hidden">
+                  <img data-src="${product.featured_image}" alt="${product.title}" class="transition-transform duration-300 hover:scale-110 lazy rounded-lg object-cover aspect-w-1 aspect-h-1">
+                  <div class="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mt-2 hover-underline">${product.title}</h3>
+                <p class="text-gray-700 dark:text-gray-300">${product.price}</p>
+              </a>
+            </div>
+          `;
+          wishlistItemsContainer.innerHTML += productCard;
+        });
+    });
+  });
+</script>

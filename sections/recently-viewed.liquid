@@ -1,0 +1,197 @@
+<div class="recently-viewed-products py-8 px-4 {% if section.settings.background_color %}bg-herbal-cream dark:bg-deep-moss-black{% endif %}">
+  <div class="container mx-auto">
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+    
+    {% if section.settings.show_description and section.settings.description != blank %}
+      <div class="max-w-3xl mb-6">
+        <p class="text-gray-700 dark:text-gray-300">{{ section.settings.description }}</p>
+      </div>
+    {% endif %}
+    
+    <div id="recently-viewed-products-container" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <!-- Products will be loaded here via JavaScript -->
+      <div class="loading-skeleton h-64 rounded-lg"></div>
+      <div class="loading-skeleton h-64 rounded-lg md:block hidden"></div>
+      <div class="loading-skeleton h-64 rounded-lg md:block hidden"></div>
+      <div class="loading-skeleton h-64 rounded-lg md:block hidden"></div>
+    </div>
+    
+    <div id="no-recently-viewed" class="text-center py-8 hidden">
+      <p class="text-gray-700 dark:text-gray-300">{{ section.settings.empty_text }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get recently viewed products from localStorage
+    const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
+    const container = document.getElementById('recently-viewed-products-container');
+    const emptyMessage = document.getElementById('no-recently-viewed');
+    
+    // Get current product handle to exclude it from recently viewed
+    const currentProductHandle = document.querySelector('meta[property="og:url"]')?.content?.split('/').pop() || '';
+    
+    // Filter out current product and limit to max products
+    const filteredProducts = recentlyViewed
+      .filter(handle => handle !== currentProductHandle)
+      .slice(0, {{ section.settings.max_products }});
+    
+    if (filteredProducts.length === 0) {
+      // Show empty message
+      container.classList.add('hidden');
+      emptyMessage.classList.remove('hidden');
+      return;
+    }
+    
+    // Fetch product data for each handle
+    const promises = filteredProducts.map(handle => {
+      return fetch(`/products/${handle}.js`)
+        .then(response => response.json())
+        .catch(error => {
+          console.error('Error fetching product:', error);
+          return null;
+        });
+    });
+    
+    Promise.all(promises)
+      .then(products => {
+        // Filter out any null products (failed fetches)
+        const validProducts = products.filter(product => product !== null);
+        
+        if (validProducts.length === 0) {
+          container.classList.add('hidden');
+          emptyMessage.classList.remove('hidden');
+          return;
+        }
+        
+        // Clear loading skeletons
+        container.innerHTML = '';
+        
+        // Render products
+        validProducts.forEach(product => {
+          const productCard = createProductCard(product);
+          container.appendChild(productCard);
+        });
+        
+        // Initialize quick view buttons
+        if (typeof initQuickViewButtons === 'function') {
+          initQuickViewButtons();
+        }
+      })
+      .catch(error => {
+        console.error('Error loading recently viewed products:', error);
+        container.classList.add('hidden');
+        emptyMessage.classList.remove('hidden');
+      });
+  });
+  
+  /**
+   * Create a product card element
+   * @param {Object} product - The product data
+   * @returns {HTMLElement} - The product card element
+   */
+  function createProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'product-card card relative animate-fade-in';
+    
+    const featuredImage = product.featured_image || product.images[0];
+    const formattedPrice = formatMoney(product.price);
+    const compareAtPrice = product.compare_at_price ? formatMoney(product.compare_at_price) : null;
+    const isOnSale = compareAtPrice && product.compare_at_price > product.price;
+    
+    card.innerHTML = `
+      <a href="/products/${product.handle}" class="block" aria-label="View ${product.title}">
+        <div class="relative overflow-hidden rounded-lg">
+          <img 
+            src="${featuredImage}" 
+            alt="${product.title}" 
+            class="transition-transform duration-300 hover:scale-110 rounded-lg object-cover w-full aspect-w-1 aspect-h-1"
+            loading="lazy"
+          >
+          <div class="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
+          
+          ${isOnSale ? `
+            <span class="absolute top-2 left-2 inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/10">
+              Sale
+            </span>
+          ` : ''}
+        </div>
+        <div class="mt-2">
+          <h3 class="text-lg font-semibold text-deep-moss-black dark:text-mist-gray hover-underline">${product.title}</h3>
+          <div class="flex items-center mt-1">
+            <p class="text-gray-700 dark:text-gray-300">${formattedPrice}</p>
+            ${isOnSale ? `<p class="ml-2 line-through text-gray-500 dark:text-gray-400">${compareAtPrice}</p>` : ''}
+          </div>
+        </div>
+      </a>
+      
+      <div class="absolute top-2 right-2 flex space-x-1">
+        <button onclick="toggleWishlist('${product.handle}')" class="bg-white dark:bg-gray-700 rounded-full p-2 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" aria-label="Add to Wishlist" data-product-handle="${product.handle}" data-wishlist-button>
+          <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+        </button>
+        
+        <button class="bg-white dark:bg-gray-700 rounded-full p-2 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" aria-label="Quick view" data-quick-view data-product-handle="${product.handle}">
+          <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+        </button>
+      </div>
+    `;
+    
+    return card;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Recently Viewed",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Recently Viewed"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Maximum Products to Show",
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty Message",
+      "default": "You haven't viewed any products yet."
+    },
+    {
+      "type": "checkbox",
+      "id": "background_color",
+      "label": "Add Background Color",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recently Viewed",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

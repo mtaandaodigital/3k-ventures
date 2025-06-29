@@ -1,0 +1,37 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="section-title text-center mb-8">{{ page.title }}</h1>
+  
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <p class="text-gray-700 dark:text-gray-300">
+        <span class="wishlist-count inline-flex items-center justify-center bg-olive-verde text-white rounded-full h-6 w-6 mr-2">0</span>
+        Items in your wishlist
+      </p>
+      
+      <button onclick="clearWishlist()" class="btn-secondary text-sm py-2">
+        Clear Wishlist
+      </button>
+    </div>
+    
+    <div id="empty-wishlist-message" class="text-center py-12 hidden">
+      <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+      </svg>
+      <h2 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Your wishlist is empty</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-6">Browse our collections and add your favorite items to your wishlist.</p>
+      <a href="/collections/all" class="btn-primary py-3 px-6">
+        Start Shopping
+      </a>
+    </div>
+    
+    <div id="wishlist-container" class="space-y-4">
+      <!-- Wishlist items will be loaded here via JavaScript -->
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadWishlistProducts();
+  });
+</script>

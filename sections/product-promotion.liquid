@@ -1,0 +1,28 @@
+{% if section.settings.product != blank %}
+  {% assign product = all_products[section.settings.product] %}
+  <div class="product-promotion bg-herbal-cream dark:bg-deep-moss-black py-8 px-4 rounded">
+    <div class="container mx-auto flex items-center justify-between">
+      <div>
+        <h2 class="text-2xl font-bold text-forest-shadow dark:text-herbal-cream">{{ product.title }}</h2>
+        <p class="text-forest-shadow dark:text-herbal-cream">{{ product.description | strip_html | truncatewords: 20 }}</p>
+        <a href="{{ product.url }}" class="btn-primary">Shop Now</a>
+      </div>
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title | escape }}" class="rounded-lg w-48">
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product Promotion",
+  "settings": [
+    {
+      "id": "product",
+      "type": "product",
+      "label": "Product"
+    }
+  ]
+}
+{% endschema %}

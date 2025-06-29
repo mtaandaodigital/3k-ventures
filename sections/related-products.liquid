@@ -1,0 +1,27 @@
+<div class="related-products grid grid-cols-2 md:grid-cols-4 gap-4">
+  {% for related_product in product.related_products limit: 4 %}
+    <div class="product-card relative">
+      <a href="{{ related_product.url }}" class="block" aria-label="View {{ related_product.title }}">
+        <div class="relative overflow-hidden">
+          <img data-src="{{ related_product.featured_image | img_url: 'medium' }}" alt="{{ related_product.title | escape }}" class="transition-transform duration-300 hover:scale-110 lazy rounded-lg object-cover aspect-w-1 aspect-h-1">
+          <div class="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
+        </div>
+        <h3 class="text-lg font-semibold text-deep-moss-black dark:text-mist-gray mt-2 hover-underline">{{ related_product.title }}</h3>
+        <p class="text-gray-700 dark:text-gray-300">{{ related_product.price | money }}</p>
+      </a>
+      <button onclick="openQuickView('{{ related_product.handle }}')" class="absolute top-2 right-2 bg-gray-200 dark:bg-gray-700 rounded-full p-2" aria-label="Quick View">
+        <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7 1.274 4.057-1.8 7-5.542 7-3.732 0-7.523-2.943-8.797-7z"></path></svg>
+      </button>
+      <button onclick="toggleWishlist('{{ related_product.handle }}')" class="absolute top-2 right-10 bg-gray-200 dark:bg-gray-700 rounded-full p-2" aria-label="Add to Wishlist">
+        <svg class="w-4 h-4 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+      </button>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Related Products",
+  "settings": []
+}
+{% endschema %}

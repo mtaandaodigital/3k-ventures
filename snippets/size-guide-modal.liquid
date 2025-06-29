@@ -1,0 +1,216 @@
+<div id="size-guide-modal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <!-- Background overlay -->
+    <div id="size-guide-backdrop" class="fixed inset-0 bg-deep-moss-black bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+    <!-- Modal positioning -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <!-- Modal content -->
+    <div id="size-guide-content" class="inline-block align-bottom bg-white dark:bg-deep-moss-black rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
+      <div class="absolute top-0 right-0 pt-4 pr-4">
+        <button id="size-guide-close" type="button" class="bg-white dark:bg-deep-moss-black rounded-md text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-verde">
+          <span class="sr-only">Close</span>
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="p-6">
+        <h2 class="text-xl md:text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Size Guide</h2>
+        
+        <div class="mb-6">
+          <p class="text-gray-700 dark:text-gray-300 mb-4">{{ section.settings.size_guide_description }}</p>
+          
+          <div class="flex space-x-4 mb-4">
+            <button id="size-unit-cm" class="px-3 py-1 rounded-md bg-olive-verde text-white">CM</button>
+            <button id="size-unit-inch" class="px-3 py-1 rounded-md bg-gray-200 dark:bg-forest-shadow text-deep-moss-black dark:text-mist-gray">Inches</button>
+          </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-mist-gray dark:divide-forest-shadow">
+            <thead>
+              <tr>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Size</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider size-cm">Chest (cm)</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider size-cm">Waist (cm)</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider size-cm">Hips (cm)</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider size-inch hidden">Chest (in)</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider size-inch hidden">Waist (in)</th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider size-inch hidden">Hips (in)</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white dark:bg-deep-moss-black divide-y divide-mist-gray dark:divide-forest-shadow">
+              <tr>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-deep-moss-black dark:text-mist-gray">XS</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">82-86</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">62-66</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">87-91</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">32-34</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">24-26</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">34-36</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-deep-moss-black dark:text-mist-gray">S</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">86-90</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">66-70</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">91-95</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">34-35</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">26-28</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">36-37</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-deep-moss-black dark:text-mist-gray">M</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">90-94</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">70-74</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">95-99</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">35-37</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">28-29</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">37-39</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-deep-moss-black dark:text-mist-gray">L</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">94-98</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">74-78</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">99-103</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">37-39</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">29-31</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">39-41</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-deep-moss-black dark:text-mist-gray">XL</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">98-102</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">78-82</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">103-107</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">39-40</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">31-32</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">41-42</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-deep-moss-black dark:text-mist-gray">XXL</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">102-106</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">82-86</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-cm">107-111</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">40-42</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">32-34</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 size-inch hidden">42-44</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="mt-6">
+          <h3 class="text-lg font-medium text-deep-moss-black dark:text-mist-gray mb-2">How to Measure</h3>
+          <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-2">
+            <li><strong>Chest:</strong> Measure around the fullest part of your chest, keeping the tape measure horizontal.</li>
+            <li><strong>Waist:</strong> Measure around your natural waistline, keeping the tape measure horizontal.</li>
+            <li><strong>Hips:</strong> Measure around the fullest part of your hips, keeping the tape measure horizontal.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script defer>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Cache DOM elements - all at once to minimize DOM queries
+    const sizeGuideButtons = document.querySelectorAll('[data-size-guide-toggle]');
+    const sizeGuideModal = document.getElementById('size-guide-modal');
+    const sizeGuideBackdrop = document.getElementById('size-guide-backdrop');
+    const sizeGuideClose = document.getElementById('size-guide-close');
+    
+    // Unit toggle elements
+    const cmButton = document.getElementById('size-unit-cm');
+    const inchButton = document.getElementById('size-unit-inch');
+    const cmElements = document.querySelectorAll('.size-cm');
+    const inchElements = document.querySelectorAll('.size-inch');
+    
+    /**
+     * Creates a debounced function that delays invoking func until after wait milliseconds
+     * @param {Function} func - The function to debounce
+     * @param {number} wait - The number of milliseconds to delay
+     * @return {Function} The debounced function
+     */
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+      };
+    }
+    
+    /**
+     * Close the size guide modal
+     */
+    function closeSizeGuide() {
+      sizeGuideModal?.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    
+    /**
+     * Set the active unit (cm or inch)
+     * @param {string} unit - The unit to set active (cm or inch)
+     */
+    function setActiveUnit(unit) {
+      // Define class lists for active and inactive states
+      const activeClasses = ['bg-olive-verde', 'text-white'];
+      const inactiveClasses = ['bg-gray-200', 'dark:bg-forest-shadow', 'text-deep-moss-black', 'dark:text-mist-gray'];
+      
+      if (unit === 'cm') {
+        // Update button styles
+        cmButton?.classList.add(...activeClasses);
+        cmButton?.classList.remove(...inactiveClasses);
+        
+        inchButton?.classList.remove(...activeClasses);
+        inchButton?.classList.add(...inactiveClasses);
+        
+        // Update visibility
+        cmElements.forEach(el => el.classList.remove('hidden'));
+        inchElements.forEach(el => el.classList.add('hidden'));
+      } else {
+        // Update button styles
+        inchButton?.classList.add(...activeClasses);
+        inchButton?.classList.remove(...inactiveClasses);
+        
+        cmButton?.classList.remove(...activeClasses);
+        cmButton?.classList.add(...inactiveClasses);
+        
+        // Update visibility
+        inchElements.forEach(el => el.classList.remove('hidden'));
+        cmElements.forEach(el => el.classList.add('hidden'));
+      }
+    }
+    
+    // Open size guide - with debounce to prevent accidental double clicks
+    sizeGuideButtons.forEach(button => {
+      if (button) {
+        const debouncedOpen = debounce(function(event) {
+          event.preventDefault();
+          sizeGuideModal?.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }, 200);
+        
+        button.addEventListener('click', debouncedOpen);
+      }
+    });
+    
+    // Close size guide - with null checks using optional chaining
+    sizeGuideBackdrop?.addEventListener('click', closeSizeGuide);
+    sizeGuideClose?.addEventListener('click', closeSizeGuide);
+    
+    // Close on escape key - with null check
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && sizeGuideModal && !sizeGuideModal.classList.contains('hidden')) {
+        closeSizeGuide();
+      }
+    });
+    
+    // Toggle units - with null checks using optional chaining
+    cmButton?.addEventListener('click', () => setActiveUnit('cm'));
+    inchButton?.addEventListener('click', () => setActiveUnit('inch'));
+  });
+</script>

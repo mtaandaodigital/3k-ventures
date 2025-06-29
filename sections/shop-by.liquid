@@ -1,0 +1,44 @@
+<div class="shop-by bg-herbal-cream dark:bg-deep-moss-black py-8 px-4">
+  <div class="container mx-auto">
+    <h2 class="section-title">Shop By</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <h3 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Category</h3>
+        <ul>
+          {% for collection in collections %}
+            {% if collection.handle != 'all' and collection.handle != 'frontpage' %}
+              <li><a href="{{ collection.url }}" class="hover-underline text-gray-700 dark:text-gray-300">{{ collection.title }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Gender</h3>
+        <ul>
+          {% for collection in collections %}
+            {% if collection.metafields.custom.gender != blank %}
+              <li><a href="{{ collection.url }}" class="hover-underline text-gray-700 dark:text-gray-300">{{ collection.title }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mb-2">Style</h3>
+         <ul>
+          {% for collection in collections %}
+            {% if collection.metafields.custom.style != blank %}
+              <li><a href="{{ collection.url }}" class="hover-underline text-gray-700 dark:text-gray-300">{{ collection.title }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop By",
+  "settings": []
+}
+{% endschema %}

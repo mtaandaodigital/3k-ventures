@@ -1,0 +1,47 @@
+# Shopify specific
+.shopify
+.theme-check.yml
+
+# Environment files
+.env
+*.env
+.env.*
+!.env.example
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Build files
+dist/
+build/
+*.zip
+
+# OS specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Cache
+.cache/
+.sass-cache/

@@ -1,0 +1,18 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="section-title">{{ blog.title }}</h1>
+  <p class="text-gray-700 dark:text-gray-300">{{ blog.description }}</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {% for article in blog.articles %}
+      <div class="card">
+        <a href="{{ article.url }}" aria-label="{{ article.title }}">
+          {% if article.image %}
+            <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title | escape }}" class="rounded-lg">
+          {% endif %}
+          <h2 class="text-xl font-semibold text-deep-moss-black dark:text-mist-gray mt-2 hover-underline">{{ article.title }}</h2>
+          <p class="text-gray-700 dark:text-gray-300">{{ article.excerpt_or_content | strip_html | truncatewords: 20 }}</p>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>

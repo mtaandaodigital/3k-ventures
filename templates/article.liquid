@@ -1,0 +1,12 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="section-title">{{ article.title }}</h1>
+  <p class="text-gray-700 dark:text-gray-300">{{ article.published_at | date: "%B %d, %Y" }}</p>
+
+  {% if article.image %}
+    <img src="{{ article.image | img_url: 'master' }}" alt="{{ article.title | escape }}" class="rounded-lg mb-4">
+  {% endif %}
+
+  <div class="text-gray-700 dark:text-gray-300">
+    {{ article.content }}
+  </div>
+</div>

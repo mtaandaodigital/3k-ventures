@@ -1,0 +1,12 @@
+<div class="product-images">
+  {% for image in product.images %}
+    <img data-zoom-image="{{ image | img_url: 'master' }}" data-src="{{ image | img_url: 'master' }}" alt="{{ product.title | escape }} - {{ forloop.index }}" class="w-full h-auto lazy zoomable-image">
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Product Images",
+  "settings": []
+}
+{% endschema %}
