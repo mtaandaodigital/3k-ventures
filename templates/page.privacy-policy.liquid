@@ -1,0 +1,34 @@
+{% comment %}
+  Privacy Policy Page Template
+  Inspired by Allbirds clean, minimal design
+{% endcomment %}
+
+<div class="py-12 bg-white dark:bg-deep-moss-black">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">{{ page.title }}</h1>
+      <p class="text-forest-shadow dark:text-herbal-cream">Last updated: {{ 'now' | date: '%B %d, %Y' }}</p>
+    </div>
+    
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      {{ page.content }}
+    </div>
+    
+    <div class="mt-16 bg-herbal-cream/30 dark:bg-forest-shadow/30 rounded-lg p-8">
+      <h2 class="text-xl md:text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Questions about our Privacy Policy?</h2>
+      <p class="text-forest-shadow dark:text-herbal-cream mb-6">If you have any questions or concerns about our privacy practices, please don't hesitate to contact us.</p>
+      <a href="/pages/contact" class="btn-primary inline-flex items-center">
+        Contact Us
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
+    
+    <div class="mt-12 flex justify-center space-x-6">
+      <a href="/pages/terms-conditions" class="text-olive-verde hover:text-forest-shadow dark:hover:text-herbal-cream transition-colors duration-300">Terms & Conditions</a>
+      <a href="/pages/refund-policy" class="text-olive-verde hover:text-forest-shadow dark:hover:text-herbal-cream transition-colors duration-300">Refund Policy</a>
+      <a href="/pages/shipping-policy" class="text-olive-verde hover:text-forest-shadow dark:hover:text-herbal-cream transition-colors duration-300">Shipping Policy</a>
+    </div>
+  </div>
+</div>
