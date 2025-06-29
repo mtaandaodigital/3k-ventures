@@ -80,7 +80,7 @@
           <div class="blog-card group animate-fade-in" style="animation-delay: {{ forloop.index | times: 0.1 }}s">
             <a href="{{ article.url }}" class="block" aria-label="{{ article.title }}">
               <!-- Article Image -->
-              <div class="relative aspect-video rounded-lg overflow-hidden bg-mist-gray/20 dark:bg-forest-shadow/20 mb-4">
+              <div class="relative aspect-video rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-700 mb-4">
                 {% if article.image %}
                   <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title | escape }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 {% else %}

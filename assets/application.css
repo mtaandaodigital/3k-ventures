@@ -19,68 +19,68 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Base Styles */
 body {
-  @apply font-sans bg-herbal-cream dark:bg-deep-moss-black text-deep-moss-black dark:text-mist-gray;
+  @apply font-sans bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white;
 }
 
 /* Typography */
 .section-title {
-  @apply text-2xl md:text-3xl font-bold text-deep-moss-black dark:text-mist-gray mb-4 relative;
+  @apply text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 relative;
 }
 
 .section-title::after {
   content: '';
-  @apply absolute bottom-0 left-0 w-16 h-1 bg-olive-verde rounded;
+  @apply absolute bottom-0 left-0 w-16 h-1 bg-gradient-to-r from-pink-500 to-purple-600 rounded;
   transform: translateY(8px);
 }
 
 .subtitle {
-  @apply text-lg md:text-xl font-medium text-forest-shadow dark:text-herbal-cream mb-3;
+  @apply text-lg md:text-xl font-medium text-gray-600 dark:text-gray-300 mb-3;
 }
 
 /* Components */
 .card {
-  @apply bg-white dark:bg-deep-moss-black rounded-lg shadow-md p-4 border border-mist-gray dark:border-forest-shadow transition-all duration-300;
+  @apply bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 transition-all duration-300;
 }
 
 .card:hover {
-  @apply shadow-lg transform -translate-y-1;
+  @apply shadow-2xl transform -translate-y-2;
 }
 
 .btn-primary {
-  @apply bg-olive-verde hover:bg-forest-shadow text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-olive-verde focus:ring-opacity-50 transition-all duration-300;
+  @apply bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 transition-all duration-300 transform hover:scale-105 shadow-lg;
 }
 
 .btn-secondary {
-  @apply bg-transparent border border-olive-verde text-olive-verde hover:bg-olive-verde hover:text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-olive-verde focus:ring-opacity-50 transition-all duration-300;
+  @apply bg-white dark:bg-gray-700 border-2 border-pink-500 text-pink-500 dark:text-pink-400 hover:bg-pink-500 hover:text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 transition-all duration-300 transform hover:scale-105;
 }
 
 .btn-tertiary {
-  @apply bg-transparent text-deep-moss-black dark:text-mist-gray hover:text-olive-verde dark:hover:text-olive-verde font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-olive-verde focus:ring-opacity-50 transition-all duration-300 underline;
+  @apply bg-transparent text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50 transition-all duration-300 underline;
 }
 
 /* Product Cards */
 .product-card {
-  @apply transition-all duration-300;
+  @apply transition-all duration-500;
 }
 
 .product-card img {
-  @apply transition-transform duration-500 ease-out;
+  @apply transition-transform duration-700 ease-out;
 }
 
 .product-card:hover img {
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 
 .product-card:hover {
-  @apply shadow-xl;
+  @apply shadow-2xl transform -translate-y-2;
 }
 
 .product-card .product-title {
-  @apply font-medium text-deep-moss-black dark:text-mist-gray transition-colors duration-300;
+  @apply font-semibold text-gray-900 dark:text-white transition-colors duration-300;
 }
 
 .product-card:hover .product-title {
-  @apply text-olive-verde;
+  @apply text-pink-500;
 }
 
 /* Animations */
@@ -102,6 +102,15 @@ body {
   animation: slide-in-right 0.5s ease-out forwards;
 }
 
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out forwards;
+}
+
 @keyframes pulse-gentle {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
@@ -112,9 +121,19 @@ body {
   animation: pulse-gentle 2s infinite;
 }
 
+/* Animation Delays */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+.animate-delay-6 { animation-delay: 0.6s; }
+.animate-delay-7 { animation-delay: 0.7s; }
+.animate-delay-8 { animation-delay: 0.8s; }
+
 /* Dividers */
 .divider {
-  @apply border-t border-mist-gray dark:border-forest-shadow my-6;
+  @apply border-t border-gray-200 dark:border-gray-700 my-6;
 }
 
 .divider-fancy {
