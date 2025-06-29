@@ -1,0 +1,140 @@
+{% comment %}
+  Testimonials Grid Section
+  Customer reviews and testimonials
+{% endcomment %}
+
+<div class="w-full bg-white dark:bg-deep-moss-black py-10 md:py-16">
+  <div class="w-full px-3 sm:px-4 md:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-8 md:mb-12">
+      <h2 class="section-title inline-block relative">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="subtitle mt-4 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {% for block in section.blocks %}
+        <div class="bg-white dark:bg-deep-moss-black border border-mist-gray/20 dark:border-forest-shadow/20 rounded-lg p-6 shadow-soft transition-all duration-300 hover:shadow-hover" {{ block.shopify_attributes }}>
+          <!-- Quote -->
+          <p class="text-forest-shadow dark:text-herbal-cream mb-6 italic">{{ block.settings.quote }}</p>
+          
+          <!-- Customer Info -->
+          <div class="flex items-center">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | img_url: '80x80', crop: 'center' }}" alt="{{ block.settings.author }}" class="w-10 h-10 rounded-full object-cover">
+            {% else %}
+              <div class="w-10 h-10 rounded-full bg-herbal-cream/50 dark:bg-forest-shadow/50 flex items-center justify-center text-forest-shadow dark:text-herbal-cream font-medium">
+                {{ block.settings.author | slice: 0, 2 | upcase }}
+              </div>
+            {% endif %}
+            
+            <div class="ml-3">
+              <div class="flex items-center">
+                <h4 class="text-deep-moss-black dark:text-mist-gray font-bold text-sm">{{ block.settings.author }}</h4>
+                {% if section.settings.show_verified_badge %}
+                  <span class="ml-2 text-xs text-olive-verde flex items-center">
+                    <svg class="w-3 h-3 mr-0.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    Verified
+                  </span>
+                {% endif %}
+              </div>
+              
+              {% if block.settings.location != blank %}
+                <p class="text-forest-shadow dark:text-herbal-cream text-xs">{{ block.settings.location }}</p>
+              {% endif %}
+              
+              {% if block.settings.date != blank %}
+                <p class="text-forest-shadow dark:text-herbal-cream text-xs mt-1">{{ block.settings.date }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Real stories from real people who love our products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_badge",
+      "label": "Show verified badge",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Image"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer Name",
+          "default": "Jane Doe"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "New York"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonial",
+          "default": "Amazing quality and authentic designs. I love how the traditional patterns are modernized perfectly! The delivery was super fast and the customer service exceeded my expectations."
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "2 weeks ago"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Grid",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

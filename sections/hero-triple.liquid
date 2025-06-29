@@ -1,0 +1,216 @@
+{% comment %}
+  Hero Triple Section
+  Features three images with links to products or categories
+{% endcomment %}
+
+<div class="w-full bg-white dark:bg-deep-moss-black">
+  <!-- Countdown Timer (Optional) -->
+  {% if section.settings.show_countdown %}
+    <div class="bg-olive-verde text-white py-3 text-center">
+      <div class="container mx-auto px-4">
+        <p class="text-sm md:text-base font-medium">
+          {{ section.settings.countdown_text }}
+          <span id="countdown-timer" class="font-bold ml-2"></span>
+        </p>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Hero Content -->
+  <div class="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 md:py-10">
+    <!-- Hero Text -->
+    <div class="text-center max-w-3xl mx-auto mb-8 md:mb-12">
+      {% if section.settings.heading != blank %}
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 text-deep-moss-black dark:text-mist-gray animate-fade-in">
+          {{ section.settings.heading }}
+        </h1>
+      {% endif %}
+      
+      {% if section.settings.subheading != blank %}
+        <p class="text-lg md:text-xl text-forest-shadow dark:text-herbal-cream animate-fade-in" style="animation-delay: 0.2s;">
+          {{ section.settings.subheading }}
+        </p>
+      {% endif %}
+    </div>
+    
+    <!-- Hero Images Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      {% for block in section.blocks %}
+        {% if block.type == 'image_link' %}
+          <div class="relative overflow-hidden rounded-lg group" {{ block.shopify_attributes }}>
+            <!-- Image -->
+            {% if block.settings.image != blank %}
+              <div class="aspect-[4/5] overflow-hidden">
+                {{ block.settings.image | image_url: width: 800 | image_tag: 
+                  loading: block.forloop.index == 1 ? 'eager' : 'lazy',
+                  class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105',
+                  alt: block.settings.title | escape
+                }}
+              </div>
+            {% else %}
+              <div class="aspect-[4/5] bg-mist-gray/30 dark:bg-forest-shadow/30 flex items-center justify-center">
+                <svg class="w-16 h-16 text-forest-shadow/50 dark:text-mist-gray/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+            {% endif %}
+            
+            <!-- Overlay with Text -->
+            <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-deep-moss-black/70 to-transparent">
+              {% if block.settings.title != blank %}
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-2">{{ block.settings.title }}</h3>
+              {% endif %}
+              
+              {% if block.settings.subtitle != blank %}
+                <p class="text-mist-gray mb-4">{{ block.settings.subtitle }}</p>
+              {% endif %}
+              
+              {% if block.settings.button_label != blank %}
+                <a href="{{ block.settings.link }}" class="inline-block bg-olive-verde hover:bg-forest-shadow text-white font-bold py-2 px-6 rounded-lg transition-all duration-300">
+                  {{ block.settings.button_label }}
+                </a>
+              {% endif %}
+            </div>
+            
+            <!-- Full Link Overlay (if no button) -->
+            {% if block.settings.button_label == blank and block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" class="absolute inset-0" aria-label="{{ block.settings.title }}"></a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% if section.settings.show_countdown %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set the countdown date (24 hours from now for demo)
+    const countdownDate = new Date();
+    countdownDate.setDate(countdownDate.getDate() + 1);
+    
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+      
+      // Time calculations
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      // Display the result
+      document.getElementById("countdown-timer").innerHTML = 
+        hours.toString().padStart(2, '0') + " : " +
+        minutes.toString().padStart(2, '0') + " : " +
+        seconds.toString().padStart(2, '0');
+      
+      // If the countdown is finished, display expired message
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown-timer").innerHTML = "EXPIRED";
+      }
+    }
+    
+    // Update the countdown every 1 second
+    updateCountdown();
+    const x = setInterval(updateCountdown, 1000);
+  });
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Hero Triple",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sustainable Comfort for Everyday Life"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Discover our eco-friendly products made with natural materials that are good for you and the planet."
+    },
+    {
+      "type": "header",
+      "content": "Countdown Timer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show Countdown Timer",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "countdown_text",
+      "label": "Countdown Text",
+      "default": "🔥 FLASH SALE: 30% OFF Everything!"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_link",
+      "name": "Image with Link",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Collection Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Shop now"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Triple",
+      "category": "Hero",
+      "blocks": [
+        {
+          "type": "image_link"
+        },
+        {
+          "type": "image_link"
+        },
+        {
+          "type": "image_link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

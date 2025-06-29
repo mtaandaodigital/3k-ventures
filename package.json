@@ -1,0 +1,20 @@
+{
+  "name": "3k-ventures-theme",
+  "version": "1.0.0",
+  "description": "3K Ventures Shopify Theme",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tailwindcss -i ./src/tailwind.css -o ./assets/theme-tailwind.css",
+    "watch": "npx tailwindcss -i ./src/tailwind.css -o ./assets/theme-tailwind.css --watch"
+  },
+  "keywords": [
+    "shopify",
+    "theme",
+    "tailwind"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

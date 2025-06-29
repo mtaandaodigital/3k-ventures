@@ -8,9 +8,11 @@ This guide provides instructions on how to set up and maintain your Shopify them
    - [Git Setup](#git-setup)
    - [Shopify CLI Installation](#shopify-cli-installation)
    - [Connecting to Your Shopify Store](#connecting-to-your-shopify-store)
+   - [Tailwind CSS Setup](#tailwind-css-setup)
 2. [Development Workflow](#development-workflow)
    - [Making Changes Locally](#making-changes-locally)
    - [Testing Your Changes](#testing-your-changes)
+   - [Working with Tailwind CSS](#working-with-tailwind-css)
 3. [Git Version Control](#git-version-control)
    - [Committing Changes](#committing-changes)
    - [Pushing to GitHub](#pushing-to-github)
@@ -19,7 +21,10 @@ This guide provides instructions on how to set up and maintain your Shopify them
    - [Theme Publishing](#theme-publishing)
 5. [Automating Deployments](#automating-deployments)
    - [GitHub Actions Setup](#github-actions-setup)
-6. [Troubleshooting](#troubleshooting)
+6. [Theme Structure](#theme-structure)
+   - [CSS Structure](#css-structure)
+   - [Custom Colors](#custom-colors)
+7. [Troubleshooting](#troubleshooting)
 
 ## Initial Setup
 
@@ -84,6 +89,23 @@ This guide provides instructions on how to set up and maintain your Shopify them
    ```
    Follow the prompts to connect to your store.
 
+### Tailwind CSS Setup
+
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Build Tailwind CSS**:
+   ```bash
+   npm run build
+   ```
+
+3. **Watch for Changes** (during development):
+   ```bash
+   npm run watch
+   ```
+
 ## Development Workflow
 
 ### Making Changes Locally
@@ -108,6 +130,25 @@ This guide provides instructions on how to set up and maintain your Shopify them
 2. **Check for Errors** in the browser console and Shopify CLI output
 
 3. **Validate Liquid Syntax** to ensure there are no template errors
+
+### Working with Tailwind CSS
+
+1. **Using Tailwind Classes**:
+   - Add Tailwind utility classes directly to your HTML elements in Liquid templates
+   - Example: `<div class="flex items-center justify-between p-4 bg-herbal-cream text-deep-moss-black">...</div>`
+
+2. **Custom Components**:
+   - Custom components are defined in `assets/application.css.liquid` using `@apply` directives
+   - Example: 
+     ```css
+     .btn-primary {
+       @apply bg-olive-verde hover:bg-forest-shadow text-white font-bold py-2 px-4 rounded-lg;
+     }
+     ```
+
+3. **Theme Settings Integration**:
+   - Theme settings (like fonts and border radius) are defined in `assets/theme.scss.liquid`
+   - These settings are automatically applied to elements based on the theme configuration
 
 ## Git Version Control
 
@@ -230,6 +271,35 @@ You can automate the deployment process using GitHub Actions to automatically de
    - Create a new app and configure the appropriate permissions
    - Generate and copy the theme access token
 
+## Theme Structure
+
+### CSS Structure
+
+The theme uses a combination of Tailwind CSS and custom styles:
+
+1. **theme.scss.liquid**:
+   - Contains basic theme styling and variables from theme settings
+   - Defines CSS variables for fonts, colors, and other theme settings
+
+2. **application.css.liquid**:
+   - Contains Tailwind CSS directives (`@tailwind base`, `@tailwind components`, `@tailwind utilities`)
+   - Defines custom component styles using Tailwind's `@apply` directive
+   - Includes animations, responsive adjustments, and other custom styling
+
+3. **tailwind.config.js**:
+   - Configures Tailwind CSS
+   - Defines custom colors and other theme-specific Tailwind settings
+
+### Custom Colors
+
+The theme uses a custom color palette defined in `tailwind.config.js`:
+
+- **deep-moss-black**: #1B2727 - Primary dark color for text and backgrounds
+- **forest-shadow**: #3C5148 - Secondary dark color for accents and hover states
+- **olive-verde**: #688E4E - Primary brand color for buttons and highlights
+- **herbal-cream**: #B2C582 - Light accent color for backgrounds and highlights
+- **mist-gray**: #D5DDDF - Light gray for borders and subtle elements
+
 ## Troubleshooting
 
 ### Common Issues
@@ -245,6 +315,11 @@ You can automate the deployment process using GitHub Actions to automatically de
 3. **Theme Deployment Errors**:
    - Check for Liquid syntax errors in your theme files
    - Ensure you have the correct permissions for your Shopify store
+
+4. **Tailwind CSS Issues**:
+   - If Tailwind classes aren't working, make sure you've built the CSS with `npm run build`
+   - Check that the CSS files are correctly referenced in `theme.liquid`
+   - Verify that the `tailwind.config.js` file includes all your template paths in the `content` array
 
 ### Getting Help
 

@@ -39,24 +39,20 @@ function getCookie(name) {
   return null;
 }
 
+// This function is now defined in wishlist.js
+// Keeping this as a wrapper to avoid breaking any existing code
 function toggleWishlist(productHandle) {
+  // Check if the wishlist.js implementation is available
+  if (typeof window.toggleWishlist === 'function') {
+    // Use the implementation from wishlist.js
+    return window.toggleWishlist(productHandle);
+  }
+  
+  // Fallback implementation if wishlist.js is not loaded
   let wishlist = [];
 
   if (isLoggedIn) {
-    // Use metafields for logged-in users (requires a server-side implementation)
-    // This is a placeholder - you'll need to implement the actual metafield update
     console.log('Toggling wishlist for logged-in user (metafield update required):', productHandle);
-    // For example:
-    // fetch('/account/update-wishlist', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ productHandle: productHandle }),
-    //   headers: { 'Content-Type': 'application/json' }
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   console.log('Wishlist updated:', data.wishlist);
-    // })
-    // .catch(error => console.error('Error updating wishlist:', error));
   } else {
     wishlist = JSON.parse(getCookie('wishlist') || '[]'); // Use cookies for guests
 
@@ -106,7 +102,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   zoomableImages.forEach(img => {
     img.addEventListener('mousemove', (e) => {
-      if (!isLoggedIn) { //settings.enable_zoom
+      // Fixed the condition - removed the negation that was causing the zoom to work only for logged out users
+      if (true) { // Always enable zoom regardless of login status
         const x = e.offsetX;
         const y = e.offsetY;
         img.style.transformOrigin = `${x}px ${y}px`;

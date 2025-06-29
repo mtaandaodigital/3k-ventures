@@ -1,0 +1,134 @@
+<div class="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
+  <div class="max-w-md mx-auto">
+    <!-- Login Header -->
+    <div class="text-center mb-8">
+      <h1 class="section-title inline-block relative">Login</h1>
+      <p class="subtitle mt-4">Welcome back! Please enter your details.</p>
+    </div>
+    
+    <!-- Login Form -->
+    <div class="bg-white dark:bg-deep-moss-black/20 rounded-lg shadow-soft p-6 md:p-8">
+      {% form 'customer_login' %}
+        {% if form.errors %}
+          <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6" role="alert">
+            <p class="font-medium">{{ form.errors | default_errors }}</p>
+          </div>
+        {% endif %}
+        
+        <div class="mb-4">
+          <label for="customer_email" class="block text-sm font-medium text-forest-shadow dark:text-herbal-cream mb-1">Email</label>
+          <input type="email" name="customer[email]" id="customer_email" class="w-full" autocomplete="email" required>
+        </div>
+        
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-1">
+            <label for="customer_password" class="block text-sm font-medium text-forest-shadow dark:text-herbal-cream">Password</label>
+            <a href="#recover" class="text-sm text-olive-verde hover:underline" id="forgot-password-link">Forgot password?</a>
+          </div>
+          <input type="password" name="customer[password]" id="customer_password" class="w-full" autocomplete="current-password" required>
+        </div>
+        
+        <div class="flex items-center mb-6">
+          <input type="checkbox" id="remember_me" name="remember_me" class="h-4 w-4 rounded border-mist-gray/20 dark:border-forest-shadow/20 text-olive-verde focus:ring-olive-verde">
+          <label for="remember_me" class="ml-2 block text-sm text-forest-shadow dark:text-herbal-cream">
+            Remember me
+          </label>
+        </div>
+        
+        <button type="submit" class="btn-primary w-full py-3">
+          Sign in
+        </button>
+      {% endform %}
+      
+      <div class="mt-6 text-center">
+        <p class="text-sm text-forest-shadow dark:text-herbal-cream">
+          Don't have an account?
+          <a href="/account/register" class="text-olive-verde hover:underline font-medium">
+            Create an account
+          </a>
+        </p>
+      </div>
+    </div>
+    
+    <!-- Password Recovery Form (Hidden by default) -->
+    <div id="recover-password-form" class="hidden mt-8">
+      <div class="bg-white dark:bg-deep-moss-black/20 rounded-lg shadow-soft p-6 md:p-8">
+        <h2 class="text-xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Reset Your Password</h2>
+        <p class="text-forest-shadow dark:text-herbal-cream mb-6">We'll send you an email to reset your password.</p>
+        
+        {% form 'recover_customer_password' %}
+          {% if form.posted_successfully? %}
+            <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6" role="alert">
+              <p class="font-medium">We've sent you an email with a link to update your password.</p>
+            </div>
+          {% endif %}
+          
+          {% if form.errors %}
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6" role="alert">
+              <p class="font-medium">{{ form.errors | default_errors }}</p>
+            </div>
+          {% endif %}
+          
+          <div class="mb-6">
+            <label for="recover_email" class="block text-sm font-medium text-forest-shadow dark:text-herbal-cream mb-1">Email</label>
+            <input type="email" name="email" id="recover_email" class="w-full" autocomplete="email" required>
+          </div>
+          
+          <div class="flex space-x-4">
+            <button type="submit" class="btn-primary flex-1 py-3">
+              Submit
+            </button>
+            <button type="button" class="btn-secondary flex-1 py-3" id="cancel-recover">
+              Cancel
+            </button>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('customer_login');
+    const recoverForm = document.getElementById('recover-password-form');
+    const forgotLink = document.getElementById('forgot-password-link');
+    const cancelRecover = document.getElementById('cancel-recover');
+    
+    // Check if we should show the recover password form
+    if (window.location.hash === '#recover') {
+      showRecoverPasswordForm();
+    }
+    
+    // Toggle between login and recover password forms
+    if (forgotLink) {
+      forgotLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        showRecoverPasswordForm();
+      });
+    }
+    
+    if (cancelRecover) {
+      cancelRecover.addEventListener('click', function(e) {
+        e.preventDefault();
+        hideRecoverPasswordForm();
+      });
+    }
+    
+    function showRecoverPasswordForm() {
+      if (loginForm && loginForm.parentNode && recoverForm) {
+        loginForm.parentNode.classList.add('hidden');
+        recoverForm.classList.remove('hidden');
+        window.location.hash = '#recover';
+      }
+    }
+    
+    function hideRecoverPasswordForm() {
+      if (loginForm && loginForm.parentNode && recoverForm) {
+        loginForm.parentNode.classList.remove('hidden');
+        recoverForm.classList.add('hidden');
+        window.location.hash = '';
+      }
+    }
+  });
+</script>

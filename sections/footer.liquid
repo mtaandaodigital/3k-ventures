@@ -45,9 +45,13 @@
         {% if section.settings.show_social_icons %}
           <div class="social-icons flex space-x-3 mt-4">
             {% for i in (1..6) %}
-              {% assign social_icon_url = section.settings["social_icon_url_" + i] %}
-              {% assign social_icon_name = section.settings["social_icon_name_" + i] %}
-              {% assign social_icon_svg = section.settings["social_icon_svg_" + i] %}
+              {% capture social_icon_url_key %}social_icon_url_{{ i }}{% endcapture %}
+              {% capture social_icon_name_key %}social_icon_name_{{ i }}{% endcapture %}
+              {% capture social_icon_svg_key %}social_icon_svg_{{ i }}{% endcapture %}
+              
+              {% assign social_icon_url = section.settings[social_icon_url_key] %}
+              {% assign social_icon_name = section.settings[social_icon_name_key] %}
+              {% assign social_icon_svg = section.settings[social_icon_svg_key] %}
 
               {% if social_icon_url != blank and social_icon_name != blank and social_icon_svg != blank %}
                 <a href="{{ social_icon_url }}" 
@@ -261,25 +265,108 @@
       "label": "Show Social Icons",
       "default": true
     },
-    {% for i in (1..6) %}
-      {
-        "id": "social_icon_name_" + i,
+    {
+        "id": "social_icon_name_1",
         "type": "text",
-        "label": "Social Icon Name " + i,
-        "default": "Social Icon " + i
+        "label": "Social Icon Name 1",
+        "default": "Social Icon 1"
       },
       {
-        "id": "social_icon_url_" + i,
+        "id": "social_icon_url_1",
         "type": "url",
-        "label": "Social Icon URL " + i
+        "label": "Social Icon URL 1"
       },
       {
-        "id": "social_icon_svg_" + i,
+        "id": "social_icon_svg_1",
         "type": "textarea",
-        "label": "Social Icon SVG " + i,
+        "label": "Social Icon SVG 1",
+        "info": "Paste the SVG code for the icon here"
+      },
+      {
+        "id": "social_icon_name_2",
+        "type": "text",
+        "label": "Social Icon Name 2",
+        "default": "Social Icon 2"
+      },
+      {
+        "id": "social_icon_url_2",
+        "type": "url",
+        "label": "Social Icon URL 2"
+      },
+      {
+        "id": "social_icon_svg_2",
+        "type": "textarea",
+        "label": "Social Icon SVG 2",
+        "info": "Paste the SVG code for the icon here"
+      },
+      {
+        "id": "social_icon_name_3",
+        "type": "text",
+        "label": "Social Icon Name 3",
+        "default": "Social Icon 3"
+      },
+      {
+        "id": "social_icon_url_3",
+        "type": "url",
+        "label": "Social Icon URL 3"
+      },
+      {
+        "id": "social_icon_svg_3",
+        "type": "textarea",
+        "label": "Social Icon SVG 3",
+        "info": "Paste the SVG code for the icon here"
+      },
+      {
+        "id": "social_icon_name_4",
+        "type": "text",
+        "label": "Social Icon Name 4",
+        "default": "Social Icon 4"
+      },
+      {
+        "id": "social_icon_url_4",
+        "type": "url",
+        "label": "Social Icon URL 4"
+      },
+      {
+        "id": "social_icon_svg_4",
+        "type": "textarea",
+        "label": "Social Icon SVG 4",
+        "info": "Paste the SVG code for the icon here"
+      },
+      {
+        "id": "social_icon_name_5",
+        "type": "text",
+        "label": "Social Icon Name 5",
+        "default": "Social Icon 5"
+      },
+      {
+        "id": "social_icon_url_5",
+        "type": "url",
+        "label": "Social Icon URL 5"
+      },
+      {
+        "id": "social_icon_svg_5",
+        "type": "textarea",
+        "label": "Social Icon SVG 5",
+        "info": "Paste the SVG code for the icon here"
+      },
+      {
+        "id": "social_icon_name_6",
+        "type": "text",
+        "label": "Social Icon Name 6",
+        "default": "Social Icon 6"
+      },
+      {
+        "id": "social_icon_url_6",
+        "type": "url",
+        "label": "Social Icon URL 6"
+      },
+      {
+        "id": "social_icon_svg_6",
+        "type": "textarea",
+        "label": "Social Icon SVG 6",
         "info": "Paste the SVG code for the icon here"
       }
-    {% endfor %}
   ]
 }
 {% endschema %}

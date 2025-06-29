@@ -1,0 +1,74 @@
+<div class="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
+  <div class="max-w-md mx-auto">
+    <!-- Register Header -->
+    <div class="text-center mb-8">
+      <h1 class="section-title inline-block relative">Create Account</h1>
+      <p class="subtitle mt-4">Join us to start shopping and get access to exclusive offers.</p>
+    </div>
+    
+    <!-- Register Form -->
+    <div class="bg-white dark:bg-deep-moss-black/20 rounded-lg shadow-soft p-6 md:p-8">
+      {% form 'create_customer' %}
+        {% if form.errors %}
+          <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6" role="alert">
+            <p class="font-medium">{{ form.errors | default_errors }}</p>
+          </div>
+        {% endif %}
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label for="first_name" class="block text-sm font-medium text-forest-shadow dark:text-herbal-cream mb-1">First Name</label>
+            <input type="text" name="customer[first_name]" id="first_name" class="w-full" autocomplete="given-name" required>
+          </div>
+          <div>
+            <label for="last_name" class="block text-sm font-medium text-forest-shadow dark:text-herbal-cream mb-1">Last Name</label>
+            <input type="text" name="customer[last_name]" id="last_name" class="w-full" autocomplete="family-name" required>
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-forest-shadow dark:text-herbal-cream mb-1">Email</label>
+          <input type="email" name="customer[email]" id="email" class="w-full" autocomplete="email" required>
+        </div>
+        
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-forest-shadow dark:text-herbal-cream mb-1">Password</label>
+          <input type="password" name="customer[password]" id="password" class="w-full" autocomplete="new-password" required>
+          <p class="text-xs text-forest-shadow dark:text-herbal-cream mt-1">Password must be at least 8 characters long</p>
+        </div>
+        
+        <div class="mb-6">
+          <div class="flex items-center">
+            <input type="checkbox" id="accepts_marketing" name="customer[accepts_marketing]" class="h-4 w-4 rounded border-mist-gray/20 dark:border-forest-shadow/20 text-olive-verde focus:ring-olive-verde">
+            <label for="accepts_marketing" class="ml-2 block text-sm text-forest-shadow dark:text-herbal-cream">
+              Subscribe to our newsletter
+            </label>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn-primary w-full py-3">
+          Create Account
+        </button>
+      {% endform %}
+      
+      <div class="mt-6 text-center">
+        <p class="text-sm text-forest-shadow dark:text-herbal-cream">
+          Already have an account?
+          <a href="/account/login" class="text-olive-verde hover:underline font-medium">
+            Sign in
+          </a>
+        </p>
+      </div>
+    </div>
+    
+    <!-- Privacy Policy Notice -->
+    <div class="mt-6 text-center">
+      <p class="text-xs text-forest-shadow dark:text-herbal-cream">
+        By creating an account, you agree to our 
+        <a href="/pages/terms-conditions" class="text-olive-verde hover:underline">Terms of Service</a> 
+        and 
+        <a href="/pages/privacy-policy" class="text-olive-verde hover:underline">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</div>

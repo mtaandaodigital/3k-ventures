@@ -1,0 +1,150 @@
+{% comment %}
+  Testimonials Section
+  Inspired by Allbirds clean, minimal design
+{% endcomment %}
+
+<div class="py-16 bg-herbal-cream/30 dark:bg-deep-moss-black/30">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {% if section.settings.title != blank %}
+      <div class="text-center mb-12">
+        <h2 class="section-title inline-block relative">{{ section.settings.title }}</h2>
+        {% if section.settings.subtitle != blank %}
+          <p class="subtitle mt-4 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for block in section.blocks %}
+        <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-md p-8 transition-all duration-300 hover:shadow-lg hover:-translate-y-1" {{ block.shopify_attributes }}>
+          <div class="flex items-center mb-6">
+            {% if block.settings.rating > 0 %}
+              <div class="flex text-olive-verde">
+                {% for i in (1..5) %}
+                  {% if i <= block.settings.rating %}
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                    </svg>
+                  {% else %}
+                    <svg class="w-5 h-5 text-mist-gray fill-current" viewBox="0 0 24 24">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                    </svg>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          
+          {% if block.settings.quote != blank %}
+            <p class="text-deep-moss-black dark:text-mist-gray text-lg mb-6 italic">{{ block.settings.quote }}</p>
+          {% endif %}
+          
+          <div class="flex items-center">
+            {% if block.settings.avatar != blank %}
+              <div class="flex-shrink-0 mr-4">
+                {{ block.settings.avatar | image_url: width: 100 | image_tag: 
+                  class: 'h-12 w-12 rounded-full object-cover',
+                  alt: block.settings.author_name
+                }}
+              </div>
+            {% endif %}
+            
+            <div>
+              {% if block.settings.author_name != blank %}
+                <h4 class="text-deep-moss-black dark:text-mist-gray font-medium">{{ block.settings.author_name }}</h4>
+              {% endif %}
+              
+              {% if block.settings.author_title != blank %}
+                <p class="text-forest-shadow dark:text-herbal-cream text-sm">{{ block.settings.author_title }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    {% if section.blocks.size == 0 %}
+      <div class="text-center py-10 border border-dashed border-mist-gray rounded-lg">
+        <p>Add testimonial blocks to display customer reviews</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Read testimonials from our satisfied customers"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "label": "Rating"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "I absolutely love these products! The quality is outstanding and they're so comfortable. Definitely worth every penny."
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Author Avatar"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "Jane Smith"
+        },
+        {
+          "type": "text",
+          "id": "author_title",
+          "label": "Author Title",
+          "default": "Verified Customer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

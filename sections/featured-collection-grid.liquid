@@ -1,0 +1,235 @@
+{% comment %}
+  Featured Collection Grid
+  Inspired by Allbirds clean, minimal product grid
+{% endcomment %}
+
+<div class="py-16 bg-white dark:bg-deep-moss-black">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {% if section.settings.title != blank %}
+      <div class="text-center mb-12">
+        <h2 class="section-title inline-block relative">{{ section.settings.title }}</h2>
+        {% if section.settings.subtitle != blank %}
+          <p class="subtitle mt-4 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.collection != blank %}
+      {% assign collection = collections[section.settings.collection] %}
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-{{ section.settings.columns_desktop }} gap-x-8 gap-y-12">
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          <div class="group relative product-card overflow-hidden rounded-lg bg-mist-gray/10 dark:bg-forest-shadow/10 hover:shadow-xl transition-all duration-500">
+            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg">
+              <a href="{{ product.url }}">
+                <div class="relative h-80 overflow-hidden">
+                  {% if product.featured_image != blank %}
+                    {{ product.featured_image | image_url: width: 600 | image_tag: 
+                      loading: 'lazy',
+                      class: 'h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105',
+                      alt: product.featured_image.alt | escape
+                    }}
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'h-full w-full object-cover object-center' }}
+                  {% endif %}
+                  
+                  {% if product.compare_at_price > product.price %}
+                    <div class="absolute top-4 left-4 bg-olive-verde text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                      Sale
+                    </div>
+                  {% endif %}
+                  
+                  {% if product.available == false %}
+                    <div class="absolute top-4 right-4 bg-deep-moss-black text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                      Sold Out
+                    </div>
+                  {% endif %}
+                </div>
+              </a>
+            </div>
+            
+            <div class="p-6">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="text-lg font-medium product-title">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h3>
+                  <p class="mt-1 text-sm text-forest-shadow dark:text-herbal-cream">
+                    {% if product.variants.size > 1 %}
+                      {{ product.variants.size }} options available
+                    {% else %}
+                      {{ product.type }}
+                    {% endif %}
+                  </p>
+                </div>
+                
+                <div class="text-right">
+                  <div class="flex flex-col items-end">
+                    {% if product.compare_at_price > product.price %}
+                      <span class="text-sm line-through text-forest-shadow dark:text-herbal-cream">{{ product.compare_at_price | money }}</span>
+                      <span class="text-lg font-bold text-olive-verde">{{ product.price | money }}</span>
+                    {% else %}
+                      <span class="text-lg font-bold text-deep-moss-black dark:text-mist-gray">{{ product.price | money }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-4 flex justify-between items-center">
+                {% if section.settings.show_rating %}
+                  <div class="flex items-center">
+                    <div class="flex text-olive-verde">
+                      {% assign rating = product.metafields.reviews.rating.value | default: 4.5 %}
+                      {% assign scale_max = product.metafields.reviews.rating.scale_max | default: 5 %}
+                      {% assign rating_decimal = rating | modulo: 1 %}
+                      {% assign rating_floor = rating | floor %}
+                      
+                      {% for i in (1..rating_floor) %}
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                        </svg>
+                      {% endfor %}
+                      
+                      {% if rating_decimal >= 0.5 %}
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z"></path>
+                        </svg>
+                      {% endif %}
+                      
+                      {% assign empty_stars = scale_max | minus: rating_floor %}
+                      {% if rating_decimal >= 0.5 %}
+                        {% assign empty_stars = empty_stars | minus: 1 %}
+                      {% endif %}
+                      
+                      {% for i in (1..empty_stars) %}
+                        <svg class="w-4 h-4 text-mist-gray fill-current" viewBox="0 0 24 24">
+                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                        </svg>
+                      {% endfor %}
+                    </div>
+                    <span class="ml-1 text-xs text-forest-shadow dark:text-herbal-cream">
+                      ({{ product.metafields.reviews.rating_count | default: 42 }})
+                    </span>
+                  </div>
+                {% endif %}
+                
+                {% if section.settings.show_quick_add %}
+                  <button class="text-sm font-medium text-olive-verde hover:text-forest-shadow dark:hover:text-herbal-cream transition-colors duration-300 flex items-center quick-add" data-product-id="{{ product.id }}">
+                    Quick Add
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                  </button>
+                {% endif %}
+              </div>
+              
+              {% if section.settings.show_color_swatches and product.options_by_name['Color'] %}
+                <div class="mt-4">
+                  <div class="flex items-center space-x-2">
+                    {% for value in product.options_by_name['Color'].values limit: 4 %}
+                      <div class="w-6 h-6 rounded-full border border-mist-gray cursor-pointer hover:scale-110 transition-transform duration-300" style="background-color: {{ value | downcase | replace: ' ', '' }}"></div>
+                    {% endfor %}
+                    
+                    {% if product.options_by_name['Color'].values.size > 4 %}
+                      <div class="text-xs text-forest-shadow dark:text-herbal-cream">+{{ product.options_by_name['Color'].values.size | minus: 4 }}</div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      {% if section.settings.show_view_all %}
+        <div class="text-center mt-12">
+          <a href="{{ collection.url }}" class="btn-primary inline-flex items-center">
+            View All {{ collection.title }}
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="text-center py-10">
+        <p>Please select a collection to display</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured Collection Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Shop our most popular products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show product rating",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show quick add button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatches",
+      "label": "Show color swatches",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection Grid",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

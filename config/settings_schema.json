@@ -22,13 +22,13 @@
         "id": "primary_font",
         "type": "font_picker",
         "label": "Primary Font",
-        "default": "Assistant, sans-serif"
+        "default": "assistant_n4"
       },
       {
         "id": "secondary_font",
         "type": "font_picker",
         "label": "Secondary Font",
-        "default": "Poppins, sans-serif"
+        "default": "poppins_n4"
       },
       {
         "id": "border_radius",

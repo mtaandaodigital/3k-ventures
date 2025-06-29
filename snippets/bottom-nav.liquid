@@ -45,21 +45,68 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Update wishlist count if functionality exists
-    const wishlistItems = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const wishlistCountElements = document.querySelectorAll('.wishlist-count');
-    
-    if (wishlistItems.length > 0) {
-      wishlistCountElements.forEach(element => {
-        element.textContent = wishlistItems.length;
-        element.classList.remove('hidden');
-      });
-    }
+    updateWishlistCount();
     
     // Add padding to the bottom of the page to account for the fixed bottom nav
     const bottomNav = document.querySelector('.fixed.bottom-0');
     if (bottomNav) {
       const bottomNavHeight = bottomNav.offsetHeight;
       document.body.style.paddingBottom = bottomNavHeight + 'px';
+    }
+  });
+  
+  /**
+   * Update wishlist count
+   */
+  function updateWishlistCount() {
+    // First try localStorage (primary storage method)
+    let wishlistItems = [];
+    try {
+      wishlistItems = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    } catch (e) {
+      console.error('Error parsing wishlist from localStorage:', e);
+      
+      // Fallback to cookies if localStorage fails
+      try {
+        const cookieValue = getCookie('wishlist');
+        if (cookieValue) {
+          wishlistItems = JSON.parse(cookieValue);
+        }
+      } catch (e) {
+        console.error('Error parsing wishlist from cookies:', e);
+      }
+    }
+    
+    const wishlistCountElements = document.querySelectorAll('.wishlist-count');
+    
+    wishlistCountElements.forEach(element => {
+      element.textContent = wishlistItems.length;
+      if (wishlistItems.length > 0) {
+        element.classList.remove('hidden');
+      } else {
+        element.classList.add('hidden');
+      }
+    });
+  }
+  
+  /**
+   * Get cookie value by name
+   */
+  function getCookie(name) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+  
+  // Listen for storage events to update wishlist count when it changes
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'wishlist') {
+      updateWishlistCount();
     }
   });
 </script>

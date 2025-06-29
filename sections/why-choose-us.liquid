@@ -1,0 +1,142 @@
+{% comment %}
+  Why Choose Us Section
+  Displays key benefits and unique selling points
+{% endcomment %}
+
+<div class="w-full bg-white dark:bg-deep-moss-black py-10 md:py-16">
+  <div class="w-full px-3 sm:px-4 md:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-8 md:mb-12">
+      <h2 class="section-title inline-block relative">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="subtitle mt-4 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+    
+    <!-- Features Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      {% for block in section.blocks %}
+        {% if block.type == 'feature' %}
+          <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-soft p-6 text-center transition-all duration-300 hover:shadow-hover hover:-translate-y-1" {{ block.shopify_attributes }}>
+            <div class="mx-auto w-16 h-16 mb-4 flex items-center justify-center">
+              {% if block.settings.icon_name == 'quality' %}
+                <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              {% elsif block.settings.icon_name == 'shipping' %}
+                <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                </svg>
+              {% elsif block.settings.icon_name == 'heart' %}
+                <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+              {% elsif block.settings.icon_name == 'clock' %}
+                <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              {% else %}
+                <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path>
+                </svg>
+              {% endif %}
+            </div>
+            <h3 class="text-xl font-bold text-deep-moss-black dark:text-mist-gray mb-3">{{ block.settings.title }}</h3>
+            <p class="text-forest-shadow dark:text-herbal-cream">{{ block.settings.description }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Why Choose Us"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Excellence in every detail"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_name",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "quality",
+              "label": "Quality Badge"
+            },
+            {
+              "value": "shipping",
+              "label": "Shipping Box"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "checkmark",
+              "label": "Checkmark"
+            }
+          ],
+          "default": "quality"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Quality Guarantee"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "100% authentic materials and traditional craftsmanship"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Us",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

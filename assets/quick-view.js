@@ -82,8 +82,17 @@ function initQuickViewFormHandlers() {
     quickViewForm.addEventListener('submit', function(event) {
       event.preventDefault();
       
-      const variantId = document.getElementById('quick-view-product-id').value;
-      const quantity = document.getElementById('quick-view-quantity').value;
+      const variantIdElement = document.getElementById('quick-view-product-id');
+      const quantityElement = document.getElementById('quick-view-quantity');
+      
+      if (!variantIdElement) {
+        console.error('Product ID element not found');
+        showQuickViewError('Error adding to cart: Product ID not found');
+        return;
+      }
+      
+      const variantId = variantIdElement.value;
+      const quantity = quantityElement ? quantityElement.value : 1;
       
       if (!variantId) {
         showQuickViewError('Please select a product option');
@@ -191,6 +200,134 @@ function closeQuickView() {
   
   // Re-enable body scrolling
   document.body.style.overflow = '';
+}
+
+/**
+ * Show error message in quick view
+ * @param {string} message - The error message to display
+ */
+function showQuickViewError(message) {
+  // Use the global showToast function if available
+  if (typeof window.showToast === 'function') {
+    window.showToast(message, 'error');
+    return;
+  }
+  
+  // Fallback to alert if showToast is not available
+  alert(message);
+}
+
+/**
+ * Add product to cart from quick view
+ * @param {string} variantId - The variant ID to add
+ * @param {number} quantity - The quantity to add
+ */
+function addToCartFromQuickView(variantId, quantity = 1) {
+  // Show loading state
+  const addToCartButton = document.getElementById('quick-view-add-to-cart');
+  let originalButtonHtml = '';
+  
+  if (addToCartButton) {
+    originalButtonHtml = addToCartButton.innerHTML;
+    addToCartButton.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+    addToCartButton.disabled = true;
+  }
+  
+  // Add to cart
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: variantId,
+      quantity: quantity
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(error => {
+        throw new Error(error.description || 'Error adding to cart');
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Reset button
+    if (addToCartButton) {
+      addToCartButton.innerHTML = originalButtonHtml;
+      addToCartButton.disabled = false;
+    }
+    
+    // Show success message
+    if (typeof window.showToast === 'function') {
+      window.showToast('Product added to cart', 'success');
+    } else {
+      alert('Product added to cart');
+    }
+    
+    // Update cart count
+    updateCartCount();
+    
+    // Close quick view after a short delay
+    setTimeout(() => {
+      closeQuickView();
+    }, 1000);
+  })
+  .catch(error => {
+    console.error('Error adding to cart:', error);
+    
+    // Reset button
+    if (addToCartButton) {
+      addToCartButton.innerHTML = originalButtonHtml;
+      addToCartButton.disabled = false;
+    }
+    
+    // Show error message
+    showQuickViewError(error.message || 'Error adding to cart');
+  });
+}
+
+/**
+ * Update cart count
+ */
+function updateCartCount() {
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(cart => {
+      const cartCountElements = document.querySelectorAll('.cart-count');
+      cartCountElements.forEach(element => {
+        element.textContent = cart.item_count;
+        if (cart.item_count === 0) {
+          element.classList.add('hidden');
+        } else {
+          element.classList.remove('hidden');
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching cart:', error);
+    });
+}
+
+/**
+ * Format money value
+ * @param {number|string} cents - The price in cents
+ * @returns {string} - Formatted price
+ */
+function formatMoney(cents) {
+  if (typeof cents === 'string') {
+    cents = cents.replace('.', '');
+  }
+  
+  const value = parseInt(cents || 0) / 100;
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+  });
+  
+  return formatter.format(value);
 }
 
 /**
