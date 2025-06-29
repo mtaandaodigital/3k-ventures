@@ -123,22 +123,49 @@ function initProductGallery() {
     // Initialize zoom on main image
     if (window.innerWidth >= 768) { // Only on desktop
       mainImage.addEventListener('mousemove', function(e) {
-        const x = e.clientX - this.getBoundingClientRect().left;
-        const y = e.clientY - this.getBoundingClientRect().top;
+        // Get the position of the cursor relative to the image
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        const xPercent = x / this.offsetWidth * 100;
-        const yPercent = y / this.offsetHeight * 100;
+        // Calculate the percentage position
+        const xPercent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+        const yPercent = Math.max(0, Math.min(100, (y / rect.height) * 100));
         
+        // Set the transform origin
         this.style.transformOrigin = `${xPercent}% ${yPercent}%`;
       });
       
       mainImage.addEventListener('mouseenter', function() {
-        this.style.transform = 'scale(1.5)';
+        // Add a small delay to make the zoom effect smoother
+        setTimeout(() => {
+          this.style.transform = 'scale(1.5)';
+        }, 50);
       });
       
       mainImage.addEventListener('mouseleave', function() {
         this.style.transform = 'scale(1)';
       });
+      
+      // Add zoom indicator
+      const zoomIndicator = document.createElement('div');
+      zoomIndicator.className = 'absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded pointer-events-none opacity-0 transition-opacity duration-300';
+      zoomIndicator.textContent = 'Hover to zoom';
+      
+      // Add the indicator to the parent container
+      const imageContainer = mainImage.parentElement;
+      if (imageContainer) {
+        imageContainer.style.position = 'relative';
+        imageContainer.appendChild(zoomIndicator);
+        
+        // Show indicator on hover
+        imageContainer.addEventListener('mouseenter', () => {
+          zoomIndicator.style.opacity = '1';
+          setTimeout(() => {
+            zoomIndicator.style.opacity = '0';
+          }, 1500);
+        });
+      }
     }
   }
 }
@@ -284,9 +311,10 @@ function formatMoney(cents) {
 function showToast(message, type = 'success') {
   // Check if showToast is defined in wishlist.js
   if (typeof window.showToast === 'function') {
-    window.showToast(message, type);
-    return;
+    return window.showToast(message, type);
   }
+  
+  // Fallback implementation if the global function is not available
   
   // Remove any existing toasts
   const existingToasts = document.querySelectorAll('.toast');
@@ -296,7 +324,22 @@ function showToast(message, type = 'success') {
   
   // Create toast element
   const toast = document.createElement('div');
-  toast.className = `toast toast-${type} fixed bottom-4 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 ease-out opacity-0`;
+  toast.className = `toast fixed bottom-4 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300 ease-out opacity-0`;
+  
+  // Add type-specific classes
+  switch (type) {
+    case 'success':
+      toast.classList.add('bg-green-500', 'text-white');
+      break;
+    case 'error':
+      toast.classList.add('bg-red-500', 'text-white');
+      break;
+    case 'info':
+      toast.classList.add('bg-blue-500', 'text-white');
+      break;
+    default:
+      toast.classList.add('bg-gray-800', 'text-white');
+  }
   
   // Set icon based on type
   let icon = '';
@@ -317,7 +360,7 @@ function showToast(message, type = 'success') {
       ${icon}
       <span>${message}</span>
     </div>
-    <button class="absolute top-1 right-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" onclick="this.parentElement.remove()">
+    <button class="absolute top-1 right-1 text-white opacity-70 hover:opacity-100" onclick="this.parentElement.remove()">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
       </svg>
@@ -327,19 +370,25 @@ function showToast(message, type = 'success') {
   document.body.appendChild(toast);
   
   // Animate in
-  setTimeout(() => {
+  requestAnimationFrame(() => {
     toast.classList.add('opacity-100');
-    toast.classList.remove('opacity-0');
-  }, 10);
+  });
   
   // Animate out after delay
-  setTimeout(() => {
-    toast.classList.add('opacity-0');
+  const hideTimeout = setTimeout(() => {
     toast.classList.remove('opacity-100');
-    setTimeout(() => {
+    toast.classList.add('opacity-0');
+    
+    // Remove from DOM after animation completes
+    toast.addEventListener('transitionend', () => {
       if (toast.parentElement) {
         document.body.removeChild(toast);
       }
-    }, 300);
+    }, { once: true });
   }, 3000);
+  
+  // Store the timeout so it can be cleared if needed
+  toast.hideTimeout = hideTimeout;
+  
+  return toast;
 }

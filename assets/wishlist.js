@@ -106,17 +106,20 @@ function toggleWishlist(productHandle) {
     
     // If on wishlist page, remove the product card
     if (wishlistContainer) {
-      const productCard = wishlistContainer.querySelector(`[data-product-handle="${productHandle}"]`).closest('.product-card');
+      const productCard = wishlistContainer.querySelector(`[data-product-handle="${productHandle}"]`);
       if (productCard) {
-        productCard.classList.add('animate-fade-out');
-        setTimeout(() => {
-          productCard.remove();
-          
-          // Show empty message if no products left
-          if (wishlistContainer.children.length === 0 && emptyWishlistMessage) {
-            emptyWishlistMessage.classList.remove('hidden');
-          }
-        }, 300);
+        const card = productCard.closest('.product-card');
+        if (card) {
+          card.classList.add('animate-fade-out');
+          setTimeout(() => {
+            card.remove();
+            
+            // Show empty message if no products left
+            if (wishlistContainer.children.length === 0 && emptyWishlistMessage) {
+              emptyWishlistMessage.classList.remove('hidden');
+            }
+          }, 300);
+        }
       }
     }
   } else {
@@ -145,6 +148,13 @@ function toggleWishlist(productHandle) {
   
   // Update counts
   updateWishlistCounts();
+  
+  // Also update cookies for compatibility with application.js
+  if (typeof setCookie === 'function') {
+    setCookie('wishlist', JSON.stringify(wishlist), 30);
+  }
+  
+  return wishlist;
 }
 
 /**
@@ -239,11 +249,12 @@ function showToast(message, type = 'success') {
     }, { once: true });
   }, 3000);
   
-  // Export the function for global use
-  window.showToast = showToast;
-  
   return toast;
 }
+
+// Export functions for global use
+window.showToast = showToast;
+window.toggleWishlist = toggleWishlist;
 
 /**
  * Load wishlist products on the wishlist page

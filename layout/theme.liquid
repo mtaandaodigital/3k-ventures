@@ -23,11 +23,13 @@
 
     {{ 'theme.scss' | asset_url | stylesheet_tag }}
     {{ 'application.css' | asset_url | stylesheet_tag }}
+    
+    <!-- Core JavaScript - Load in the correct order to avoid dependency issues -->
     {{ 'theme.js' | asset_url | script_tag }}
+    {{ 'wishlist.js' | asset_url | script_tag }}
     {{ 'application.js' | asset_url | script_tag }}
     
     <!-- Enhanced UI/UX JavaScript -->
-    {{ 'wishlist.js' | asset_url | script_tag }}
     {{ 'quick-view.js' | asset_url | script_tag }}
     {{ 'recently-viewed.js' | asset_url | script_tag }}
     {% if template contains 'product' %}
