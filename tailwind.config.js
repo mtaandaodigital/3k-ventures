@@ -10,13 +10,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Original eco-friendly colors (preserved)
-        'deep-moss-black': '#1B2727',
-        'forest-shadow': '#3C5148',
-        'olive-verde': '#688E4E',
-        'herbal-cream': '#B2C582',
-        'mist-gray': '#D5DDDF',
-        // New Glamics-inspired colors
+        // Glamics-inspired modern colors
         'glamics-pink': '#FF6B9D',
         'glamics-purple': '#8B5CF6',
         'glamics-indigo': '#6366F1',

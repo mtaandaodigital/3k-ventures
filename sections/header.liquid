@@ -38,7 +38,7 @@
           </a>
         {% else %}
           <a href="/" class="block" aria-label="{{ shop.name }}">
-            <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-deep-moss-black dark:text-white">{{ shop.name }}</h1>
+            <h1 class="text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">{{ shop.name }}</h1>
           </a>
         {% endif %}
       </div>
@@ -46,7 +46,7 @@
       <!-- Header Icons -->
       <div class="flex items-center space-x-2 md:space-x-4">
         {% if section.settings.show_search_bar %}
-          <button id="search-toggle" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-olive-verde rounded-lg p-2" aria-label="Search">
+          <button id="search-toggle" class="text-gray-500 dark:text-gray-400 hover:bg-pink-50 dark:hover:bg-gray-700 hover:text-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg p-2 transition-colors duration-200" aria-label="Search">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
@@ -91,12 +91,12 @@
     <!-- Navigation Menu -->
     <nav id="main-nav" class="hidden md:block mt-4">
       <ul class="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0">
-        <li><a href="/" class="text-deep-moss-black dark:text-white hover:text-olive-verde dark:hover:text-olive-verde transition-colors duration-200">Home</a></li>
-        <li><a href="/collections/all" class="text-deep-moss-black dark:text-white hover:text-olive-verde dark:hover:text-olive-verde transition-colors duration-200">Shop</a></li>
-        <li><a href="/collections/new-arrivals" class="text-deep-moss-black dark:text-white hover:text-olive-verde dark:hover:text-olive-verde transition-colors duration-200">New Arrivals</a></li>
-        <li><a href="/collections/best-sellers" class="text-deep-moss-black dark:text-white hover:text-olive-verde dark:hover:text-olive-verde transition-colors duration-200">Best Sellers</a></li>
-        <li><a href="/pages/about-us" class="text-deep-moss-black dark:text-white hover:text-olive-verde dark:hover:text-olive-verde transition-colors duration-200">About Us</a></li>
-        <li><a href="/pages/contact" class="text-deep-moss-black dark:text-white hover:text-olive-verde dark:hover:text-olive-verde transition-colors duration-200">Contact</a></li>
+        <li><a href="/" class="text-gray-700 dark:text-white hover:text-pink-500 dark:hover:text-pink-400 transition-colors duration-200 font-medium">Home</a></li>
+        <li><a href="/collections/all" class="text-gray-700 dark:text-white hover:text-pink-500 dark:hover:text-pink-400 transition-colors duration-200 font-medium">Shop</a></li>
+        <li><a href="/collections/new-arrivals" class="text-gray-700 dark:text-white hover:text-pink-500 dark:hover:text-pink-400 transition-colors duration-200 font-medium">New Arrivals</a></li>
+        <li><a href="/collections/best-sellers" class="text-gray-700 dark:text-white hover:text-pink-500 dark:hover:text-pink-400 transition-colors duration-200 font-medium">Best Sellers</a></li>
+        <li><a href="/pages/about-us" class="text-gray-700 dark:text-white hover:text-pink-500 dark:hover:text-pink-400 transition-colors duration-200 font-medium">About Us</a></li>
+        <li><a href="/pages/contact" class="text-gray-700 dark:text-white hover:text-pink-500 dark:hover:text-pink-400 transition-colors duration-200 font-medium">Contact</a></li>
         
         <div class="social-icons hidden md:flex items-center ml-auto">
           {% if section.settings.show_social_icons %}
