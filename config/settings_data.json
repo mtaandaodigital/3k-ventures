@@ -26,8 +26,321 @@
           "show_payment_icons": true,
           "show_social_icons": true
         }
+      },
+      "header-clean": {
+        "type": "header-clean",
+        "settings": {
+          "show_announcement": true,
+          "announcement_text": "Free shipping on all orders over $50",
+          "announcement_link": "",
+          "announcement_link_text": "Learn More",
+          "show_announcement_close": true,
+          "logo_position": "left",
+          "menu": "main-menu",
+          "show_search_bar": true,
+          "show_wishlist": true,
+          "show_account": true,
+          "show_theme_toggle": true
+        }
+      },
+      "hero-triple": {
+        "type": "hero-triple",
+        "settings": {
+          "heading": "Sustainable Comfort for Everyday Life",
+          "subheading": "Discover our eco-friendly products made with natural materials that are good for you and the planet.",
+          "show_countdown": true,
+          "countdown_text": "🔥 FLASH SALE: 30% OFF Everything!"
+        }
+      },
+      "featured-products-slider": {
+        "type": "featured-products-slider",
+        "settings": {
+          "category_label": "Trending Products",
+          "title": "Get 30% Discount On All Items!",
+          "subtitle": "Discover our latest fashion collection with amazing deals",
+          "collection": "new-arrivals",
+          "products_to_show": 4,
+          "show_rating": true,
+          "show_view_all": true,
+          "view_all_text": "View All Products"
+        }
+      },
+      "best-sellers": {
+        "type": "best-sellers",
+        "settings": {}
+      },
+      "shop-by-category-grid": {
+        "type": "shop-by-category-grid",
+        "blocks": {
+          "category_mmFaTG": {
+            "type": "category",
+            "settings": {
+              "title": "Category Name",
+              "item_count": "150+ items",
+              "link": ""
+            }
+          },
+          "category_Up7dKE": {
+            "type": "category",
+            "settings": {
+              "title": "Category Name",
+              "item_count": "150+ items",
+              "link": ""
+            }
+          },
+          "category_Uqhazn": {
+            "type": "category",
+            "settings": {
+              "title": "Category Name",
+              "item_count": "150+ items",
+              "link": ""
+            }
+          },
+          "category_EbTrCg": {
+            "type": "category",
+            "settings": {
+              "title": "Category Name",
+              "item_count": "150+ items",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "category_mmFaTG",
+          "category_Up7dKE",
+          "category_Uqhazn",
+          "category_EbTrCg"
+        ],
+        "settings": {
+          "title": "Shop by Category",
+          "subtitle": "Find exactly what you're looking for"
+        }
+      },
+      "impact-stats": {
+        "type": "impact-stats",
+        "blocks": {
+          "stat_QHFCHa": {
+            "type": "stat",
+            "settings": {
+              "number": "25K+",
+              "title": "Happy Customers",
+              "description": "+15% this month"
+            }
+          },
+          "stat_ewbbzR": {
+            "type": "stat",
+            "settings": {
+              "number": "25K+",
+              "title": "Happy Customers",
+              "description": "+15% this month"
+            }
+          },
+          "stat_CNMxLz": {
+            "type": "stat",
+            "settings": {
+              "number": "25K+",
+              "title": "Happy Customers",
+              "description": "+15% this month"
+            }
+          },
+          "stat_JDRPnB": {
+            "type": "stat",
+            "settings": {
+              "number": "25K+",
+              "title": "Happy Customers",
+              "description": "+15% this month"
+            }
+          }
+        },
+        "block_order": [
+          "stat_QHFCHa",
+          "stat_ewbbzR",
+          "stat_CNMxLz",
+          "stat_JDRPnB"
+        ],
+        "settings": {
+          "title": "Our Impact",
+          "subtitle": "Celebrating the success we've achieved together with our amazing community"
+        }
+      },
+      "why-choose-us": {
+        "type": "why-choose-us",
+        "blocks": {
+          "feature_fxncMC": {
+            "type": "feature",
+            "settings": {
+              "icon_name": "quality",
+              "title": "Quality Guarantee",
+              "description": "100% authentic materials and traditional craftsmanship"
+            }
+          },
+          "feature_eFxmkD": {
+            "type": "feature",
+            "settings": {
+              "icon_name": "quality",
+              "title": "Quality Guarantee",
+              "description": "100% authentic materials and traditional craftsmanship"
+            }
+          },
+          "feature_Jafach": {
+            "type": "feature",
+            "settings": {
+              "icon_name": "quality",
+              "title": "Quality Guarantee",
+              "description": "100% authentic materials and traditional craftsmanship"
+            }
+          },
+          "feature_7dJCMy": {
+            "type": "feature",
+            "settings": {
+              "icon_name": "quality",
+              "title": "Quality Guarantee",
+              "description": "100% authentic materials and traditional craftsmanship"
+            }
+          }
+        },
+        "block_order": [
+          "feature_fxncMC",
+          "feature_eFxmkD",
+          "feature_Jafach",
+          "feature_7dJCMy"
+        ],
+        "settings": {
+          "title": "Why Choose Us",
+          "subtitle": "Excellence in every detail"
+        }
+      },
+      "testimonials-grid": {
+        "type": "testimonials-grid",
+        "blocks": {
+          "testimonial_RJK3hk": {
+            "type": "testimonial",
+            "settings": {
+              "author": "Jane Doe",
+              "location": "New York",
+              "quote": "Amazing quality and authentic designs. I love how the traditional patterns are modernized perfectly! The delivery was super fast and the customer service exceeded my expectations.",
+              "date": "2 weeks ago"
+            }
+          },
+          "testimonial_b69YY9": {
+            "type": "testimonial",
+            "settings": {
+              "author": "Jane Doe",
+              "location": "New York",
+              "quote": "Amazing quality and authentic designs. I love how the traditional patterns are modernized perfectly! The delivery was super fast and the customer service exceeded my expectations.",
+              "date": "2 weeks ago"
+            }
+          },
+          "testimonial_VTg9HH": {
+            "type": "testimonial",
+            "settings": {
+              "author": "Jane Doe",
+              "location": "New York",
+              "quote": "Amazing quality and authentic designs. I love how the traditional patterns are modernized perfectly! The delivery was super fast and the customer service exceeded my expectations.",
+              "date": "2 weeks ago"
+            }
+          }
+        },
+        "block_order": [
+          "testimonial_RJK3hk",
+          "testimonial_b69YY9",
+          "testimonial_VTg9HH"
+        ],
+        "settings": {
+          "title": "What Our Customers Say",
+          "subtitle": "Real stories from real people who love our products",
+          "show_verified_badge": true
+        }
+      },
+      "blog-posts-grid-v2": {
+        "type": "blog-posts-grid-v2",
+        "settings": {
+          "title": "From Our Blog",
+          "subtitle": "Discover stories, tips, and insights about our products and sustainability",
+          "blog": "",
+          "posts_to_show": 3,
+          "show_author": true,
+          "show_read_time": true,
+          "show_view_all": true,
+          "view_all_text": "Read More Articles"
+        }
+      },
+      "cta-with-features": {
+        "type": "cta-with-features",
+        "settings": {
+          "heading": "Ready to Express Your Style?",
+          "subheading": "Join thousands who have discovered their authentic style with our premium collection.",
+          "button_label": "Shop Now",
+          "button_link": ""
+        }
+      },
+      "newsletter-signup": {
+        "type": "newsletter-signup",
+        "settings": {
+          "category_label": "GET NEWSLETTER",
+          "heading": "Sign Up to Newsletter",
+          "description": "Stay updated with our latest fashion trends, exclusive offers, and new arrivals.",
+          "placeholder_text": "Enter your email address",
+          "button_text": "Subscribe",
+          "show_privacy_text": true,
+          "privacy_text": "We respect your privacy. Unsubscribe at any time.",
+          "show_subscriber_count": true,
+          "subscriber_count": "10,000"
+        }
+      },
+      "cookie-consent": {
+        "type": "cookie-consent",
+        "settings": {
+          "enable_cookie_consent": true,
+          "show_cookie_icon": true,
+          "delay_time": 5,
+          "cookie_title": "Cookie Consent",
+          "cookie_message": "This website uses cookies to ensure you get the best experience.",
+          "privacy_policy_text": "Learn more",
+          "privacy_policy_url": "/pages/privacy-policy",
+          "accept_button_text": "Accept All",
+          "show_customize_option": true,
+          "customize_button_text": "Customize",
+          "save_preferences_text": "Save Preferences",
+          "necessary_cookies_title": "Necessary Cookies",
+          "necessary_cookies_description": "These cookies are essential for the website to function properly.",
+          "analytics_cookies_title": "Analytics Cookies",
+          "analytics_cookies_description": "These cookies help us understand how visitors interact with our website.",
+          "marketing_cookies_title": "Marketing Cookies",
+          "marketing_cookies_description": "These cookies are used to track visitors across websites to display relevant advertisements.",
+          "preferences_cookies_title": "Preferences Cookies",
+          "preferences_cookies_description": "These cookies allow the website to remember choices you make and provide enhanced functionality."
+        }
+      },
+      "store-notice": {
+        "type": "store-notice",
+        "settings": {
+          "enable_store_notice": false,
+          "title": "Important Announcement",
+          "content": "<p>Enter your store notice here.</p>"
+        }
+      },
+      "footer-clean": {
+        "type": "footer-clean",
+        "settings": {
+          "about_text": "We're committed to creating sustainable products that are good for you and the planet.",
+          "show_social_icons": true,
+          "facebook_url": "",
+          "instagram_url": "",
+          "twitter_url": "",
+          "pinterest_url": "",
+          "youtube_url": "",
+          "tiktok_url": "",
+          "show_newsletter": true,
+          "newsletter_title": "Subscribe to our newsletter",
+          "newsletter_text": "Sign up for exclusive offers, original stories, events and more.",
+          "newsletter_button": "Subscribe",
+          "bottom_menu": "footer",
+          "show_payment_icons": true
+        }
       }
-    }
+    },
+    "content_for_index": []
   },
   "presets": {
     "Default": {
