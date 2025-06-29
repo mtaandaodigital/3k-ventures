@@ -1,0 +1,169 @@
+{% comment %}
+  Blog Posts Grid Section
+  Displays recent blog posts in a grid format
+{% endcomment %}
+
+<div class="w-full bg-white dark:bg-deep-moss-black py-10 md:py-16">
+  <div class="w-full px-3 sm:px-4 md:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center mb-8 md:mb-12">
+      <h2 class="section-title inline-block relative">{{ section.settings.title }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p class="subtitle mt-4 max-w-3xl mx-auto">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+    
+    <!-- Blog Posts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {% for article in blogs[section.settings.blog].articles limit: section.settings.posts_to_show %}
+        <div class="blog-card group">
+          <a href="{{ article.url }}" class="block">
+            <!-- Article Image -->
+            <div class="relative overflow-hidden rounded-lg bg-mist-gray/20 dark:bg-forest-shadow/20 aspect-[16/10]">
+              {% if article.image != blank %}
+                {% assign loading_attr = forloop.index <= 3 ? 'eager' : 'lazy' %}
+                {{ article.image | image_url: width: 600 | image_tag: 
+                  loading: loading_attr,
+                  class: 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105',
+                  alt: article.title | escape
+                }}
+              {% else %}
+                <div class="w-full h-full flex items-center justify-center">
+                  <svg class="w-16 h-16 text-forest-shadow/50 dark:text-mist-gray/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                  </svg>
+                </div>
+              {% endif %}
+              
+              <!-- Category Tag -->
+              {% if article.tags.size > 0 %}
+                <div class="absolute top-3 left-3 bg-white dark:bg-deep-moss-black text-deep-moss-black dark:text-mist-gray text-xs font-medium px-2 py-1 rounded">
+                  {{ article.tags.first }}
+                </div>
+              {% endif %}
+            </div>
+            
+            <!-- Article Info -->
+            <div class="mt-4">
+              <!-- Date -->
+              <div class="text-forest-shadow dark:text-herbal-cream text-sm mb-2">
+                {{ article.published_at | date: '%B %d, %Y' }}
+              </div>
+              
+              <!-- Title -->
+              <h3 class="text-deep-moss-black dark:text-mist-gray font-bold text-lg md:text-xl group-hover:text-olive-verde transition-colors duration-200 line-clamp-2">
+                {{ article.title }}
+              </h3>
+              
+              <!-- Excerpt -->
+              <div class="text-forest-shadow dark:text-herbal-cream mt-2 line-clamp-2">
+                {% if article.excerpt != blank %}
+                  {{ article.excerpt }}
+                {% else %}
+                  {{ article.content | strip_html | truncatewords: 30 }}
+                {% endif %}
+              </div>
+              
+              <!-- Author -->
+              {% if section.settings.show_author and article.author != blank %}
+                <div class="flex items-center mt-4">
+                  <div class="w-8 h-8 rounded-full bg-mist-gray/50 dark:bg-forest-shadow/50 flex items-center justify-center text-forest-shadow dark:text-herbal-cream">
+                    {{ article.author | slice: 0, 2 | upcase }}
+                  </div>
+                  <div class="ml-2">
+                    <span class="text-deep-moss-black dark:text-mist-gray text-sm font-medium">{{ article.author }}</span>
+                    {% if section.settings.show_read_time %}
+                      <span class="text-forest-shadow dark:text-herbal-cream text-xs ml-2">
+                        {% assign word_count = article.content | strip_html | split: ' ' | size %}
+                        {% assign read_time = word_count | divided_by: 200 | plus: 1 %}
+                        {{ read_time }} min read
+                      </span>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <!-- View All Button -->
+    {% if section.settings.show_view_all %}
+      <div class="text-center mt-8 md:mt-12">
+        <a href="/blogs/{{ section.settings.blog }}" class="btn-primary inline-flex items-center">
+          {{ section.settings.view_all_text }}
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Blog Posts Grid V2",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "From Our Blog"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover stories, tips, and insights about our products and sustainability"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "posts_to_show",
+      "min": 3,
+      "max": 9,
+      "step": 3,
+      "default": 3,
+      "label": "Posts to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_time",
+      "label": "Show read time",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View all text",
+      "default": "Read More Articles"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Posts Grid V2",
+      "category": "Blog"
+    }
+  ]
+}
+{% endschema %}
