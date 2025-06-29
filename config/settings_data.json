@@ -23,8 +23,39 @@
       "footer": {
         "type": "footer",
         "settings": {
+          "footer_logo": "shopify://shop_images/3k.png",
+          "about_us_text": "<p>Your store description goes here. You can use this space to provide information about your brand, your products, and your mission.</p>",
+          "show_newsletter": true,
+          "newsletter_title": "Subscribe to our newsletter",
+          "newsletter_text": "Stay updated with our latest products, offers, and news.",
+          "newsletter_button_text": "Subscribe",
+          "quick_links_title": "Quick Links",
+          "customer_service_title": "Customer Service",
+          "contact_title": "Contact Us",
+          "contact_address": "Nairobi Kenya",
+          "contact_email": "info@3kventures.com",
+          "contact_phone": "0712345678",
+          "business_hours": "8:00 - 11:00",
           "show_payment_icons": true,
-          "show_social_icons": true
+          "show_social_icons": true,
+          "social_icon_name_1": "Facebook",
+          "social_icon_url_1": "",
+          "social_icon_svg_1": "",
+          "social_icon_name_2": "Instagram",
+          "social_icon_url_2": "",
+          "social_icon_svg_2": "",
+          "social_icon_name_3": "Twitter",
+          "social_icon_url_3": "",
+          "social_icon_svg_3": "",
+          "social_icon_name_4": "Social Icon 4",
+          "social_icon_url_4": "",
+          "social_icon_svg_4": "",
+          "social_icon_name_5": "Social Icon 5",
+          "social_icon_url_5": "",
+          "social_icon_svg_5": "",
+          "social_icon_name_6": "Social Icon 6",
+          "social_icon_url_6": "",
+          "social_icon_svg_6": ""
         }
       },
       "header-clean": {
@@ -318,25 +349,6 @@
           "enable_store_notice": false,
           "title": "Important Announcement",
           "content": "<p>Enter your store notice here.</p>"
-        }
-      },
-      "footer-clean": {
-        "type": "footer-clean",
-        "settings": {
-          "about_text": "We're committed to creating sustainable products that are good for you and the planet.",
-          "show_social_icons": true,
-          "facebook_url": "",
-          "instagram_url": "",
-          "twitter_url": "",
-          "pinterest_url": "",
-          "youtube_url": "",
-          "tiktok_url": "",
-          "show_newsletter": true,
-          "newsletter_title": "Subscribe to our newsletter",
-          "newsletter_text": "Sign up for exclusive offers, original stories, events and more.",
-          "newsletter_button": "Subscribe",
-          "bottom_menu": "footer",
-          "show_payment_icons": true
         }
       }
     },
