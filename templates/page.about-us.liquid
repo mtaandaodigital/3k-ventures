@@ -1,6 +1,138 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="section-title">{{ page.title }}</h1>
-  <div class="text-gray-700 dark:text-gray-300">
-    {{ page.content }}
+{% comment %}
+  About Us Page Template
+  Inspired by Allbirds clean, minimal design
+{% endcomment %}
+
+<div class="bg-white dark:bg-deep-moss-black">
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden">
+    <div class="h-[40vh] md:h-[50vh] bg-herbal-cream dark:bg-forest-shadow"></div>
+    
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center p-6 md:p-12 max-w-3xl mx-auto text-deep-moss-black dark:text-mist-gray">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 animate-fade-in">{{ page.title }}</h1>
+        <p class="text-lg md:text-xl mb-8 animate-fade-in" style="animation-delay: 0.2s;">Our story and mission</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Our Story -->
+  <div class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      {{ page.content }}
+    </div>
+  </div>
+  
+  <!-- Our Values -->
+  <div class="py-16 bg-herbal-cream/30 dark:bg-forest-shadow/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="section-title inline-block relative">Our Values</h2>
+        <p class="subtitle mt-4 max-w-3xl mx-auto">The principles that guide everything we do</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-md p-8 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div class="mx-auto w-16 h-16 mb-6 flex items-center justify-center">
+            <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Quality</h3>
+          <p class="text-forest-shadow dark:text-herbal-cream">We believe in creating products that stand the test of time, both in style and durability.</p>
+        </div>
+        
+        <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-md p-8 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div class="mx-auto w-16 h-16 mb-6 flex items-center justify-center">
+            <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Innovation</h3>
+          <p class="text-forest-shadow dark:text-herbal-cream">We constantly explore new ideas and technologies to improve our products and customer experience.</p>
+        </div>
+        
+        <div class="bg-white dark:bg-deep-moss-black rounded-lg shadow-md p-8 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          <div class="mx-auto w-16 h-16 mb-6 flex items-center justify-center">
+            <svg class="w-12 h-12 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Customer Focus</h3>
+          <p class="text-forest-shadow dark:text-herbal-cream">We put our customers at the center of everything we do, listening to feedback and continuously improving.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Team Section -->
+  <div class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="section-title inline-block relative">Meet Our Team</h2>
+        <p class="subtitle mt-4 max-w-3xl mx-auto">The people behind our brand</p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="relative mb-4 overflow-hidden rounded-lg bg-herbal-cream/30 dark:bg-forest-shadow/30 h-64 flex items-center justify-center">
+            <svg class="w-24 h-24 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-deep-moss-black dark:text-mist-gray">Jane Smith</h3>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm mb-2">Founder & CEO</p>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm">Jane founded our company with a vision to create products that make a difference.</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="relative mb-4 overflow-hidden rounded-lg bg-herbal-cream/30 dark:bg-forest-shadow/30 h-64 flex items-center justify-center">
+            <svg class="w-24 h-24 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-deep-moss-black dark:text-mist-gray">John Davis</h3>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm mb-2">Creative Director</p>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm">John brings over 15 years of design experience to our product development process.</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="relative mb-4 overflow-hidden rounded-lg bg-herbal-cream/30 dark:bg-forest-shadow/30 h-64 flex items-center justify-center">
+            <svg class="w-24 h-24 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-deep-moss-black dark:text-mist-gray">Sarah Johnson</h3>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm mb-2">Head of Operations</p>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm">Sarah ensures that our business runs smoothly and efficiently every day.</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="relative mb-4 overflow-hidden rounded-lg bg-herbal-cream/30 dark:bg-forest-shadow/30 h-64 flex items-center justify-center">
+            <svg class="w-24 h-24 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-deep-moss-black dark:text-mist-gray">Michael Chen</h3>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm mb-2">Customer Experience</p>
+          <p class="text-forest-shadow dark:text-herbal-cream text-sm">Michael leads our customer service team with a passion for creating exceptional experiences.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Call to Action -->
+  <div class="py-16 bg-herbal-cream/30 dark:bg-forest-shadow/30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-deep-moss-black dark:text-mist-gray mb-6">Join Our Journey</h2>
+      <p class="text-lg text-forest-shadow dark:text-herbal-cream mb-8 max-w-2xl mx-auto">Discover our collection of products designed with you in mind.</p>
+      
+      <a href="/collections/all" class="btn-primary inline-flex items-center">
+        Shop Now
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
   </div>
 </div>

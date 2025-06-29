@@ -1,24 +1,234 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="section-title">{{ page.title }}</h1>
-  <div class="text-gray-700 dark:text-gray-300">
-    {{ page.content }}
+{% comment %}
+  Contact Us Page Template
+  Inspired by Allbirds clean, minimal design
+{% endcomment %}
+
+<div class="bg-white dark:bg-deep-moss-black">
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden">
+    <div class="h-[30vh] md:h-[40vh] bg-herbal-cream dark:bg-forest-shadow"></div>
+    
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center p-6 md:p-12 max-w-3xl mx-auto text-deep-moss-black dark:text-mist-gray">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 animate-fade-in">{{ page.title }}</h1>
+        <p class="text-lg md:text-xl mb-8 animate-fade-in" style="animation-delay: 0.2s;">We'd love to hear from you</p>
+      </div>
+    </div>
   </div>
-  <div class="mt-4">
-    {% form 'contact' %}
-      {% if form.posted_successfully? %}
-        <p class="text-green-500">Thanks for contacting us! We'll get back to you shortly.</p>
-      {% endif %}
-      {{ form.errors | default_errors }}
-      <label for="ContactFormName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-      <input type="text" id="ContactFormName" name="contact[name]" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-500 dark:text-white rounded-lg">
-
-      <label for="ContactFormEmail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">Email</label>
-      <input type="email" id="ContactFormEmail" name="contact[email]" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-500 dark:text-white rounded-lg">
-
-      <label for="ContactFormMessage" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">Message</label>
-      <textarea id="ContactFormMessage" name="contact[body]" rows="4" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-500 dark:text-white rounded-lg"></textarea>
-
-      <button type="submit" class="btn-primary mt-4">Send</button>
-    {% endform %}
+  
+  <!-- Contact Content -->
+  <div class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- Contact Form -->
+      <div class="bg-white dark:bg-deep-moss-black/30 rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-6">Send Us a Message</h2>
+        
+        {% form 'contact', class: 'space-y-6' %}
+          {% if form.posted_successfully? %}
+            <div class="bg-olive-verde/20 border border-olive-verde text-deep-moss-black dark:text-mist-gray p-4 rounded-lg mb-6">
+              <p class="font-medium">Thanks for contacting us! We'll get back to you shortly.</p>
+            </div>
+          {% endif %}
+          
+          {% if form.errors %}
+            <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded-lg mb-6">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+          
+          <div>
+            <label for="ContactFormName" class="block text-sm font-medium text-deep-moss-black dark:text-mist-gray mb-1">Name</label>
+            <input type="text" id="ContactFormName" name="contact[name]" class="w-full px-4 py-3 border border-mist-gray dark:border-forest-shadow rounded-lg focus:ring-2 focus:ring-olive-verde focus:border-olive-verde transition-all duration-200 bg-white dark:bg-deep-moss-black/50 text-deep-moss-black dark:text-mist-gray">
+          </div>
+          
+          <div>
+            <label for="ContactFormEmail" class="block text-sm font-medium text-deep-moss-black dark:text-mist-gray mb-1">Email <span class="text-red-500">*</span></label>
+            <input type="email" id="ContactFormEmail" name="contact[email]" required class="w-full px-4 py-3 border border-mist-gray dark:border-forest-shadow rounded-lg focus:ring-2 focus:ring-olive-verde focus:border-olive-verde transition-all duration-200 bg-white dark:bg-deep-moss-black/50 text-deep-moss-black dark:text-mist-gray">
+          </div>
+          
+          <div>
+            <label for="ContactFormPhone" class="block text-sm font-medium text-deep-moss-black dark:text-mist-gray mb-1">Phone</label>
+            <input type="tel" id="ContactFormPhone" name="contact[phone]" class="w-full px-4 py-3 border border-mist-gray dark:border-forest-shadow rounded-lg focus:ring-2 focus:ring-olive-verde focus:border-olive-verde transition-all duration-200 bg-white dark:bg-deep-moss-black/50 text-deep-moss-black dark:text-mist-gray">
+          </div>
+          
+          <div>
+            <label for="ContactFormSubject" class="block text-sm font-medium text-deep-moss-black dark:text-mist-gray mb-1">Subject</label>
+            <select id="ContactFormSubject" name="contact[subject]" class="w-full px-4 py-3 border border-mist-gray dark:border-forest-shadow rounded-lg focus:ring-2 focus:ring-olive-verde focus:border-olive-verde transition-all duration-200 bg-white dark:bg-deep-moss-black/50 text-deep-moss-black dark:text-mist-gray">
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Product Question">Product Question</option>
+              <option value="Order Status">Order Status</option>
+              <option value="Returns & Exchanges">Returns & Exchanges</option>
+              <option value="Feedback">Feedback</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="ContactFormMessage" class="block text-sm font-medium text-deep-moss-black dark:text-mist-gray mb-1">Message <span class="text-red-500">*</span></label>
+            <textarea id="ContactFormMessage" name="contact[body]" rows="5" required class="w-full px-4 py-3 border border-mist-gray dark:border-forest-shadow rounded-lg focus:ring-2 focus:ring-olive-verde focus:border-olive-verde transition-all duration-200 bg-white dark:bg-deep-moss-black/50 text-deep-moss-black dark:text-mist-gray"></textarea>
+          </div>
+          
+          <button type="submit" class="w-full bg-olive-verde hover:bg-forest-shadow text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
+            Send Message
+          </button>
+        {% endform %}
+      </div>
+      
+      <!-- Contact Information -->
+      <div>
+        <div class="prose prose-lg dark:prose-invert max-w-none mb-8">
+          {{ page.content }}
+        </div>
+        
+        <div class="space-y-6">
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-medium text-deep-moss-black dark:text-mist-gray">Our Address</h3>
+              <p class="mt-1 text-forest-shadow dark:text-herbal-cream">123 Main Street<br>Suite 100<br>New York, NY 10001</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-medium text-deep-moss-black dark:text-mist-gray">Email Us</h3>
+              <p class="mt-1 text-forest-shadow dark:text-herbal-cream">
+                <a href="mailto:hello@example.com" class="hover:text-olive-verde transition-colors duration-200">hello@example.com</a>
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-medium text-deep-moss-black dark:text-mist-gray">Call Us</h3>
+              <p class="mt-1 text-forest-shadow dark:text-herbal-cream">
+                <a href="tel:+15551234567" class="hover:text-olive-verde transition-colors duration-200">+1 (555) 123-4567</a>
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-start">
+            <div class="flex-shrink-0 mt-1">
+              <svg class="w-6 h-6 text-olive-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-lg font-medium text-deep-moss-black dark:text-mist-gray">Business Hours</h3>
+              <p class="mt-1 text-forest-shadow dark:text-herbal-cream">Monday - Friday: 9am - 5pm<br>Saturday: 10am - 4pm<br>Sunday: Closed</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-10">
+          <h3 class="text-lg font-medium text-deep-moss-black dark:text-mist-gray mb-4">Find Us</h3>
+          <div class="rounded-lg overflow-hidden bg-herbal-cream/30 dark:bg-forest-shadow/30 h-64 flex items-center justify-center">
+            <p class="text-forest-shadow dark:text-herbal-cream">Map will be displayed here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- FAQ Section -->
+  <div class="py-16 bg-herbal-cream/30 dark:bg-forest-shadow/30">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="section-title inline-block relative">Frequently Asked Questions</h2>
+        <p class="subtitle mt-4 max-w-3xl mx-auto">Find answers to common questions about our products and services</p>
+      </div>
+      
+      <div class="space-y-6">
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">How can I track my order?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>You can track your order by logging into your account and viewing your order history. Alternatively, you can use the tracking number provided in your shipping confirmation email.</p>
+          </div>
+        </div>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">What is your return policy?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>We offer a 30-day return policy for all unused and unworn items. Please contact our customer service team to initiate a return.</p>
+          </div>
+        </div>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">Do you ship internationally?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>Yes, we ship to most countries worldwide. Shipping rates and delivery times vary by location. You can see the shipping options available to you during checkout.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-10">
+        <a href="/pages/faq" class="text-olive-verde hover:text-forest-shadow dark:hover:text-herbal-cream transition-colors duration-200 inline-flex items-center">
+          View all FAQs
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqToggles = document.querySelectorAll('[data-faq-toggle]');
+    
+    faqToggles.forEach(toggle => {
+      toggle.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        const arrow = this.querySelector('svg');
+        
+        this.setAttribute('aria-expanded', !isExpanded);
+        
+        if (isExpanded) {
+          content.classList.add('hidden');
+          arrow.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          arrow.classList.add('rotate-180');
+        }
+      });
+    });
+  });
+</script>

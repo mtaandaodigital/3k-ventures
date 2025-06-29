@@ -1,0 +1,181 @@
+{% comment %}
+  FAQ Page Template
+  Inspired by Allbirds clean, minimal design
+{% endcomment %}
+
+<div class="py-12 bg-white dark:bg-deep-moss-black">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">{{ page.title }}</h1>
+      {% if page.content != blank %}
+        <div class="prose prose-lg dark:prose-invert mx-auto">
+          {{ page.content }}
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="mt-10 space-y-6">
+      <!-- Product Questions -->
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-6">Product Questions</h2>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">How do I find my size?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>We recommend using our size guide to find your perfect fit. Our products are designed to be true to size, but if you're between sizes, we suggest sizing up for a more comfortable fit.</p>
+          </div>
+        </div>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">What materials do you use in your products?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>We carefully select high-quality, durable materials for all our products. Each product page includes detailed information about the specific materials used.</p>
+          </div>
+        </div>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">How do I care for my products?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>Care instructions are included with each product and can also be found on the product page. Following these guidelines will help extend the life of your items.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shipping & Delivery -->
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-6">Shipping & Delivery</h2>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">How long will it take to receive my order?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>Standard shipping typically takes 3-5 business days within the continental US. Expedited shipping options are available at checkout.</p>
+          </div>
+        </div>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">Do you ship internationally?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>Yes, we ship to most countries worldwide. Shipping rates and delivery times vary by location. You can see the shipping options available to you during checkout.</p>
+          </div>
+        </div>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">How can I track my order?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>Once your order ships, you'll receive a confirmation email with tracking information. You can also view your order status by logging into your account.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Returns & Exchanges -->
+      <div class="mb-10">
+        <h2 class="text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-6">Returns & Exchanges</h2>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">What is your return policy?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>We offer a 30-day return policy for all unused and unworn items. Please contact our customer service team to initiate a return.</p>
+          </div>
+        </div>
+        
+        <div class="border-b border-mist-gray dark:border-forest-shadow pb-6">
+          <button class="w-full flex justify-between items-center text-left focus:outline-none group" data-faq-toggle>
+            <h3 class="text-lg md:text-xl font-medium text-deep-moss-black dark:text-mist-gray">How do I exchange an item?</h3>
+            <span class="ml-6 flex-shrink-0 text-olive-verde transition-transform duration-300">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </button>
+          <div class="mt-4 prose prose-md dark:prose-invert hidden" data-faq-content>
+            <p>To exchange an item, please contact our customer service team with your order number and the item you'd like to exchange. We'll guide you through the process.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-16 bg-herbal-cream/30 dark:bg-forest-shadow/30 rounded-lg p-8">
+      <h2 class="text-xl md:text-2xl font-bold text-deep-moss-black dark:text-mist-gray mb-4">Still have questions?</h2>
+      <p class="text-forest-shadow dark:text-herbal-cream mb-6">We're here to help. Contact our customer support team for assistance.</p>
+      <a href="/pages/contact" class="btn-primary inline-flex items-center">
+        Contact Us
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqToggles = document.querySelectorAll('[data-faq-toggle]');
+    
+    faqToggles.forEach(toggle => {
+      toggle.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        const arrow = this.querySelector('svg');
+        
+        this.setAttribute('aria-expanded', !isExpanded);
+        
+        if (isExpanded) {
+          content.classList.add('hidden');
+          arrow.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          arrow.classList.add('rotate-180');
+        }
+      });
+    });
+  });
+</script>
