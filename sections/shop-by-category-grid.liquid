@@ -22,7 +22,11 @@
               <!-- Category Image -->
               <div class="relative overflow-hidden rounded-lg bg-mist-gray/20 dark:bg-forest-shadow/20 aspect-square">
                 {% if block.settings.image != blank %}
-                  {% assign loading_attr = forloop.index <= 4 ? 'eager' : 'lazy' %}
+                  {% if forloop.index <= 4 %}
+                    {% assign loading_attr = 'eager' %}
+                  {% else %}
+                    {% assign loading_attr = 'lazy' %}
+                  {% endif %}
                   {{ block.settings.image | image_url: width: 500 | image_tag: 
                     loading: loading_attr,
                     class: 'w-full h-full object-cover transition-transform duration-500 group-hover:scale-105',

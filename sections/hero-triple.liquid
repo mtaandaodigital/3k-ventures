@@ -41,7 +41,11 @@
             <!-- Image -->
             {% if block.settings.image != blank %}
               <div class="aspect-[4/5] overflow-hidden">
-                {% assign loading_attr = forloop.index == 1 ? 'eager' : 'lazy' %}
+                {% if forloop.index == 1 %}
+                  {% assign loading_attr = 'eager' %}
+                {% else %}
+                  {% assign loading_attr = 'lazy' %}
+                {% endif %}
                 {{ block.settings.image | image_url: width: 800 | image_tag: 
                   loading: loading_attr,
                   class: 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105',
