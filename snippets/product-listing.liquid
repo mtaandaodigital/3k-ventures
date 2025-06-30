@@ -27,15 +27,44 @@
     {% for product in collection.products %}
       <div class="product-card group relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-fade-in" style="animation-delay: {{ forloop.index | times: 0.1 }}s">
         <a href="{{ product.url }}" class="block" aria-label="View {{ product.title }}">
-          <!-- Product Image -->
-          <div class="relative overflow-hidden rounded-t-2xl bg-gray-100 dark:bg-gray-700 aspect-square">
+          <!-- Product Image with Conditional Optimized Lazy Loading -->
+          <div class="relative overflow-hidden rounded-t-2xl bg-gray-100 dark:bg-gray-700 aspect-square {% if settings.enable_image_optimization %}image-placeholder{% endif %}">
             {% if product.featured_image != blank %}
-              <img
-                data-src="{{ product.featured_image | img_url: 'medium' }}"
-                alt="{{ product.title | escape }}"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 lazy"
-                loading="lazy"
-              >
+              {% if settings.enable_image_optimization %}
+                {% assign img_url = product.featured_image | image_url: width: 500 %}
+                {% assign img_url_small = product.featured_image | image_url: width: 100 %}
+                
+                <img 
+                  src="{{ img_url_small }}"
+                  data-src="{{ img_url }}"
+                  class="lazy-image w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  alt="{{ product.title | escape }}"
+                  width="500"
+                  height="500"
+                  loading="lazy"
+                  decoding="async"
+                  {% if forloop.index <= 4 %}
+                    fetchpriority="high"
+                  {% endif %}
+                >
+                
+                <noscript>
+                  <img 
+                    src="{{ img_url }}"
+                    class="w-full h-full object-cover"
+                    alt="{{ product.title | escape }}"
+                    width="500"
+                    height="500"
+                  >
+                </noscript>
+              {% else %}
+                <img
+                  src="{{ product.featured_image | img_url: 'medium' }}"
+                  alt="{{ product.title | escape }}"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                >
+              {% endif %}
             {% else %}
               <div class="w-full h-full flex items-center justify-center">
                 <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -135,15 +164,44 @@
   <div class="list-view space-y-8">
     {% for product in collection.products %}
       <div class="product-card relative flex flex-col sm:flex-row bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 animate-fade-in" style="animation-delay: {{ forloop.index | times: 0.1 }}s">
-        <!-- Product Image -->
-        <div class="relative w-full sm:w-48 md:w-56 lg:w-64 aspect-square sm:aspect-auto sm:h-48 md:h-56 lg:h-64 mb-4 sm:mb-0 sm:mr-6 overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none bg-gray-100 dark:bg-gray-700">
+        <!-- Product Image with Conditional Optimized Lazy Loading -->
+        <div class="relative w-full sm:w-48 md:w-56 lg:w-64 aspect-square sm:aspect-auto sm:h-48 md:h-56 lg:h-64 mb-4 sm:mb-0 sm:mr-6 overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none bg-gray-100 dark:bg-gray-700 {% if settings.enable_image_optimization %}image-placeholder{% endif %}">
           {% if product.featured_image != blank %}
-            <img
-              data-src="{{ product.featured_image | img_url: 'medium' }}"
-              alt="{{ product.title | escape }}"
-              class="w-full h-full object-cover transition-transform duration-700 hover:scale-110 lazy"
-              loading="lazy"
-            >
+            {% if settings.enable_image_optimization %}
+              {% assign img_url = product.featured_image | image_url: width: 500 %}
+              {% assign img_url_small = product.featured_image | image_url: width: 100 %}
+              
+              <img 
+                src="{{ img_url_small }}"
+                data-src="{{ img_url }}"
+                class="lazy-image w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                alt="{{ product.title | escape }}"
+                width="500"
+                height="500"
+                loading="lazy"
+                decoding="async"
+                {% if forloop.index <= 4 %}
+                  fetchpriority="high"
+                {% endif %}
+              >
+              
+              <noscript>
+                <img 
+                  src="{{ img_url }}"
+                  class="w-full h-full object-cover"
+                  alt="{{ product.title | escape }}"
+                  width="500"
+                  height="500"
+                >
+              </noscript>
+            {% else %}
+              <img
+                src="{{ product.featured_image | img_url: 'medium' }}"
+                alt="{{ product.title | escape }}"
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                loading="lazy"
+              >
+            {% endif %}
           {% else %}
             <div class="w-full h-full flex items-center justify-center">
               <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

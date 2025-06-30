@@ -3,45 +3,178 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
+    {% assign enable_performance = settings.enable_performance_optimizations | default: false %}
+    {% assign enable_image_opt = settings.enable_image_optimization | default: false %}
+    {% assign enable_js_opt = settings.enable_js_optimization | default: false %}
+    {% assign enable_css_opt = settings.enable_css_optimization | default: false %}
+    {% assign use_critical_css = settings.use_critical_css | default: false %}
+    
+    <!-- Preconnect to required origins -->
+    {% if enable_performance or enable_js_opt %}
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    {% endif %}
+    
+    <!-- SEO Meta Tags -->
     {%- if template contains 'product' -%}
     <meta name="description" content="{{ product.description | strip_html | truncatewords: 50 }}">
     <meta name="keywords" content="{{ product.tags | join: ', ' }}">
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="{{ product.title }}">
+    <meta property="og:description" content="{{ product.description | strip_html | truncatewords: 50 }}">
+    <meta property="og:image" content="{{ product.featured_image | img_url: 'large' }}">
+    <meta property="og:url" content="{{ shop.url }}{{ product.url }}">
+    <meta name="twitter:card" content="summary_large_image">
     {%- elsif template contains 'collection' -%}
     <meta name="description" content="{{ collection.description | strip_html | truncatewords: 50 }}">
     <meta name="keywords" content="{{ collection.tags | join: ', ' }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ collection.title }}">
+    <meta property="og:description" content="{{ collection.description | strip_html | truncatewords: 50 }}">
+    {% if collection.image %}
+    <meta property="og:image" content="{{ collection.image | img_url: 'large' }}">
+    {% endif %}
+    <meta property="og:url" content="{{ shop.url }}{{ collection.url }}">
+    <meta name="twitter:card" content="summary_large_image">
     {%- elsif template contains 'article' -%}
     <meta name="description" content="{{ article.excerpt_or_content | strip_html | truncatewords: 50 }}">
     <meta name="keywords" content="{{ article.tags | join: ', ' }}">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ article.title }}">
+    <meta property="og:description" content="{{ article.excerpt_or_content | strip_html | truncatewords: 50 }}">
+    {% if article.image %}
+    <meta property="og:image" content="{{ article.image | img_url: 'large' }}">
+    {% endif %}
+    <meta property="og:url" content="{{ shop.url }}{{ article.url }}">
+    <meta name="twitter:card" content="summary_large_image">
     {%- else -%}
     <meta name="description" content="{{ page_description | default: shop.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page_title | default: shop.name }}">
+    <meta property="og:description" content="{{ page_description | default: shop.description }}">
+    <meta property="og:image" content="{{ settings.share_image | img_url: 'large' }}">
+    <meta property="og:url" content="{{ shop.url }}{{ page.url }}">
+    <meta name="twitter:card" content="summary_large_image">
     {%- endif -%}
     
     <title>{{ page_title | default: shop.name }}</title>
     
     {{ content_for_header }}
 
-    {{ 'theme.scss.liquid' | asset_url | stylesheet_tag }}
-    {{ 'theme-tailwind.css' | asset_url | stylesheet_tag }}
+    {% render 'theme-variables' %}
     
-    <!-- Core JavaScript - Load in the correct order to avoid dependency issues -->
-    {{ 'theme.js' | asset_url | script_tag }}
-    {{ 'wishlist.js' | asset_url | script_tag }}
-    {{ 'application.js' | asset_url | script_tag }}
+    {% if enable_css_opt and use_critical_css %}
+    <!-- Critical CSS -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      :root {
+        --color-primary: {{ settings.color_primary | default: '#FF6B9D' }};
+        --color-primary-dark: {{ settings.color_primary_dark | default: '#E54B7D' }};
+        --color-secondary: {{ settings.color_secondary | default: '#3B82F6' }};
+        --color-text: {{ settings.color_text | default: '#111827' }};
+        --color-surface: {{ settings.color_surface | default: '#FFFFFF' }};
+        --color-border: {{ settings.color_border | default: '#E5E7EB' }};
+      }
+      
+      .dark {
+        --color-surface: {{ settings.color_surface_dark | default: '#1F2937' }};
+        --color-text: {{ settings.color_text_dark | default: '#F9FAFB' }};
+        --color-border: {{ settings.color_border_dark | default: '#374151' }};
+      }
+      
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        color: var(--color-text);
+        background-color: var(--color-surface);
+      }
+      
+      .header-main {
+        background-color: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
+      }
+      
+      .container {
+        width: 100%;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+    {% endif %}
+    
+    <!-- Preload critical fonts -->
+    {% if enable_performance or enable_css_opt %}
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap"></noscript>
+    {% else %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap">
+    {% endif %}
+    
+    <!-- Main CSS - Consolidated into theme-tailwind.css -->
+    {% if enable_performance or enable_css_opt %}
+    <link rel="stylesheet" href="{{ 'theme-tailwind.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="{{ 'theme-tailwind.css' | asset_url }}">
+    </noscript>
+    {% else %}
+    <link rel="stylesheet" href="{{ 'theme-tailwind.css' | asset_url }}">
+    {% endif %}
+    
+    <!-- JavaScript -->
+    {% if enable_performance or enable_js_opt %}
+    <!-- Optimized JavaScript Loading -->
+    <script>
+      window.themeSettings = {
+        enablePerformance: {{ enable_performance | json }},
+        enableImageOpt: {{ enable_image_opt | json }},
+        enableJsOpt: {{ enable_js_opt | json }},
+        enableCssOpt: {{ enable_css_opt | json }},
+        imageQuality: {{ settings.image_quality | default: 80 | json }},
+        enablePerformanceMonitoring: {{ settings.enable_performance_monitoring | default: false | json }}
+      };
+    </script>
+    <script src="{{ 'performance.js' | asset_url }}" defer></script>
+    {% if enable_image_opt %}
+    <script src="{{ 'image-optimizer.js' | asset_url }}" defer></script>
+    {% endif %}
+    <script src="{{ 'application.js' | asset_url }}" defer></script>
+    
+    <!-- Template-specific JavaScript -->
+    {% if template contains 'product' %}
+      <script src="{{ 'product-page.js' | asset_url }}" defer></script>
+    {% endif %}
+    {% else %}
+    <!-- Standard JavaScript Loading -->
+    <script src="{{ 'theme.js' | asset_url }}"></script>
+    <script src="{{ 'wishlist.js' | asset_url }}"></script>
+    <script src="{{ 'application.js' | asset_url }}"></script>
     
     <!-- Enhanced UI/UX JavaScript -->
-    {{ 'quick-view.js' | asset_url | script_tag }}
-    {{ 'recently-viewed.js' | asset_url | script_tag }}
+    <script src="{{ 'quick-view.js' | asset_url }}"></script>
+    <script src="{{ 'recently-viewed.js' | asset_url }}"></script>
     {% if template contains 'product' %}
-      {{ 'product-page.js' | asset_url | script_tag }}
+      <script src="{{ 'product-page.js' | asset_url }}"></script>
+    {% endif %}
     {% endif %}
   </head>
 
-  <body class="h-full">
+  <body class="h-full" data-template="{{ template | split: '.' | first }}">
     <div class="min-h-full">
-      {% section 'header-clean' %}
+      {% section 'top-bar' %}
+      {% section 'header-with-categories' %}
       <main>
-        <div class="w-full py-4 md:py-6">
+        <div class="w-full">
           {{ content_for_layout }}
         </div>
       </main>
@@ -52,7 +185,7 @@
     {% section 'store-notice' %}
     {% section 'footer' %}
     
-    <!-- UI Components -->
+    <!-- UI Components (loaded conditionally) -->
     {% if template contains 'product' or template contains 'collection' %}
       {% render 'quick-view-modal' %}
     {% endif %}
@@ -61,51 +194,33 @@
       {% render 'size-guide-modal' %}
     {% endif %}
 
-    <script defer>
+    <script>
+      // Inline critical JavaScript for theme initialization
       document.addEventListener('DOMContentLoaded', function() {
         // Add a global variable to check if the customer is logged in
         const isLoggedIn = {{ customer | json }};
         
-        // Cache DOM elements
+        // Initialize theme based on stored preference or system preference
+        const htmlElement = document.documentElement;
         const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
         const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
         const themeToggleBtn = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
         
-        /**
-         * Set theme to dark mode
-         */
         function setDarkTheme() {
           htmlElement.classList.add('dark');
           localStorage.setItem('theme', 'dark');
-          themeToggleDarkIcon?.classList.add('hidden');
-          themeToggleLightIcon?.classList.remove('hidden');
+          if (themeToggleDarkIcon) themeToggleDarkIcon.classList.add('hidden');
+          if (themeToggleLightIcon) themeToggleLightIcon.classList.remove('hidden');
         }
         
-        /**
-         * Set theme to light mode
-         */
         function setLightTheme() {
           htmlElement.classList.remove('dark');
           localStorage.setItem('theme', 'light');
-          themeToggleDarkIcon?.classList.remove('hidden');
-          themeToggleLightIcon?.classList.add('hidden');
+          if (themeToggleDarkIcon) themeToggleDarkIcon.classList.remove('hidden');
+          if (themeToggleLightIcon) themeToggleLightIcon.classList.add('hidden');
         }
         
-        /**
-         * Toggle between light and dark themes
-         */
-        function toggleTheme() {
-          const currentTheme = localStorage.getItem('theme');
-          
-          if (currentTheme === 'light') {
-            setDarkTheme();
-          } else {
-            setLightTheme();
-          }
-        }
-        
-        // Initialize theme based on stored preference or system preference
+        // Initialize theme
         if (localStorage.getItem('theme') === 'dark' || 
             (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           setDarkTheme();
@@ -114,7 +229,16 @@
         }
         
         // Add click event listener to theme toggle button
-        themeToggleBtn?.addEventListener('click', toggleTheme);
+        if (themeToggleBtn) {
+          themeToggleBtn.addEventListener('click', function() {
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme === 'light') {
+              setDarkTheme();
+            } else {
+              setLightTheme();
+            }
+          });
+        }
         
         // Listen for system theme changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {

@@ -1,0 +1,547 @@
+{% comment %}
+  Header with Categories Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between py-4">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        {% if section.settings.logo != blank %}
+          <a href="/" class="block" aria-label="{{ shop.name }}">
+            <img src="{{ section.settings.logo | img_url: 'medium' }}" alt="{{ shop.name }}" class="h-10 md:h-12">
+          </a>
+        {% else %}
+          <a href="/" class="block" aria-label="{{ shop.name }}">
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ shop.name }}</h1>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Category Button (Mobile) -->
+      <div class="lg:hidden">
+        <button id="mobile-category-toggle" class="flex items-center px-4 py-2 bg-primary text-white rounded-md">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          Categories
+        </button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="hidden md:block flex-grow max-w-xl mx-4">
+        <form action="/search" method="get" class="relative">
+          <input type="text" name="q" placeholder="Search for products..." class="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+          <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Header Icons -->
+      <div class="flex items-center space-x-4">
+        <!-- Compare -->
+        {% if section.settings.show_compare %}
+          <a href="/pages/compare" class="relative p-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" aria-label="Compare">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+            </svg>
+            <span class="absolute -top-1 -right-1 bg-primary text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center compare-count">0</span>
+          </a>
+        {% endif %}
+        
+        <!-- Wishlist -->
+        {% if section.settings.show_wishlist %}
+          <a href="/pages/wishlist" class="relative p-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" aria-label="Wishlist">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+            <span class="absolute -top-1 -right-1 bg-primary text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center wishlist-count">0</span>
+          </a>
+        {% endif %}
+        
+        <!-- Cart -->
+        <button id="cart-toggle" class="relative p-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" aria-label="Cart">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <span class="absolute -top-1 -right-1 bg-primary text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center cart-count">0</span>
+        </button>
+        
+        <!-- Account -->
+        {% if section.settings.show_account %}
+          <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="hidden md:block p-2 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" aria-label="Account">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Navigation -->
+  <div class="border-t border-gray-200 dark:border-gray-800 hidden lg:block">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center">
+        <!-- Browse Categories Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center bg-primary text-white px-4 py-3 font-medium">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            Browse Categories
+          </button>
+          <div class="absolute left-0 mt-0 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="py-2">
+              {% for link in section.settings.category_menu.links %}
+                {% if link.links.size > 0 %}
+                  <div class="relative group/submenu">
+                    <a href="{{ link.url }}" class="flex items-center justify-between px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                      <span class="flex items-center">
+                        {% if link.title contains 'Women' %}
+                          <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                          </svg>
+                        {% elsif link.title contains 'Men' %}
+                          <svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                          </svg>
+                        {% elsif link.title contains 'Kids' %}
+                          <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                          </svg>
+                        {% else %}
+                          <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                          </svg>
+                        {% endif %}
+                        {{ link.title }}
+                      </span>
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </a>
+                    <div class="absolute left-full top-0 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all duration-200 z-50">
+                      <div class="py-2">
+                        {% for childlink in link.links %}
+                          {% if childlink.links.size > 0 %}
+                            <div class="relative group/subsubmenu">
+                              <a href="{{ childlink.url }}" class="flex items-center justify-between px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                                <span>{{ childlink.title }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                              </a>
+                              <div class="absolute left-full top-0 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg opacity-0 invisible group-hover/subsubmenu:opacity-100 group-hover/subsubmenu:visible transition-all duration-200 z-50">
+                                <div class="py-2">
+                                  {% for grandchildlink in childlink.links %}
+                                    <a href="{{ grandchildlink.url }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                                      {{ grandchildlink.title }}
+                                    </a>
+                                  {% endfor %}
+                                </div>
+                              </div>
+                            </div>
+                          {% else %}
+                            <a href="{{ childlink.url }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                              {{ childlink.title }}
+                            </a>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                {% else %}
+                  <a href="{{ link.url }}" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    {% if link.title contains 'Women' %}
+                      <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                      </svg>
+                    {% elsif link.title contains 'Men' %}
+                      <svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                      </svg>
+                    {% elsif link.title contains 'Kids' %}
+                      <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                      </svg>
+                    {% else %}
+                      <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                      </svg>
+                    {% endif %}
+                    {{ link.title }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+              <a href="/collections/all" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                </svg>
+                View All Categories
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Main Navigation -->
+        <nav class="flex-grow">
+          <ul class="flex">
+            {% for link in section.settings.main_menu.links %}
+              <li class="relative group">
+                {% if link.links.size > 0 %}
+                  <button class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200" aria-expanded="false">
+                    {{ link.title }}
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div class="py-2">
+                      {% for childlink in link.links %}
+                        <a href="{{ childlink.url }}" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                          {{ childlink.title }}
+                        </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% else %}
+                  <a href="{{ link.url }}" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+                    {{ link.title }}
+                  </a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+        
+        <!-- Hotline -->
+        {% if section.settings.hotline_number != blank %}
+          <div class="hidden xl:flex items-center px-4 py-3 text-gray-700 dark:text-gray-300">
+            <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+            <div>
+              <span class="block text-xs text-gray-500 dark:text-gray-400">Hotline:</span>
+              <a href="tel:{{ section.settings.hotline_number | remove: ' ' | remove: '-' }}" class="font-medium hover:text-primary dark:hover:text-primary transition-colors duration-200">{{ section.settings.hotline_number }}</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Search (hidden by default) -->
+  <div class="md:hidden border-t border-gray-200 dark:border-gray-800 py-3 px-4">
+    <form action="/search" method="get" class="relative">
+      <input type="text" name="q" placeholder="Search for products..." class="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+      <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <!-- Mobile Categories Menu (hidden by default) -->
+  <div id="mobile-categories-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+    <div class="absolute inset-y-0 left-0 w-full max-w-sm bg-white dark:bg-gray-900 shadow-xl transform transition-transform duration-300 ease-in-out">
+      <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white">Categories</h2>
+        <button id="mobile-categories-close" class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="overflow-y-auto h-full pb-20">
+        <div class="py-2">
+          {% for link in section.settings.category_menu.links %}
+            <div class="mobile-category-item">
+              <button class="flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                <span class="flex items-center">
+                  {% if link.title contains 'Women' %}
+                    <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                  {% elsif link.title contains 'Men' %}
+                    <svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                  {% elsif link.title contains 'Kids' %}
+                    <svg class="w-5 h-5 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                  {% else %}
+                    <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                    </svg>
+                  {% endif %}
+                  {{ link.title }}
+                </span>
+                {% if link.links.size > 0 %}
+                  <svg class="w-4 h-4 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                {% endif %}
+              </button>
+              {% if link.links.size > 0 %}
+                <div class="mobile-subcategory-menu hidden pl-4 bg-gray-50 dark:bg-gray-800/50">
+                  {% for childlink in link.links %}
+                    <div class="mobile-subcategory-item">
+                      <button class="flex items-center justify-between w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+                        {{ childlink.title }}
+                        {% if childlink.links.size > 0 %}
+                          <svg class="w-4 h-4 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                          </svg>
+                        {% endif %}
+                      </button>
+                      {% if childlink.links.size > 0 %}
+                        <div class="mobile-subsubcategory-menu hidden pl-4 bg-gray-100 dark:bg-gray-800">
+                          {% for grandchildlink in childlink.links %}
+                            <a href="{{ grandchildlink.url }}" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                              {{ grandchildlink.title }}
+                            </a>
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <a href="/collections/all" class="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+            <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+            </svg>
+            View All Categories
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer (hidden by default) -->
+  <div id="cart-drawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-white dark:bg-gray-900 shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+    <div class="flex flex-col h-full">
+      <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white">Your Cart</h2>
+        <button id="cart-close" class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <div id="cart-items" class="flex-grow overflow-y-auto p-4">
+        <!-- Cart items will be loaded here via JavaScript -->
+        <div class="cart-empty text-center py-12">
+          <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">Your cart is empty</p>
+          <a href="/collections/all" class="inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors duration-200">
+            Continue Shopping
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="p-4 border-t border-gray-200 dark:border-gray-800">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-lg font-medium text-gray-700 dark:text-gray-300">Subtotal</span>
+          <span class="text-lg font-bold text-gray-900 dark:text-white cart-subtotal">$0.00</span>
+        </div>
+        <a href="/cart" class="block w-full px-6 py-3 bg-primary text-white font-medium text-center rounded-lg hover:bg-primary-dark transition-colors duration-200">
+          View Cart
+        </a>
+        <a href="/checkout" class="block w-full px-6 py-3 bg-gray-900 dark:bg-gray-700 text-white font-medium text-center rounded-lg mt-2 hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors duration-200">
+          Checkout
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Categories Menu Toggle
+    const mobileCategoryToggle = document.getElementById('mobile-category-toggle');
+    const mobileCategoriesMenu = document.getElementById('mobile-categories-menu');
+    const mobileCategoriesClose = document.getElementById('mobile-categories-close');
+    
+    if (mobileCategoryToggle && mobileCategoriesMenu && mobileCategoriesClose) {
+      mobileCategoryToggle.addEventListener('click', function() {
+        mobileCategoriesMenu.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      });
+      
+      mobileCategoriesClose.addEventListener('click', function() {
+        mobileCategoriesMenu.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      });
+    }
+    
+    // Mobile Category Accordion
+    const mobileCategoryItems = document.querySelectorAll('.mobile-category-item > button');
+    
+    mobileCategoryItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const parent = this.parentElement;
+        const submenu = parent.querySelector('.mobile-subcategory-menu');
+        const arrow = this.querySelector('svg');
+        
+        if (submenu) {
+          submenu.classList.toggle('hidden');
+          if (arrow) {
+            arrow.classList.toggle('rotate-180');
+          }
+        }
+      });
+    });
+    
+    // Mobile Subcategory Accordion
+    const mobileSubcategoryItems = document.querySelectorAll('.mobile-subcategory-item > button');
+    
+    mobileSubcategoryItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const parent = this.parentElement;
+        const submenu = parent.querySelector('.mobile-subsubcategory-menu');
+        const arrow = this.querySelector('svg');
+        
+        if (submenu) {
+          submenu.classList.toggle('hidden');
+          if (arrow) {
+            arrow.classList.toggle('rotate-180');
+          }
+        }
+      });
+    });
+    
+    // Cart Drawer Toggle
+    const cartToggle = document.getElementById('cart-toggle');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const cartClose = document.getElementById('cart-close');
+    
+    if (cartToggle && cartDrawer && cartClose) {
+      cartToggle.addEventListener('click', function() {
+        cartDrawer.classList.remove('translate-x-full');
+        document.body.classList.add('overflow-hidden');
+      });
+      
+      cartClose.addEventListener('click', function() {
+        cartDrawer.classList.add('translate-x-full');
+        document.body.classList.remove('overflow-hidden');
+      });
+    }
+    
+    // Update Cart Count
+    function updateCartCount() {
+      fetch('/cart.js')
+        .then(response => response.json())
+        .then(cart => {
+          const cartCountElements = document.querySelectorAll('.cart-count');
+          cartCountElements.forEach(element => {
+            element.textContent = cart.item_count;
+          });
+        })
+        .catch(error => console.error('Error fetching cart:', error));
+    }
+    
+    // Update Wishlist Count
+    function updateWishlistCount() {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      const wishlistCountElements = document.querySelectorAll('.wishlist-count');
+      wishlistCountElements.forEach(element => {
+        element.textContent = wishlist.length;
+      });
+    }
+    
+    // Update Compare Count
+    function updateCompareCount() {
+      const compare = JSON.parse(localStorage.getItem('compare')) || [];
+      const compareCountElements = document.querySelectorAll('.compare-count');
+      compareCountElements.forEach(element => {
+        element.textContent = compare.length;
+      });
+    }
+    
+    // Initialize counts
+    updateCartCount();
+    updateWishlistCount();
+    updateCompareCount();
+    
+    // Listen for cart updates
+    document.addEventListener('cart:updated', updateCartCount);
+    document.addEventListener('wishlist:updated', updateWishlistCount);
+    document.addEventListener('compare:updated', updateCompareCount);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Header with Categories",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Main Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "category_menu",
+      "label": "Category Menu",
+      "default": "category-menu",
+      "info": "Create a menu with categories and subcategories"
+    },
+    {
+      "type": "text",
+      "id": "hotline_number",
+      "label": "Hotline Number",
+      "default": "+1 (555) 123-4567"
+    },
+    {
+      "type": "header",
+      "content": "Header Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_compare",
+      "label": "Show Compare Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show Wishlist Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show Account Icon",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header with Categories",
+      "category": "Header"
+    }
+  ]
+}
+{% endschema %}

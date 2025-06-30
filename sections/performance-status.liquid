@@ -1,0 +1,204 @@
+{% comment %}
+  Performance Status Section
+  
+  This section displays the current status of performance optimizations
+  and provides information about the benefits of each optimization.
+{% endcomment %}
+
+<div class="performance-status bg-white p-6 rounded-lg shadow-md">
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">Performance Optimization Status</h2>
+    <p class="text-gray-600">Current status of performance optimizations for your store.</p>
+  </div>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Overall Status -->
+    <div class="bg-gray-50 p-4 rounded-lg border {% if settings.enable_performance_optimizations %}border-green-500{% else %}border-gray-300{% endif %}">
+      <div class="flex items-center mb-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center {% if settings.enable_performance_optimizations %}bg-green-100 text-green-600{% else %}bg-gray-200 text-gray-500{% endif %} mr-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">Performance Optimizations</h3>
+          <p class="text-sm text-gray-600">
+            {% if settings.enable_performance_optimizations %}
+              Enabled
+            {% else %}
+              Disabled
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600">
+        {% if settings.enable_performance_optimizations %}
+          All performance optimizations are active, improving page load speed and user experience.
+        {% else %}
+          Enable performance optimizations to improve page load speed and user experience.
+        {% endif %}
+      </p>
+    </div>
+    
+    <!-- Image Optimization -->
+    <div class="bg-gray-50 p-4 rounded-lg border {% if settings.enable_image_optimization %}border-green-500{% else %}border-gray-300{% endif %}">
+      <div class="flex items-center mb-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center {% if settings.enable_image_optimization %}bg-green-100 text-green-600{% else %}bg-gray-200 text-gray-500{% endif %} mr-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">Image Optimization</h3>
+          <p class="text-sm text-gray-600">
+            {% if settings.enable_image_optimization %}
+              Enabled (Quality: {{ settings.image_quality }}%)
+            {% else %}
+              Disabled
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600">
+        {% if settings.enable_image_optimization %}
+          Images are being lazy-loaded and optimized for faster page loading.
+        {% else %}
+          Enable image optimization to reduce page load time and improve Core Web Vitals.
+        {% endif %}
+      </p>
+    </div>
+    
+    <!-- JavaScript Optimization -->
+    <div class="bg-gray-50 p-4 rounded-lg border {% if settings.enable_js_optimization %}border-green-500{% else %}border-gray-300{% endif %}">
+      <div class="flex items-center mb-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center {% if settings.enable_js_optimization %}bg-green-100 text-green-600{% else %}bg-gray-200 text-gray-500{% endif %} mr-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">JavaScript Optimization</h3>
+          <p class="text-sm text-gray-600">
+            {% if settings.enable_js_optimization %}
+              Enabled
+            {% else %}
+              Disabled
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600">
+        {% if settings.enable_js_optimization %}
+          JavaScript is being loaded efficiently with code splitting and deferred loading.
+        {% else %}
+          Enable JavaScript optimization to improve interactivity and reduce blocking time.
+        {% endif %}
+      </p>
+    </div>
+    
+    <!-- CSS Optimization -->
+    <div class="bg-gray-50 p-4 rounded-lg border {% if settings.enable_css_optimization %}border-green-500{% else %}border-gray-300{% endif %}">
+      <div class="flex items-center mb-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center {% if settings.enable_css_optimization %}bg-green-100 text-green-600{% else %}bg-gray-200 text-gray-500{% endif %} mr-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">CSS Optimization</h3>
+          <p class="text-sm text-gray-600">
+            {% if settings.enable_css_optimization %}
+              Enabled
+              {% if settings.use_critical_css %}
+                (Critical CSS: Enabled)
+              {% else %}
+                (Critical CSS: Disabled)
+              {% endif %}
+            {% else %}
+              Disabled
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600">
+        {% if settings.enable_css_optimization %}
+          CSS is being loaded efficiently with {% if settings.use_critical_css %}critical CSS inlined and{% endif %} non-critical CSS loaded asynchronously.
+        {% else %}
+          Enable CSS optimization to reduce render-blocking resources and improve First Contentful Paint.
+        {% endif %}
+      </p>
+    </div>
+    
+    <!-- Performance Monitoring -->
+    <div class="bg-gray-50 p-4 rounded-lg border {% if settings.enable_performance_monitoring %}border-green-500{% else %}border-gray-300{% endif %}">
+      <div class="flex items-center mb-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center {% if settings.enable_performance_monitoring %}bg-green-100 text-green-600{% else %}bg-gray-200 text-gray-500{% endif %} mr-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">Performance Monitoring</h3>
+          <p class="text-sm text-gray-600">
+            {% if settings.enable_performance_monitoring %}
+              Enabled
+            {% else %}
+              Disabled
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600">
+        {% if settings.enable_performance_monitoring %}
+          Core Web Vitals and performance metrics are being monitored in real-time.
+        {% else %}
+          Enable performance monitoring to track Core Web Vitals and identify areas for improvement.
+        {% endif %}
+      </p>
+    </div>
+    
+    <!-- Documentation -->
+    <div class="bg-gray-50 p-4 rounded-lg border border-blue-500 col-span-1 md:col-span-2">
+      <div class="flex items-center mb-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-900">Performance Documentation</h3>
+          <p class="text-sm text-gray-600">Learn more about performance optimizations</p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600 mb-3">
+        For detailed information about the performance optimizations and how to further improve your store's performance, please refer to the PERFORMANCE.md file in your theme's root directory.
+      </p>
+      <a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800">
+        Learn about Core Web Vitals
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Performance Status",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "This section displays the current status of performance optimizations. You can enable or disable optimizations in the Theme Settings > Performance Optimization section."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Performance Status",
+      "category": "Advanced"
+    }
+  ]
+}
+{% endschema %}

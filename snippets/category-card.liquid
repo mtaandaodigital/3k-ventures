@@ -1,0 +1,45 @@
+{% comment %}
+  Category Card
+  Inspired by the grocery template design but adapted for clothing
+  
+  Usage:
+  {% render 'category-card', collection: collection, icon: icon_url, index: forloop.index %}
+{% endcomment %}
+
+<a href="{{ collection.url }}" class="category-card block text-center group">
+  <div class="relative overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800 w-20 h-20 md:w-24 md:h-24 mx-auto mb-3 flex items-center justify-center border-2 border-primary/10 group-hover:border-primary transition-all duration-300">
+    {% if icon != blank %}
+      <img src="{{ icon }}" alt="{{ collection.title }}" class="w-12 h-12 md:w-14 md:h-14 object-contain transition-transform duration-300 group-hover:scale-110">
+    {% else %}
+      {% assign icon_index = index | modulo: 6 %}
+      {% case icon_index %}
+        {% when 0 %}
+          <svg class="w-12 h-12 md:w-14 md:h-14 text-primary transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+          </svg>
+        {% when 1 %}
+          <svg class="w-12 h-12 md:w-14 md:h-14 text-secondary transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+        {% when 2 %}
+          <svg class="w-12 h-12 md:w-14 md:h-14 text-accent transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+          </svg>
+        {% when 3 %}
+          <svg class="w-12 h-12 md:w-14 md:h-14 text-success transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+          </svg>
+        {% when 4 %}
+          <svg class="w-12 h-12 md:w-14 md:h-14 text-warning transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path>
+          </svg>
+        {% else %}
+          <svg class="w-12 h-12 md:w-14 md:h-14 text-info transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+      {% endcase %}
+    {% endif %}
+  </div>
+  <h4 class="text-sm md:text-base font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors duration-200">{{ collection.title }}</h4>
+</a>

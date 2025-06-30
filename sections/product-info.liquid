@@ -1,0 +1,336 @@
+{% comment %}
+  Product Info Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<div class="product-info">
+  <!-- Product Category -->
+  <div class="mb-2">
+    {% if product.collections.size > 0 %}
+      {% for collection in product.collections limit: 1 %}
+        <a href="{{ collection.url }}" class="text-sm text-gray-500 dark:text-gray-400 hover:text-primary transition-colors duration-200">{{ collection.title }}</a>
+      {% endfor %}
+    {% endif %}
+  </div>
+  
+  <!-- Product Title -->
+  <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">{{ product.title }}</h1>
+  
+  <!-- Product Rating -->
+  <div class="flex items-center mb-4">
+    <div class="flex">
+      {% assign rating = product.metafields.reviews.rating | default: 4.5 | round %}
+      {% for i in (1..5) %}
+        {% if i <= rating %}
+          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+        {% else %}
+          <svg class="w-4 h-4 text-gray-300 dark:text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <span class="text-sm text-gray-500 dark:text-gray-400 ml-2">({{ product.metafields.reviews.rating_count | default: 93 }} reviews)</span>
+  </div>
+  
+  <!-- Product Price -->
+  <div class="flex items-center mb-6">
+    {% if product.compare_at_price > product.price %}
+      <span class="text-primary text-2xl md:text-3xl font-bold">{{ product.price | money }}</span>
+      <span class="text-gray-400 line-through text-lg ml-3">{{ product.compare_at_price | money }}</span>
+      {% assign discount_amount = product.compare_at_price | minus: product.price %}
+      {% assign discount_percentage = discount_amount | times: 100 | divided_by: product.compare_at_price %}
+      <span class="ml-3 bg-secondary/10 text-secondary text-sm font-medium px-2 py-1 rounded">Save {{ discount_percentage }}%</span>
+    {% else %}
+      <span class="text-primary text-2xl md:text-3xl font-bold">{{ product.price | money }}</span>
+    {% endif %}
+  </div>
+  
+  <!-- Product Description -->
+  <div class="mb-6">
+    <div class="text-gray-600 dark:text-gray-300">
+      {{ product.description | truncatewords: 30 }}
+      {% if product.description.size > 180 %}
+        <a href="#product-description" class="text-primary hover:text-primary-dark transition-colors duration-200">Read more</a>
+      {% endif %}
+    </div>
+  </div>
+  
+  <!-- Product Availability -->
+  <div class="mb-6">
+    {% if product.available %}
+      <div class="flex items-center text-success">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        <span>In Stock</span>
+      </div>
+    {% else %}
+      <div class="flex items-center text-danger">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+        </svg>
+        <span>Out of Stock</span>
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Product Form -->
+  <form method="post" action="/cart/add" id="product-form-{{ product.id }}" class="mb-8">
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    
+    <!-- Variant Selectors -->
+    {% unless product.has_only_default_variant %}
+      {% for option in product.options_with_values %}
+        <div class="mb-4">
+          <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">{{ option.name }}</label>
+          
+          {% if option.name == 'Color' %}
+            <div class="flex flex-wrap gap-2">
+              {% for value in option.values %}
+                {% assign option_index = forloop.index0 %}
+                {% assign variant_for_value = product.variants | where: option.name, value | first %}
+                
+                <div class="color-option {% if variant_for_value.available %}cursor-pointer{% else %}cursor-not-allowed opacity-50{% endif %}" 
+                     data-value="{{ value | escape }}"
+                     data-option-index="{{ option.position }}"
+                     {% if variant_for_value.available %}{% else %}disabled{% endif %}>
+                  <div class="w-8 h-8 rounded-full border-2 {% if forloop.first %}border-primary{% else %}border-transparent{% endif %} hover:border-primary transition-colors duration-200" 
+                       style="background-color: {{ value | downcase | replace: ' ', '' }};">
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="flex flex-wrap gap-2">
+              {% for value in option.values %}
+                {% assign option_index = forloop.index0 %}
+                {% assign variant_for_value = product.variants | where: option.name, value | first %}
+                
+                <div class="size-option {% if variant_for_value.available %}cursor-pointer{% else %}cursor-not-allowed opacity-50{% endif %} 
+                            w-10 h-10 flex items-center justify-center rounded-md border {% if forloop.first %}border-primary bg-primary/10 text-primary{% else %}border-gray-300 dark:border-gray-700 hover:border-primary hover:bg-primary/10 hover:text-primary{% endif %} transition-colors duration-200"
+                     data-value="{{ value | escape }}"
+                     data-option-index="{{ option.position }}"
+                     {% if variant_for_value.available %}{% else %}disabled{% endif %}>
+                  {{ value }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endunless %}
+    
+    <!-- Quantity Selector -->
+    <div class="mb-6">
+      <label class="block text-gray-700 dark:text-gray-300 font-medium mb-2">Quantity</label>
+      <div class="flex">
+        <button type="button" class="quantity-btn minus bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 w-10 h-10 rounded-l-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+          </svg>
+        </button>
+        
+        <input type="number" name="quantity" value="1" min="1" max="99" class="quantity-input w-16 h-10 border-y border-gray-300 dark:border-gray-700 text-center text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 focus:outline-none">
+        
+        <button type="button" class="quantity-btn plus bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 w-10 h-10 rounded-r-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Add to Cart & Buy Now Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <button type="submit" name="add" class="flex-1 bg-primary hover:bg-primary-dark text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"
+              {% unless product.available %}disabled{% endunless %}>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+        {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+      </button>
+      
+      <button type="button" class="flex-1 bg-secondary hover:bg-secondary-dark text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"
+              {% unless product.available %}disabled{% endunless %}
+              onclick="buyNow()">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+        </svg>
+        Buy Now
+      </button>
+    </div>
+  </form>
+  
+  <!-- Product Meta -->
+  <div class="border-t border-gray-200 dark:border-gray-800 pt-6 space-y-3 text-sm">
+    <div class="flex">
+      <span class="text-gray-500 dark:text-gray-400 w-24">SKU:</span>
+      <span class="text-gray-700 dark:text-gray-300">{{ product.selected_or_first_available_variant.sku }}</span>
+    </div>
+    
+    <div class="flex">
+      <span class="text-gray-500 dark:text-gray-400 w-24">Category:</span>
+      <div>
+        {% if product.collections.size > 0 %}
+          {% for collection in product.collections %}
+            <a href="{{ collection.url }}" class="text-primary hover:text-primary-dark transition-colors duration-200">{{ collection.title }}</a>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        {% else %}
+          <span class="text-gray-700 dark:text-gray-300">Uncategorized</span>
+        {% endif %}
+      </div>
+    </div>
+    
+    <div class="flex">
+      <span class="text-gray-500 dark:text-gray-400 w-24">Tags:</span>
+      <div>
+        {% if product.tags.size > 0 %}
+          {% for tag in product.tags %}
+            <a href="/collections/all/{{ tag | handle }}" class="text-primary hover:text-primary-dark transition-colors duration-200">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        {% else %}
+          <span class="text-gray-700 dark:text-gray-300">No tags</span>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Social Sharing -->
+    <div class="flex items-center pt-2">
+      <span class="text-gray-500 dark:text-gray-400 w-24">Share:</span>
+      <div class="flex space-x-3">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url | append: product.url }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary transition-colors duration-200">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+          </svg>
+        </a>
+        
+        <a href="https://twitter.com/intent/tweet?text={{ product.title | url_encode }}&url={{ shop.url | append: product.url | url_encode }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary transition-colors duration-200">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+          </svg>
+        </a>
+        
+        <a href="https://pinterest.com/pin/create/button/?url={{ shop.url | append: product.url | url_encode }}&media={{ product.featured_image | img_url: 'large' | url_encode }}&description={{ product.description | strip_html | truncate: 150 | url_encode }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary transition-colors duration-200">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"></path>
+          </svg>
+        </a>
+        
+        <a href="mailto:?subject={{ product.title | url_encode }}&body={{ shop.url | append: product.url | url_encode }}" class="text-gray-400 hover:text-primary transition-colors duration-200">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Quantity buttons
+    const minusBtn = document.querySelector('.quantity-btn.minus');
+    const plusBtn = document.querySelector('.quantity-btn.plus');
+    const quantityInput = document.querySelector('.quantity-input');
+    
+    if (minusBtn && plusBtn && quantityInput) {
+      minusBtn.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      });
+      
+      plusBtn.addEventListener('click', function() {
+        const currentValue = parseInt(quantityInput.value);
+        if (currentValue < 99) {
+          quantityInput.value = currentValue + 1;
+        }
+      });
+    }
+    
+    // Variant selection
+    const colorOptions = document.querySelectorAll('.color-option:not([disabled])');
+    const sizeOptions = document.querySelectorAll('.size-option:not([disabled])');
+    
+    colorOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        // Update selected color
+        colorOptions.forEach(opt => {
+          opt.querySelector('div').classList.remove('border-primary');
+          opt.querySelector('div').classList.add('border-transparent');
+        });
+        this.querySelector('div').classList.remove('border-transparent');
+        this.querySelector('div').classList.add('border-primary');
+        
+        // Update hidden variant selector
+        const optionIndex = this.getAttribute('data-option-index');
+        const optionValue = this.getAttribute('data-value');
+        updateVariantSelection(optionIndex, optionValue);
+      });
+    });
+    
+    sizeOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        // Update selected size
+        sizeOptions.forEach(opt => {
+          opt.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+          opt.classList.add('border-gray-300', 'dark:border-gray-700');
+        });
+        this.classList.remove('border-gray-300', 'dark:border-gray-700');
+        this.classList.add('border-primary', 'bg-primary/10', 'text-primary');
+        
+        // Update hidden variant selector
+        const optionIndex = this.getAttribute('data-option-index');
+        const optionValue = this.getAttribute('data-value');
+        updateVariantSelection(optionIndex, optionValue);
+      });
+    });
+    
+    function updateVariantSelection(optionIndex, optionValue) {
+      // This is a simplified version. In a real implementation, you would need to find the correct variant based on all selected options
+      console.log(`Option ${optionIndex} set to ${optionValue}`);
+    }
+    
+    // Buy Now functionality
+    window.buyNow = function() {
+      const form = document.getElementById('product-form-{{ product.id }}');
+      const formData = new FormData(form);
+      
+      fetch('/cart/clear.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}),
+      })
+      .then(response => response.json())
+      .then(() => {
+        return fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData,
+        });
+      })
+      .then(response => response.json())
+      .then(() => {
+        window.location.href = '/checkout';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    };
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Info",
+  "tag": "section",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}

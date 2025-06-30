@@ -1,0 +1,17 @@
+{% comment %}
+  Notification Snippet
+  Inspired by the Zenis template design
+{% endcomment %}
+
+<div id="notification-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+
+<style>
+  .notification {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-out;
+    max-width: 300px;
+  }
+</style>

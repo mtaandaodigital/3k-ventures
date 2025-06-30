@@ -1,0 +1,177 @@
+{% comment %}
+  Performance Page Template
+  
+  This template is designed to display performance information and status
+  for store administrators. It includes the performance-status section
+  and additional information about performance optimizations.
+{% endcomment %}
+
+<div class="page-width page-container py-12">
+  <header class="page-header text-center mb-10">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900">{{ page.title }}</h1>
+    {% if page.content != blank %}
+      <div class="rte mt-4 max-w-3xl mx-auto text-gray-600">
+        {{ page.content }}
+      </div>
+    {% endif %}
+  </header>
+
+  <div class="max-w-5xl mx-auto">
+    {% section 'performance-status' %}
+    
+    <div class="mt-12 bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Core Web Vitals</h2>
+      <p class="text-gray-600 mb-6">Core Web Vitals are a set of metrics that measure real-world user experience for loading performance, interactivity, and visual stability.</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- LCP -->
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-300">
+          <div class="flex items-center mb-3">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Largest Contentful Paint (LCP)</h3>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mb-2">
+            Measures loading performance. To provide a good user experience, LCP should occur within 2.5 seconds of when the page first starts loading.
+          </p>
+          <div class="mt-2">
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+              <div class="bg-green-600 h-2.5 rounded-full" style="width: 70%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500 mt-1">
+              <span>Good: < 2.5s</span>
+              <span>Needs Improvement: 2.5s - 4s</span>
+              <span>Poor: > 4s</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- FID -->
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-300">
+          <div class="flex items-center mb-3">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">First Input Delay (FID)</h3>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mb-2">
+            Measures interactivity. To provide a good user experience, pages should have a FID of 100 milliseconds or less.
+          </p>
+          <div class="mt-2">
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+              <div class="bg-green-600 h-2.5 rounded-full" style="width: 85%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500 mt-1">
+              <span>Good: < 100ms</span>
+              <span>Needs Improvement: 100ms - 300ms</span>
+              <span>Poor: > 300ms</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- CLS -->
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-300">
+          <div class="flex items-center mb-3">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Cumulative Layout Shift (CLS)</h3>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600 mb-2">
+            Measures visual stability. To provide a good user experience, pages should maintain a CLS of 0.1 or less.
+          </p>
+          <div class="mt-2">
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+              <div class="bg-green-600 h-2.5 rounded-full" style="width: 75%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500 mt-1">
+              <span>Good: < 0.1</span>
+              <span>Needs Improvement: 0.1 - 0.25</span>
+              <span>Poor: > 0.25</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-12 bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Performance Recommendations</h2>
+      <p class="text-gray-600 mb-6">Here are some recommendations to further improve your store's performance:</p>
+      
+      <div class="space-y-4">
+        <div class="flex items-start">
+          <div class="flex-shrink-0 w-6 h-6 text-green-500 mt-0.5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-lg font-medium text-gray-900">Optimize Images</h3>
+            <p class="mt-1 text-sm text-gray-600">Ensure all images are properly sized and compressed. Consider using WebP format for better compression.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start">
+          <div class="flex-shrink-0 w-6 h-6 text-green-500 mt-0.5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-lg font-medium text-gray-900">Minimize Third-Party Scripts</h3>
+            <p class="mt-1 text-sm text-gray-600">Review and minimize the use of third-party scripts, especially those that block rendering.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start">
+          <div class="flex-shrink-0 w-6 h-6 text-green-500 mt-0.5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-lg font-medium text-gray-900">Use a Content Delivery Network (CDN)</h3>
+            <p class="mt-1 text-sm text-gray-600">Ensure your assets are served from a CDN to reduce latency for users around the world.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start">
+          <div class="flex-shrink-0 w-6 h-6 text-green-500 mt-0.5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-lg font-medium text-gray-900">Implement Browser Caching</h3>
+            <p class="mt-1 text-sm text-gray-600">Set appropriate cache headers for static assets to reduce load times for returning visitors.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start">
+          <div class="flex-shrink-0 w-6 h-6 text-green-500 mt-0.5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-lg font-medium text-gray-900">Reduce Server Response Time</h3>
+            <p class="mt-1 text-sm text-gray-600">Optimize your server configuration and database queries to reduce Time to First Byte (TTFB).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

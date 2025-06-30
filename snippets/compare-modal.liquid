@@ -1,0 +1,181 @@
+{% comment %}
+  Compare Modal Snippet
+  Inspired by the Zenis template design
+{% endcomment %}
+
+<div id="compare-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="compare-overlay"></div>
+  
+  <div class="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+    <!-- Close Button -->
+    <button id="compare-close" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 z-10">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <!-- Compare Content -->
+    <div class="p-6">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        Compare Products
+      </h2>
+      
+      <!-- Empty Compare State -->
+      <div id="empty-compare" class="text-center py-12">
+        <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg>
+        <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-2">No products to compare</h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">Add products to compare their features and specifications.</p>
+        <a href="/collections/all" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors duration-200">
+          Start Shopping
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
+      </div>
+      
+      <!-- Compare Table -->
+      <div id="compare-table" class="hidden overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr>
+              <th class="text-left p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300 min-w-[200px]">Product</th>
+              <th id="compare-product-1" class="text-center p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300 min-w-[200px]">
+                <div class="relative">
+                  <button class="compare-remove absolute -top-2 -right-2 bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 p-1 rounded-full shadow-sm hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200" data-index="0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                  <div class="compare-product-placeholder">Product 1</div>
+                </div>
+              </th>
+              <th id="compare-product-2" class="text-center p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300 min-w-[200px]">
+                <div class="relative">
+                  <button class="compare-remove absolute -top-2 -right-2 bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 p-1 rounded-full shadow-sm hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200" data-index="1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                  <div class="compare-product-placeholder">Product 2</div>
+                </div>
+              </th>
+              <th id="compare-product-3" class="text-center p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300 min-w-[200px]">
+                <div class="relative">
+                  <button class="compare-remove absolute -top-2 -right-2 bg-white dark:bg-gray-700 text-gray-500 dark:text-gray-400 p-1 rounded-full shadow-sm hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200" data-index="2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                  <div class="compare-product-placeholder">Product 3</div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Image Row -->
+            <tr>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300">Image</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center">
+                <div class="compare-image-1 w-32 h-32 mx-auto bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                  <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+              </td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center">
+                <div class="compare-image-2 w-32 h-32 mx-auto bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                  <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+              </td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center">
+                <div class="compare-image-3 w-32 h-32 mx-auto bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                  <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Title Row -->
+            <tr>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300">Title</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-title-1 text-gray-900 dark:text-white">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-title-2 text-gray-900 dark:text-white">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-title-3 text-gray-900 dark:text-white">-</td>
+            </tr>
+            
+            <!-- Price Row -->
+            <tr>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300">Price</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-price-1 text-primary font-bold">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-price-2 text-primary font-bold">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-price-3 text-primary font-bold">-</td>
+            </tr>
+            
+            <!-- Availability Row -->
+            <tr>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300">Availability</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-availability-1">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-availability-2">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-availability-3">-</td>
+            </tr>
+            
+            <!-- Description Row -->
+            <tr>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300">Description</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-description-1 text-gray-600 dark:text-gray-400">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-description-2 text-gray-600 dark:text-gray-400">-</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center compare-description-3 text-gray-600 dark:text-gray-400">-</td>
+            </tr>
+            
+            <!-- Add to Cart Row -->
+            <tr>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 font-medium text-gray-700 dark:text-gray-300">Action</td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center">
+                <button class="compare-add-to-cart-1 bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg transition-colors duration-200 inline-flex items-center justify-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
+                  Add to Cart
+                </button>
+              </td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center">
+                <button class="compare-add-to-cart-2 bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg transition-colors duration-200 inline-flex items-center justify-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
+                  Add to Cart
+                </button>
+              </td>
+              <td class="p-4 border border-gray-200 dark:border-gray-700 text-center">
+                <button class="compare-add-to-cart-3 bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg transition-colors duration-200 inline-flex items-center justify-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
+                  Add to Cart
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="mt-8 flex justify-between">
+          <button id="clear-compare" class="px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+            Clear All
+          </button>
+          
+          <a href="/collections/all" class="px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors duration-200">
+            Continue Shopping
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

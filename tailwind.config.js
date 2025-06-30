@@ -10,7 +10,29 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Glamics-inspired modern colors
+        // Theme color system - easily customizable
+        'primary': 'var(--color-primary, #FF6B9D)',
+        'primary-light': 'var(--color-primary-light, #FF9BBD)',
+        'primary-dark': 'var(--color-primary-dark, #E54B7D)',
+        'secondary': 'var(--color-secondary, #3B82F6)',
+        'secondary-light': 'var(--color-secondary-light, #60A5FA)',
+        'secondary-dark': 'var(--color-secondary-dark, #2563EB)',
+        'accent': 'var(--color-accent, #F97316)',
+        'accent-light': 'var(--color-accent-light, #FB923C)',
+        'accent-dark': 'var(--color-accent-dark, #EA580C)',
+        'success': 'var(--color-success, #10B981)',
+        'warning': 'var(--color-warning, #F59E0B)',
+        'danger': 'var(--color-danger, #EF4444)',
+        'info': 'var(--color-info, #3B82F6)',
+        'surface': 'var(--color-surface, #FFFFFF)',
+        'surface-dark': 'var(--color-surface-dark, #1F2937)',
+        'text': 'var(--color-text, #111827)',
+        'text-light': 'var(--color-text-light, #6B7280)',
+        'text-dark': 'var(--color-text-dark, #F9FAFB)',
+        'border': 'var(--color-border, #E5E7EB)',
+        'border-dark': 'var(--color-border-dark, #374151)',
+        
+        // Legacy colors for backward compatibility
         'glamics-pink': '#FF6B9D',
         'glamics-purple': '#8B5CF6',
         'glamics-indigo': '#6366F1',
@@ -20,8 +42,9 @@ module.exports = {
         'glamics-yellow': '#F59E0B',
       },
       fontFamily: {
-        sans: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-        serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+        sans: ['var(--font-family-sans, "Helvetica Neue", "Helvetica", "Arial", "sans-serif")'],
+        serif: ['var(--font-family-serif, "Georgia", "Cambria", "Times New Roman", "Times", "serif")'],
+        heading: ['var(--font-family-heading, "Poppins", "Helvetica Neue", "Helvetica", "Arial", "sans-serif")'],
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-in-out forwards',

@@ -1,0 +1,162 @@
+{% comment %}
+  Popular Categories Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<div class="bg-gray-50 dark:bg-gray-900 py-12 md:py-16">
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-10">
+      {% if section.settings.subheading != blank %}
+        <h3 class="text-sm md:text-base font-medium text-primary mb-2">{{ section.settings.subheading }}</h3>
+      {% endif %}
+      
+      <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">{{ section.settings.heading }}</h2>
+      
+      {% if section.settings.description != blank %}
+        <p class="text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+    
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+      {% for block in section.blocks %}
+        {% if block.type == 'category' %}
+          <div class="category-item" {{ block.shopify_attributes }}>
+            {% if block.settings.collection != blank %}
+              {% assign collection = collections[block.settings.collection] %}
+              <a href="{{ collection.url }}" class="block group">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-card overflow-hidden text-center p-4 transition-all duration-300 hover:shadow-lg">
+                  <div class="relative w-24 h-24 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                    {% if block.settings.icon != blank %}
+                      <img src="{{ block.settings.icon | img_url: 'small' }}" alt="{{ collection.title }}" class="w-14 h-14 object-contain transition-transform duration-300 group-hover:scale-110">
+                    {% else %}
+                      {% assign icon_index = forloop.index | modulo: 6 %}
+                      {% case icon_index %}
+                        {% when 0 %}
+                          <svg class="w-14 h-14 text-primary transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                          </svg>
+                        {% when 1 %}
+                          <svg class="w-14 h-14 text-secondary transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                          </svg>
+                        {% when 2 %}
+                          <svg class="w-14 h-14 text-accent transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                          </svg>
+                        {% when 3 %}
+                          <svg class="w-14 h-14 text-success transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+                          </svg>
+                        {% when 4 %}
+                          <svg class="w-14 h-14 text-warning transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z"></path>
+                          </svg>
+                        {% else %}
+                          <svg class="w-14 h-14 text-info transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          </svg>
+                      {% endcase %}
+                    {% endif %}
+                  </div>
+                  
+                  <h3 class="text-base md:text-lg font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors duration-200">{{ collection.title }}</h3>
+                  
+                  {% if block.settings.show_product_count %}
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ collection.products_count }} Products</p>
+                  {% endif %}
+                </div>
+              </a>
+            {% else %}
+              <div class="bg-white dark:bg-gray-800 rounded-lg shadow-card overflow-hidden text-center p-4">
+                <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+                <div class="h-5 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-auto mb-2 animate-pulse"></div>
+                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mx-auto animate-pulse"></div>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Popular Categories",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Shop By"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Popular Categories"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover our most popular clothing categories"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Category Icon"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_count",
+          "label": "Show product count",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Popular Categories",
+      "category": "Categories",
+      "blocks": [
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

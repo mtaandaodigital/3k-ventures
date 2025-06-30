@@ -1,0 +1,155 @@
+{% render 'breadcrumb' %}
+
+<div class="bg-white dark:bg-gray-900 py-8 md:py-12">
+  <div class="container mx-auto px-4">
+    <!-- Search Header -->
+    <div class="text-center mb-8 md:mb-12">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">Search Results</h1>
+      
+      <!-- Search Form -->
+      <div class="max-w-2xl mx-auto mb-6">
+        <form action="/search" method="get" class="relative">
+          <input 
+            type="text" 
+            name="q" 
+            value="{{ search.terms | escape }}" 
+            placeholder="Search for products..." 
+            class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-lg py-3 px-4 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary"
+            autocomplete="off"
+          >
+          <button type="submit" class="absolute right-3 top-3 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+      
+      <!-- Search Results Count -->
+      <div class="text-gray-600 dark:text-gray-400">
+        {% if search.performed %}
+          {% if search.results_count == 0 %}
+            No results found for "{{ search.terms | escape }}"
+          {% else %}
+            {{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for "{{ search.terms | escape }}"
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Search Results -->
+    {% if search.performed %}
+      {% if search.results_count > 0 %}
+        <!-- Search Filters -->
+        <div class="mb-8">
+          <div class="flex flex-wrap gap-2">
+            <a href="{{ routes.search_url }}?q={{ search.terms | url_encode }}&type=product" class="inline-flex items-center px-4 py-2 rounded-full {% if search.types contains 'product' and search.types.size == 1 %}bg-primary text-white{% else %}bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700{% endif %} transition-colors duration-200">
+              Products ({{ search.results_count | minus: search.pages_count | minus: search.articles_count }})
+            </a>
+            
+            {% if search.types contains 'page' or search.types contains 'article' %}
+              <a href="{{ routes.search_url }}?q={{ search.terms | url_encode }}&type=page" class="inline-flex items-center px-4 py-2 rounded-full {% if search.types contains 'page' and search.types.size == 1 %}bg-primary text-white{% else %}bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700{% endif %} transition-colors duration-200">
+                Pages ({{ search.pages_count }})
+              </a>
+              
+              <a href="{{ routes.search_url }}?q={{ search.terms | url_encode }}&type=article" class="inline-flex items-center px-4 py-2 rounded-full {% if search.types contains 'article' and search.types.size == 1 %}bg-primary text-white{% else %}bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700{% endif %} transition-colors duration-200">
+                Blog Posts ({{ search.articles_count }})
+              </a>
+            {% endif %}
+            
+            <a href="{{ routes.search_url }}?q={{ search.terms | url_encode }}" class="inline-flex items-center px-4 py-2 rounded-full {% if search.types.size > 1 or search.types == empty %}bg-primary text-white{% else %}bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700{% endif %} transition-colors duration-200">
+              All Results ({{ search.results_count }})
+            </a>
+          </div>
+        </div>
+        
+        <!-- Products -->
+        {% if search.results_count > 0 %}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                {% render 'product-card', product: item %}
+              {% elsif item.object_type == 'article' %}
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                  {% if item.image %}
+                    <a href="{{ item.url }}" class="block">
+                      <div class="aspect-w-16 aspect-h-9">
+                        <img 
+                          src="{{ item.image | img_url: 'medium' }}" 
+                          alt="{{ item.title }}"
+                          class="w-full h-full object-cover"
+                        >
+                      </div>
+                    </a>
+                  {% endif %}
+                  
+                  <div class="p-4">
+                    <span class="inline-block bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-medium px-2 py-1 rounded mb-2">Blog Post</span>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                      <a href="{{ item.url }}" class="hover:text-primary transition-colors duration-200">{{ item.title }}</a>
+                    </h3>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                      {{ item.content | strip_html | truncatewords: 20 }}
+                    </div>
+                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      <span>{{ item.published_at | date: '%b %d, %Y' }}</span>
+                    </div>
+                  </div>
+                </div>
+              {% elsif item.object_type == 'page' %}
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow duration-300">
+                  <div class="p-4">
+                    <span class="inline-block bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs font-medium px-2 py-1 rounded mb-2">Page</span>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                      <a href="{{ item.url }}" class="hover:text-primary transition-colors duration-200">{{ item.title }}</a>
+                    </h3>
+                    <div class="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                      {{ item.content | strip_html | truncatewords: 20 }}
+                    </div>
+                    <a href="{{ item.url }}" class="inline-flex items-center text-primary hover:text-primary-dark font-medium transition-colors duration-200">
+                      View Page
+                      <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+        
+        <!-- Pagination -->
+        {% if paginate.pages > 1 %}
+          <div class="mt-12">
+            {% render 'pagination', paginate: paginate %}
+          </div>
+        {% endif %}
+      {% else %}
+        <!-- No Results -->
+        <div class="text-center py-12">
+          <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-2">No results found</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">Try checking your spelling or using different search terms.</p>
+          <a href="/" class="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors duration-200">
+            Back to Home
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+        </div>
+      {% endif %}
+    {% else %}
+      <!-- Search Not Performed -->
+      <div class="text-center py-12">
+        <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <h3 class="text-xl font-medium text-gray-900 dark:text-white mb-2">Search our store</h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">Enter a search term above to find products, blog posts, and pages.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>

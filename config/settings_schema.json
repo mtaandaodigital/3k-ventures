@@ -31,6 +31,12 @@
         "default": "poppins_n4"
       },
       {
+        "id": "heading_font",
+        "type": "font_picker",
+        "label": "Heading Font",
+        "default": "poppins_n6"
+      },
+      {
         "id": "border_radius",
         "type": "range",
         "label": "Border Radius",
@@ -55,6 +61,254 @@
         "type": "checkbox",
         "label": "Enable Animations",
         "default": true
+      }
+    ]
+  },
+  {
+    "name": "Performance Optimization",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Performance Settings"
+      },
+      {
+        "type": "paragraph",
+        "content": "Enable or disable performance optimizations to improve page load speed and user experience."
+      },
+      {
+        "id": "enable_performance_optimizations",
+        "type": "checkbox",
+        "label": "Enable Performance Optimizations",
+        "default": true,
+        "info": "Activates all performance optimizations including image lazy loading, code splitting, and CSS optimizations."
+      },
+      {
+        "type": "header",
+        "content": "Image Optimization"
+      },
+      {
+        "id": "enable_image_optimization",
+        "type": "checkbox",
+        "label": "Enable Image Optimization",
+        "default": true,
+        "info": "Optimizes images with lazy loading, responsive sizing, and low-quality image placeholders."
+      },
+      {
+        "id": "image_quality",
+        "type": "range",
+        "label": "Image Quality",
+        "min": 60,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 80,
+        "info": "Lower quality reduces file size but may affect image appearance."
+      },
+      {
+        "type": "header",
+        "content": "JavaScript Optimization"
+      },
+      {
+        "id": "enable_js_optimization",
+        "type": "checkbox",
+        "label": "Enable JavaScript Optimization",
+        "default": true,
+        "info": "Optimizes JavaScript loading with code splitting and deferred loading."
+      },
+      {
+        "id": "enable_performance_monitoring",
+        "type": "checkbox",
+        "label": "Enable Performance Monitoring",
+        "default": true,
+        "info": "Monitors Core Web Vitals and performance metrics."
+      },
+      {
+        "type": "header",
+        "content": "CSS Optimization"
+      },
+      {
+        "id": "enable_css_optimization",
+        "type": "checkbox",
+        "label": "Enable CSS Optimization",
+        "default": true,
+        "info": "Optimizes CSS loading with critical CSS and asynchronous loading."
+      },
+      {
+        "id": "use_critical_css",
+        "type": "checkbox",
+        "label": "Use Critical CSS",
+        "default": true,
+        "info": "Inlines critical CSS in the head to prevent render-blocking."
+      }
+    ]
+  },
+  {
+    "name": "Color System",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Global Color Settings"
+      },
+      {
+        "type": "paragraph",
+        "content": "These colors will be used throughout the theme. Changing them will update the entire site's color scheme."
+      },
+      {
+        "type": "select",
+        "id": "color_scheme_preset",
+        "label": "Color Scheme Preset",
+        "options": [
+          {
+            "value": "fashion",
+            "label": "Fashion (Pink)"
+          },
+          {
+            "value": "grocery",
+            "label": "Grocery (Green)"
+          },
+          {
+            "value": "electronics",
+            "label": "Electronics (Blue)"
+          },
+          {
+            "value": "furniture",
+            "label": "Furniture (Brown)"
+          },
+          {
+            "value": "custom",
+            "label": "Custom Colors"
+          }
+        ],
+        "default": "fashion",
+        "info": "Select a preset or choose 'Custom Colors' to define your own color scheme below."
+      },
+      {
+        "id": "color_primary",
+        "type": "color",
+        "label": "Primary Color",
+        "default": "#FF6B9D"
+      },
+      {
+        "id": "color_primary_light",
+        "type": "color",
+        "label": "Primary Light",
+        "default": "#FF9BBD"
+      },
+      {
+        "id": "color_primary_dark",
+        "type": "color",
+        "label": "Primary Dark",
+        "default": "#E54B7D"
+      },
+      {
+        "id": "color_secondary",
+        "type": "color",
+        "label": "Secondary Color",
+        "default": "#3B82F6"
+      },
+      {
+        "id": "color_secondary_light",
+        "type": "color",
+        "label": "Secondary Light",
+        "default": "#60A5FA"
+      },
+      {
+        "id": "color_secondary_dark",
+        "type": "color",
+        "label": "Secondary Dark",
+        "default": "#2563EB"
+      },
+      {
+        "id": "color_accent",
+        "type": "color",
+        "label": "Accent Color",
+        "default": "#F97316"
+      },
+      {
+        "id": "color_accent_light",
+        "type": "color",
+        "label": "Accent Light",
+        "default": "#FB923C"
+      },
+      {
+        "id": "color_accent_dark",
+        "type": "color",
+        "label": "Accent Dark",
+        "default": "#EA580C"
+      },
+      {
+        "type": "header",
+        "content": "UI Colors"
+      },
+      {
+        "id": "color_success",
+        "type": "color",
+        "label": "Success Color",
+        "default": "#10B981"
+      },
+      {
+        "id": "color_warning",
+        "type": "color",
+        "label": "Warning Color",
+        "default": "#F59E0B"
+      },
+      {
+        "id": "color_danger",
+        "type": "color",
+        "label": "Danger Color",
+        "default": "#EF4444"
+      },
+      {
+        "id": "color_info",
+        "type": "color",
+        "label": "Info Color",
+        "default": "#3B82F6"
+      },
+      {
+        "type": "header",
+        "content": "Surface & Text Colors"
+      },
+      {
+        "id": "color_surface",
+        "type": "color",
+        "label": "Surface Color (Light Mode)",
+        "default": "#FFFFFF"
+      },
+      {
+        "id": "color_surface_dark",
+        "type": "color",
+        "label": "Surface Color (Dark Mode)",
+        "default": "#1F2937"
+      },
+      {
+        "id": "color_text",
+        "type": "color",
+        "label": "Text Color (Light Mode)",
+        "default": "#111827"
+      },
+      {
+        "id": "color_text_light",
+        "type": "color",
+        "label": "Text Light Color",
+        "default": "#6B7280"
+      },
+      {
+        "id": "color_text_dark",
+        "type": "color",
+        "label": "Text Color (Dark Mode)",
+        "default": "#F9FAFB"
+      },
+      {
+        "id": "color_border",
+        "type": "color",
+        "label": "Border Color (Light Mode)",
+        "default": "#E5E7EB"
+      },
+      {
+        "id": "color_border_dark",
+        "type": "color",
+        "label": "Border Color (Dark Mode)",
+        "default": "#374151"
       }
     ]
   }

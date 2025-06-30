@@ -1,0 +1,144 @@
+{% comment %}
+  Product Gallery Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<div class="product-gallery">
+  <div class="grid grid-cols-12 gap-4">
+    <!-- Thumbnails Column -->
+    <div class="col-span-2 order-2 md:order-1">
+      <div class="product-thumbnails space-y-3 md:max-h-[500px] overflow-y-auto pr-2">
+        {% for image in product.images %}
+          <div class="thumbnail-item cursor-pointer rounded-lg overflow-hidden border-2 {% if forloop.first %}border-primary{% else %}border-transparent{% endif %} hover:border-primary transition-colors duration-200" data-index="{{ forloop.index0 }}">
+            <img 
+              src="{{ image | img_url: 'small' }}" 
+              alt="{{ image.alt | default: product.title }}"
+              class="w-full h-auto object-cover"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            >
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <!-- Main Image Column -->
+    <div class="col-span-12 md:col-span-10 order-1 md:order-2">
+      <div class="product-main-image relative rounded-lg overflow-hidden bg-white">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            {% for image in product.images %}
+              <div class="swiper-slide">
+                <img 
+                  src="{{ image | img_url: 'master' }}" 
+                  alt="{{ image.alt | default: product.title }}"
+                  class="w-full h-auto object-contain"
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                >
+              </div>
+            {% endfor %}
+          </div>
+          
+          <!-- Add Navigation Arrows -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+        </div>
+        
+        <!-- Product Badges -->
+        <div class="absolute top-4 left-4 flex flex-col gap-2 z-10">
+          {% if product.compare_at_price > product.price %}
+            {% assign discount_amount = product.compare_at_price | minus: product.price %}
+            {% assign discount_percentage = discount_amount | times: 100 | divided_by: product.compare_at_price %}
+            <div class="bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full">
+              -{{ discount_percentage }}%
+            </div>
+          {% endif %}
+          
+          {% if product.created_at > 'now' minus 30.days %}
+            <div class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
+              New
+            </div>
+          {% endif %}
+        </div>
+        
+        <!-- Wishlist & Compare Buttons -->
+        <div class="absolute top-4 right-4 flex flex-col space-y-2 z-10">
+          <button class="bg-white/90 backdrop-blur-sm text-gray-700 p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all duration-200 transform hover:scale-110" 
+                  onclick="toggleWishlist('{{ product.handle }}');" 
+                  aria-label="Add to wishlist">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+          </button>
+          
+          <button class="bg-white/90 backdrop-blur-sm text-gray-700 p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all duration-200 transform hover:scale-110" 
+                  onclick="addToCompare('{{ product.handle }}');" 
+                  aria-label="Compare">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Swiper
+    const swiper = new Swiper('.swiper-container', {
+      loop: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+    
+    // Thumbnail click handling
+    const thumbnails = document.querySelectorAll('.thumbnail-item');
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        const index = parseInt(this.getAttribute('data-index'));
+        swiper.slideTo(index + 1); // +1 because of loop mode
+        
+        // Update active thumbnail
+        thumbnails.forEach(thumb => {
+          thumb.classList.remove('border-primary');
+          thumb.classList.add('border-transparent');
+        });
+        this.classList.remove('border-transparent');
+        this.classList.add('border-primary');
+      });
+    });
+    
+    // Update thumbnail on slide change
+    swiper.on('slideChange', function() {
+      const realIndex = swiper.realIndex;
+      thumbnails.forEach((thumb, index) => {
+        if (index === realIndex) {
+          thumb.classList.remove('border-transparent');
+          thumb.classList.add('border-primary');
+        } else {
+          thumb.classList.remove('border-primary');
+          thumb.classList.add('border-transparent');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Gallery",
+  "tag": "section",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}

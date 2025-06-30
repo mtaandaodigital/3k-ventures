@@ -1,0 +1,114 @@
+{% comment %}
+  About Hero Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<div class="relative bg-gray-50 dark:bg-gray-900 overflow-hidden">
+  <div class="container mx-auto px-4 py-12 md:py-16 lg:py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+      <!-- Image Column -->
+      <div class="order-2 lg:order-1">
+        {% if section.settings.image != blank %}
+          <div class="relative">
+            <img 
+              src="{{ section.settings.image | img_url: 'master' }}" 
+              alt="{{ section.settings.heading }}"
+              class="w-full h-auto rounded-lg shadow-lg"
+              loading="lazy"
+            >
+            {% if section.settings.experience_years != blank %}
+              <div class="absolute -bottom-6 -right-6 bg-primary text-white rounded-lg p-4 md:p-6 shadow-lg">
+                <div class="text-2xl md:text-3xl font-bold">{{ section.settings.experience_years }}+</div>
+                <div class="text-sm md:text-base">Years experience</div>
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="bg-gray-200 dark:bg-gray-800 rounded-lg h-96 flex items-center justify-center">
+            <svg class="w-24 h-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+        {% endif %}
+      </div>
+      
+      <!-- Content Column -->
+      <div class="order-1 lg:order-2">
+        {% if section.settings.subheading != blank %}
+          <h3 class="text-sm md:text-base font-medium text-primary mb-2">{{ section.settings.subheading }}</h3>
+        {% endif %}
+        
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">{{ section.settings.heading }}</h1>
+        
+        {% if section.settings.description != blank %}
+          <div class="text-base md:text-lg text-gray-600 dark:text-gray-300 mb-8">{{ section.settings.description }}</div>
+        {% endif %}
+        
+        {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}" class="inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors duration-200">
+            {{ section.settings.button_text }}
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "About Our Company"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Well-coordinated Teamwork Speaks About Us"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "experience_years",
+      "label": "Years of Experience",
+      "default": "12"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Hero",
+      "category": "About"
+    }
+  ]
+}
+{% endschema %}

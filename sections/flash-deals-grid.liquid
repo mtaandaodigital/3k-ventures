@@ -1,0 +1,351 @@
+{% comment %}
+  Flash Deals Grid Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<div class="bg-gray-50 dark:bg-gray-800 py-12 md:py-16">
+  <div class="container mx-auto px-4">
+    <!-- Deal Categories -->
+    {% if section.blocks.size > 0 %}
+      <div class="mb-8">
+        <div class="flex flex-wrap justify-center gap-4">
+          <button class="deal-category-btn active px-4 py-2 rounded-full bg-primary text-white font-medium" data-category="all">
+            All Deals
+          </button>
+          
+          {% for block in section.blocks %}
+            {% if block.type == 'deal_category' %}
+              <button class="deal-category-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200" data-category="{{ block.settings.category_handle }}" {{ block.shopify_attributes }}>
+                {{ block.settings.category_name }}
+              </button>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+    
+    <!-- Deals Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+      {% for block in section.blocks %}
+        {% if block.type == 'deal' %}
+          <div class="deal-item" data-category="{{ block.settings.category_handle }}" {{ block.shopify_attributes }}>
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-card overflow-hidden border border-gray-100 dark:border-gray-700 h-full flex flex-col">
+              <!-- Deal Image -->
+              <div class="relative">
+                {% if block.settings.image != blank %}
+                  <img 
+                    src="{{ block.settings.image | img_url: 'medium' }}" 
+                    alt="{{ block.settings.title }}"
+                    class="w-full h-64 object-cover"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                {% endif %}
+                
+                <!-- Discount Badge -->
+                {% if block.settings.discount_percentage != blank %}
+                  <div class="absolute top-3 left-3 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full">
+                    -{{ block.settings.discount_percentage }}%
+                  </div>
+                {% endif %}
+                
+                <!-- Quick Actions -->
+                <div class="absolute top-3 right-3 flex flex-col space-y-2">
+                  <button class="bg-white/90 backdrop-blur-sm text-gray-700 p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all duration-200 transform hover:scale-110" 
+                          onclick="quickView('{{ block.settings.product_handle }}');" 
+                          aria-label="Quick view">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                  </button>
+                  
+                  <button class="bg-white/90 backdrop-blur-sm text-gray-700 p-2 rounded-full shadow-lg hover:bg-primary hover:text-white transition-all duration-200 transform hover:scale-110" 
+                          onclick="toggleWishlist('{{ block.settings.product_handle }}');" 
+                          aria-label="Add to wishlist">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Deal Info -->
+              <div class="p-4 flex-grow flex flex-col">
+                <!-- Deal Title -->
+                <h3 class="text-gray-900 dark:text-white font-medium text-lg mb-2 line-clamp-2">
+                  <a href="/products/{{ block.settings.product_handle }}" class="hover:text-primary transition-colors duration-200">{{ block.settings.title }}</a>
+                </h3>
+                
+                <!-- Price -->
+                <div class="flex items-center mb-3">
+                  <span class="text-primary font-bold text-xl">{{ block.settings.sale_price }}</span>
+                  {% if block.settings.regular_price != blank %}
+                    <span class="text-gray-400 line-through text-sm ml-2">{{ block.settings.regular_price }}</span>
+                  {% endif %}
+                </div>
+                
+                <!-- Progress Bar -->
+                {% if block.settings.show_progress %}
+                  <div class="mt-auto">
+                    <div class="flex items-center justify-between text-sm mb-1">
+                      <span class="text-gray-600 dark:text-gray-400">Sold: {{ block.settings.sold_count | default: 15 }}</span>
+                      <span class="text-gray-600 dark:text-gray-400">Available: {{ block.settings.available_count | default: 25 }}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                      {% assign total = block.settings.sold_count | default: 15 | plus: block.settings.available_count | default: 25 %}
+                      {% assign progress_percentage = block.settings.sold_count | default: 15 | times: 100 | divided_by: total %}
+                      <div class="bg-primary h-2.5 rounded-full" style="width: {{ progress_percentage }}%"></div>
+                    </div>
+                  </div>
+                {% endif %}
+                
+                <!-- Deal Countdown -->
+                {% if block.settings.show_countdown and block.settings.end_date != blank %}
+                  <div class="mt-4 mb-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Hurry up! Offer ends in:</div>
+                    <div class="item-countdown-timer flex items-center space-x-2" data-end-date="{{ block.settings.end_date }}">
+                      <div class="bg-gray-100 dark:bg-gray-800 rounded p-1 text-center min-w-[40px]">
+                        <span class="days font-bold text-sm text-primary block">00</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Days</span>
+                      </div>
+                      <div class="bg-gray-100 dark:bg-gray-800 rounded p-1 text-center min-w-[40px]">
+                        <span class="hours font-bold text-sm text-primary block">00</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Hrs</span>
+                      </div>
+                      <div class="bg-gray-100 dark:bg-gray-800 rounded p-1 text-center min-w-[40px]">
+                        <span class="minutes font-bold text-sm text-primary block">00</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Mins</span>
+                      </div>
+                      <div class="bg-gray-100 dark:bg-gray-800 rounded p-1 text-center min-w-[40px]">
+                        <span class="seconds font-bold text-sm text-primary block">00</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Secs</span>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+                
+                <!-- Add to Cart Button -->
+                <a href="/products/{{ block.settings.product_handle }}" class="mt-auto w-full bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
+                  Shop Now
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Deal Category Filtering
+    const categoryButtons = document.querySelectorAll('.deal-category-btn');
+    const dealItems = document.querySelectorAll('.deal-item');
+    
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const category = this.getAttribute('data-category');
+        
+        // Update active button
+        categoryButtons.forEach(btn => {
+          btn.classList.remove('active', 'bg-primary', 'text-white');
+          btn.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-300', 'dark:hover:bg-gray-600');
+        });
+        this.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-300', 'dark:hover:bg-gray-600');
+        this.classList.add('active', 'bg-primary', 'text-white');
+        
+        // Filter items
+        dealItems.forEach(item => {
+          if (category === 'all' || item.getAttribute('data-category') === category) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+    
+    // Item Countdown Timers
+    const itemCountdownTimers = document.querySelectorAll('.item-countdown-timer');
+    
+    itemCountdownTimers.forEach(timer => {
+      const endDate = new Date(timer.getAttribute('data-end-date')).getTime();
+      const daysElement = timer.querySelector('.days');
+      const hoursElement = timer.querySelector('.hours');
+      const minutesElement = timer.querySelector('.minutes');
+      const secondsElement = timer.querySelector('.seconds');
+      
+      // Update the countdown every second
+      const countdownInterval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+        
+        // Time calculations
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Display the result
+        daysElement.textContent = days < 10 ? '0' + days : days;
+        hoursElement.textContent = hours < 10 ? '0' + hours : hours;
+        minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
+        secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
+        
+        // If the countdown is finished, clear the interval
+        if (distance < 0) {
+          clearInterval(countdownInterval);
+          daysElement.textContent = '00';
+          hoursElement.textContent = '00';
+          minutesElement.textContent = '00';
+          secondsElement.textContent = '00';
+        }
+      }, 1000);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Flash Deals Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "deal_category",
+      "name": "Deal Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "category_name",
+          "label": "Category Name",
+          "default": "Category Name"
+        },
+        {
+          "type": "text",
+          "id": "category_handle",
+          "label": "Category Handle",
+          "info": "Used for filtering. Use lowercase letters, numbers, and hyphens only.",
+          "default": "category-name"
+        }
+      ]
+    },
+    {
+      "type": "deal",
+      "name": "Deal",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Deal Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Deal Title",
+          "default": "Product Name"
+        },
+        {
+          "type": "text",
+          "id": "product_handle",
+          "label": "Product Handle",
+          "info": "Enter the handle of the product this deal links to"
+        },
+        {
+          "type": "text",
+          "id": "category_handle",
+          "label": "Category Handle",
+          "info": "Should match one of the category handles above for filtering",
+          "default": "category-name"
+        },
+        {
+          "type": "text",
+          "id": "sale_price",
+          "label": "Sale Price",
+          "default": "$49.99"
+        },
+        {
+          "type": "text",
+          "id": "regular_price",
+          "label": "Regular Price",
+          "default": "$99.99"
+        },
+        {
+          "type": "text",
+          "id": "discount_percentage",
+          "label": "Discount Percentage",
+          "default": "50"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_progress",
+          "label": "Show Progress Bar",
+          "default": true
+        },
+        {
+          "type": "number",
+          "id": "sold_count",
+          "label": "Sold Count",
+          "default": 15
+        },
+        {
+          "type": "number",
+          "id": "available_count",
+          "label": "Available Count",
+          "default": 25
+        },
+        {
+          "type": "checkbox",
+          "id": "show_countdown",
+          "label": "Show Countdown",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "end_date",
+          "label": "End Date",
+          "default": "2023-12-31T23:59:59",
+          "info": "Format: YYYY-MM-DDTHH:MM:SS"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flash Deals Grid",
+      "category": "Promotional",
+      "blocks": [
+        {
+          "type": "deal_category"
+        },
+        {
+          "type": "deal_category"
+        },
+        {
+          "type": "deal"
+        },
+        {
+          "type": "deal"
+        },
+        {
+          "type": "deal"
+        },
+        {
+          "type": "deal"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

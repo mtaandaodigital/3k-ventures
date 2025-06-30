@@ -1,0 +1,197 @@
+{% comment %}
+  About Video Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<div class="relative py-12 md:py-16">
+  <!-- Background Image -->
+  <div class="absolute inset-0 z-0">
+    {% if section.settings.background_image != blank %}
+      <img 
+        src="{{ section.settings.background_image | img_url: 'master' }}" 
+        alt="Background"
+        class="w-full h-full object-cover"
+        loading="lazy"
+      >
+      <div class="absolute inset-0 bg-black/50"></div>
+    {% else %}
+      <div class="w-full h-full bg-gray-900"></div>
+    {% endif %}
+  </div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="flex flex-col items-center justify-center py-12 md:py-20">
+      <!-- Video Play Button -->
+      <a href="{{ section.settings.video_url }}" class="video-play-btn bg-white/20 backdrop-blur-sm rounded-full p-5 mb-8 hover:bg-primary transition-colors duration-300 group" data-fancybox>
+        <svg class="w-12 h-12 text-white group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+        </svg>
+      </a>
+      
+      <!-- Counter Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mt-8">
+        {% for block in section.blocks %}
+          {% if block.type == 'counter' %}
+            <div class="counter-item text-center" {{ block.shopify_attributes }}>
+              {% if block.settings.icon != blank %}
+                <img 
+                  src="{{ block.settings.icon | img_url: 'small' }}" 
+                  alt="{{ block.settings.title }}"
+                  class="w-12 h-12 object-contain mx-auto mb-4"
+                  loading="lazy"
+                >
+              {% else %}
+                <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  {% case forloop.index %}
+                    {% when 1 %}
+                      <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                      </svg>
+                    {% when 2 %}
+                      <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path>
+                      </svg>
+                    {% when 3 %}
+                      <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                      </svg>
+                    {% else %}
+                      <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                      </svg>
+                  {% endcase %}
+                </div>
+              {% endif %}
+              
+              <div class="text-3xl md:text-4xl font-bold text-white mb-2 counter-number" data-count="{{ block.settings.number }}">0</div>
+              <div class="text-sm md:text-base text-white/80">{{ block.settings.title }}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize counter animation
+    const counterElements = document.querySelectorAll('.counter-number');
+    
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = entry.target;
+          const count = parseInt(target.getAttribute('data-count'));
+          let current = 0;
+          const increment = Math.ceil(count / 50); // Adjust for animation speed
+          const duration = 2000; // Animation duration in milliseconds
+          const interval = Math.floor(duration / (count / increment));
+          
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= count) {
+              target.textContent = count;
+              clearInterval(timer);
+            } else {
+              target.textContent = current;
+            }
+          }, interval);
+          
+          observer.unobserve(target);
+        }
+      });
+    }, options);
+    
+    counterElements.forEach(counter => {
+      observer.observe(counter);
+    });
+    
+    // Initialize video lightbox
+    if (typeof $.fn.fancybox === 'function') {
+      $('[data-fancybox]').fancybox({
+        youtube: {
+          controls: 1,
+          showinfo: 0
+        },
+        vimeo: {
+          color: 'f00'
+        }
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "About Video",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL",
+      "info": "YouTube or Vimeo URL",
+      "default": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "counter",
+      "name": "Counter",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "950"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Happy Customers"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Video",
+      "category": "About",
+      "blocks": [
+        {
+          "type": "counter"
+        },
+        {
+          "type": "counter"
+        },
+        {
+          "type": "counter"
+        },
+        {
+          "type": "counter"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

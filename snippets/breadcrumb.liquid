@@ -1,0 +1,73 @@
+{% comment %}
+  Breadcrumb Snippet
+  Inspired by the Zenis template design
+{% endcomment %}
+
+<div class="bg-gray-100 dark:bg-gray-800 py-4">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
+      <a href="/" class="hover:text-primary transition-colors duration-200">Home</a>
+      
+      {% if template contains 'collection' and collection %}
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-gray-900 dark:text-white font-medium">{{ collection.title }}</span>
+      {% endif %}
+      
+      {% if template contains 'product' %}
+        {% if collection %}
+          <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+          <a href="{{ collection.url }}" class="hover:text-primary transition-colors duration-200">{{ collection.title }}</a>
+        {% endif %}
+        
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-gray-900 dark:text-white font-medium">{{ product.title }}</span>
+      {% endif %}
+      
+      {% if template contains 'page' %}
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-gray-900 dark:text-white font-medium">{{ page.title }}</span>
+      {% endif %}
+      
+      {% if template contains 'blog' %}
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-gray-900 dark:text-white font-medium">{{ blog.title }}</span>
+      {% endif %}
+      
+      {% if template contains 'article' %}
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <a href="{{ blog.url }}" class="hover:text-primary transition-colors duration-200">{{ blog.title }}</a>
+        
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-gray-900 dark:text-white font-medium">{{ article.title }}</span>
+      {% endif %}
+      
+      {% if template contains 'cart' %}
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-gray-900 dark:text-white font-medium">Shopping Cart</span>
+      {% endif %}
+      
+      {% if template contains 'search' %}
+        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-gray-900 dark:text-white font-medium">Search Results</span>
+      {% endif %}
+    </div>
+  </div>
+</div>

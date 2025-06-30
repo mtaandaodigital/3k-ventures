@@ -1,0 +1,154 @@
+{% comment %}
+  Theme Variables
+  This snippet defines CSS variables based on theme settings
+  Include this in the <head> of your theme.liquid layout
+{% endcomment %}
+
+<style>
+  :root {
+    {% comment %} Apply color presets if selected {% endcomment %}
+    {% case settings.color_scheme_preset %}
+      {% when 'grocery' %}
+        /* Grocery Theme Colors */
+        --color-primary: #3BB77E;
+        --color-primary-light: #4CD08E;
+        --color-primary-dark: #2A9D68;
+        --color-secondary: #FDC040;
+        --color-secondary-light: #FFCF60;
+        --color-secondary-dark: #E5AC30;
+        --color-accent: #F59758;
+        --color-accent-light: #F7B078;
+        --color-accent-dark: #E57D38;
+        --color-success: #3BB77E;
+        --color-warning: #FDC040;
+        --color-danger: #F74B81;
+        --color-info: #29A9E1;
+      
+      {% when 'electronics' %}
+        /* Electronics Theme Colors */
+        --color-primary: #0068C9;
+        --color-primary-light: #2083E4;
+        --color-primary-dark: #0054A3;
+        --color-secondary: #F03333;
+        --color-secondary-light: #F25555;
+        --color-secondary-dark: #D42020;
+        --color-accent: #5A6D80;
+        --color-accent-light: #7A8A9A;
+        --color-accent-dark: #485868;
+        --color-success: #00B67A;
+        --color-warning: #FFC107;
+        --color-danger: #F03333;
+        --color-info: #0068C9;
+      
+      {% when 'furniture' %}
+        /* Furniture Theme Colors */
+        --color-primary: #BE9278;
+        --color-primary-light: #CEAA94;
+        --color-primary-dark: #A67A5B;
+        --color-secondary: #4D6A79;
+        --color-secondary-light: #6A8595;
+        --color-secondary-dark: #3A5361;
+        --color-accent: #D5A26F;
+        --color-accent-light: #E0B88C;
+        --color-accent-dark: #C08A50;
+        --color-success: #6A8D73;
+        --color-warning: #D5A26F;
+        --color-danger: #B05B3B;
+        --color-info: #4D6A79;
+      
+      {% when 'fashion' %}
+        /* Fashion Theme Colors (Default) */
+        --color-primary: {{ settings.color_primary }};
+        --color-primary-light: {{ settings.color_primary_light }};
+        --color-primary-dark: {{ settings.color_primary_dark }};
+        --color-secondary: {{ settings.color_secondary }};
+        --color-secondary-light: {{ settings.color_secondary_light }};
+        --color-secondary-dark: {{ settings.color_secondary_dark }};
+        --color-accent: {{ settings.color_accent }};
+        --color-accent-light: {{ settings.color_accent_light }};
+        --color-accent-dark: {{ settings.color_accent_dark }};
+        --color-success: {{ settings.color_success }};
+        --color-warning: {{ settings.color_warning }};
+        --color-danger: {{ settings.color_danger }};
+        --color-info: {{ settings.color_info }};
+      
+      {% else %}
+        /* Custom Colors */
+        --color-primary: {{ settings.color_primary }};
+        --color-primary-light: {{ settings.color_primary_light }};
+        --color-primary-dark: {{ settings.color_primary_dark }};
+        --color-secondary: {{ settings.color_secondary }};
+        --color-secondary-light: {{ settings.color_secondary_light }};
+        --color-secondary-dark: {{ settings.color_secondary_dark }};
+        --color-accent: {{ settings.color_accent }};
+        --color-accent-light: {{ settings.color_accent_light }};
+        --color-accent-dark: {{ settings.color_accent_dark }};
+        --color-success: {{ settings.color_success }};
+        --color-warning: {{ settings.color_warning }};
+        --color-danger: {{ settings.color_danger }};
+        --color-info: {{ settings.color_info }};
+    {% endcase %}
+    
+    /* Surface & Text Colors - Light Mode */
+    --color-surface: {{ settings.color_surface }};
+    --color-text: {{ settings.color_text }};
+    --color-text-light: {{ settings.color_text_light }};
+    --color-border: {{ settings.color_border }};
+    
+    /* Typography */
+    --font-family-sans: {{ settings.primary_font.family }}, {{ settings.primary_font.fallback_families }};
+    --font-family-serif: {{ settings.secondary_font.family }}, {{ settings.secondary_font.fallback_families }};
+    --font-family-heading: {{ settings.heading_font.family }}, {{ settings.heading_font.fallback_families }};
+    
+    /* Border Radius */
+    --border-radius-sm: {{ settings.border_radius | divided_by: 2 }}px;
+    --border-radius: {{ settings.border_radius }}px;
+    --border-radius-lg: {{ settings.border_radius | times: 2 }}px;
+    --border-radius-xl: {{ settings.border_radius | times: 3 }}px;
+    
+    /* Container Width */
+    --container-width: {{ settings.container_width }}px;
+    
+    /* Animation Toggle */
+    --enable-animations: {% if settings.enable_animations %}1{% else %}0{% endif %};
+  }
+  
+  /* Dark Mode Variables */
+  .dark {
+    --color-surface: {{ settings.color_surface_dark }};
+    --color-text: {{ settings.color_text_dark }};
+    --color-border: {{ settings.color_border_dark }};
+  }
+  
+  /* Animation Classes */
+  {% if settings.enable_animations %}
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
+  }
+  
+  .animate-slide-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.8s ease-in-out forwards;
+  }
+  
+  .animate-slide-in-right {
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideInRight 0.8s ease-in-out forwards;
+  }
+  
+  .animate-slide-in-left {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideInLeft 0.8s ease-in-out forwards;
+  }
+  
+  .animate-zoom-in {
+    opacity: 0;
+    transform: scale(0.95);
+    animation: zoomIn 0.8s ease-in-out forwards;
+  }
+  {% endif %}
+</style>

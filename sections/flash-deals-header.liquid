@@ -1,0 +1,123 @@
+{% comment %}
+  Flash Deals Header Section
+  Inspired by the grocery template design but adapted for clothing
+{% endcomment %}
+
+<div class="bg-white dark:bg-gray-900 py-8 md:py-12">
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">{{ section.settings.heading }}</h1>
+      
+      {% if section.settings.description != blank %}
+        <p class="text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8">{{ section.settings.description }}</p>
+      {% endif %}
+      
+      <!-- Countdown Timer -->
+      {% if section.settings.show_countdown and section.settings.end_date != blank %}
+        <div class="flex justify-center">
+          <div class="countdown-timer flex items-center space-x-4" data-end-date="{{ section.settings.end_date }}">
+            <div class="bg-primary/10 rounded-lg p-4 text-center min-w-[80px]">
+              <span class="days font-bold text-3xl text-primary block">00</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Days</span>
+            </div>
+            <div class="bg-primary/10 rounded-lg p-4 text-center min-w-[80px]">
+              <span class="hours font-bold text-3xl text-primary block">00</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Hours</span>
+            </div>
+            <div class="bg-primary/10 rounded-lg p-4 text-center min-w-[80px]">
+              <span class="minutes font-bold text-3xl text-primary block">00</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Mins</span>
+            </div>
+            <div class="bg-primary/10 rounded-lg p-4 text-center min-w-[80px]">
+              <span class="seconds font-bold text-3xl text-primary block">00</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Secs</span>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const countdownTimers = document.querySelectorAll('.countdown-timer');
+    
+    countdownTimers.forEach(timer => {
+      const endDate = new Date(timer.getAttribute('data-end-date')).getTime();
+      const daysElement = timer.querySelector('.days');
+      const hoursElement = timer.querySelector('.hours');
+      const minutesElement = timer.querySelector('.minutes');
+      const secondsElement = timer.querySelector('.seconds');
+      
+      // Update the countdown every second
+      const countdownInterval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+        
+        // Time calculations
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Display the result
+        daysElement.textContent = days < 10 ? '0' + days : days;
+        hoursElement.textContent = hours < 10 ? '0' + hours : hours;
+        minutesElement.textContent = minutes < 10 ? '0' + minutes : minutes;
+        secondsElement.textContent = seconds < 10 ? '0' + seconds : seconds;
+        
+        // If the countdown is finished, clear the interval
+        if (distance < 0) {
+          clearInterval(countdownInterval);
+          daysElement.textContent = '00';
+          hoursElement.textContent = '00';
+          minutesElement.textContent = '00';
+          secondsElement.textContent = '00';
+        }
+      }, 1000);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Flash Deals Header",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Flash Deals"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Don't miss out on these limited-time offers. Shop now before they're gone!"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_countdown",
+      "label": "Show countdown timer",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "default": "2023-12-31T23:59:59",
+      "info": "Format: YYYY-MM-DDTHH:MM:SS"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flash Deals Header",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
