@@ -56,7 +56,9 @@
             </div>
           {% endif %}
           
-          {% if product.created_at > 'now' minus 30.days %}
+          {% assign thirty_days_ago = 'now' | date: '%s' | minus: 2592000 %}
+          {% assign product_date = product.created_at | date: '%s' %}
+          {% if product_date > thirty_days_ago %}
             <div class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
               New
             </div>
