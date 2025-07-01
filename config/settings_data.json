@@ -400,7 +400,7 @@
           "subheading": "Our Products",
           "heading": "Our Fresh Products",
           "description": "Discover our latest fashion collection with amazing deals",
-          "collection": "",
+          "collection": "new-arrivals",
           "products_to_show": 8,
           "show_rating": true,
           "show_tabs": true,
@@ -455,11 +455,13 @@
       "deal-banner": {
         "type": "deal-banner",
         "settings": {
+          "banner1_image": "shopify://shop_images/data-science.png",
           "banner1_label": "Black Friday Offer",
           "banner1_heading": "Organic Foods Up To 45% Off",
           "banner1_text": "Limited time offer on our premium organic selection",
           "banner1_button_text": "Shop Now",
           "banner1_button_link": "",
+          "banner2_image": "shopify://shop_images/data-science.png",
           "banner2_label": "Daily Offer",
           "banner2_heading": "Vegetables Up To 65% Off",
           "banner2_text": "Fresh vegetables delivered to your doorstep",
