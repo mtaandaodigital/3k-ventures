@@ -25,7 +25,7 @@
         "settings": {
           "footer_logo": "shopify://shop_images/3k.png",
           "about_us_text": "<p>Your store description goes here. You can use this space to provide information about your brand, your products, and your mission.</p>",
-          "show_newsletter": true,
+          "show_newsletter": false,
           "newsletter_title": "Subscribe to our newsletter",
           "newsletter_text": "Stay updated with our latest products, offers, and news.",
           "newsletter_button_text": "Subscribe",
@@ -350,6 +350,92 @@
           "enable_store_notice": false,
           "title": "Important Announcement",
           "content": "<p>Enter your store notice here.</p>"
+        }
+      },
+      "top-bar": {
+        "type": "top-bar",
+        "settings": {
+          "enable_top_bar": true,
+          "phone_number": "+1 (555) 123-4567",
+          "email_address": "info@example.com",
+          "location_text": "123 Main Street, Anytown",
+          "show_language_selector": true,
+          "show_currency_selector": true,
+          "show_social_icons": true,
+          "facebook_url": "https://www.facebook.com/Shopify",
+          "twitter_url": "https://twitter.com/Shopify",
+          "instagram_url": "https://www.instagram.com/Shopify"
+        }
+      },
+      "header-with-categories": {
+        "type": "header-with-categories",
+        "settings": {
+          "main_menu": "main-menu",
+          "category_menu": "",
+          "hotline_number": "+1 (555) 123-4567",
+          "show_compare": true,
+          "show_wishlist": true,
+          "show_account": true
+        }
+      },
+      "hero-banner-with-categories": {
+        "type": "hero-banner-with-categories",
+        "settings": {
+          "sidebar_title": "Browse Categories",
+          "sidebar_menu": "main-menu",
+          "subheading": "Special Offer",
+          "heading": "Get 30% Discount On All Items!",
+          "description": "Discover our latest fashion collection with amazing deals",
+          "button_text": "Shop Now",
+          "button_link": "",
+          "show_category_cards": true
+        }
+      },
+      "popular-categories": {
+        "type": "popular-categories",
+        "settings": {
+          "subheading": "Shop By",
+          "heading": "Popular Categories",
+          "description": "Discover our most popular clothing categories"
+        }
+      },
+      "featured-products-grid": {
+        "type": "featured-products-grid",
+        "settings": {
+          "subheading": "Our Products",
+          "heading": "Our Fresh Products",
+          "description": "Discover our latest fashion collection with amazing deals",
+          "collection": "",
+          "products_to_show": 8,
+          "show_rating": true,
+          "show_tabs": true,
+          "show_view_all": true,
+          "view_all_text": "View All Products"
+        }
+      },
+      "deals-of-the-day": {
+        "type": "deals-of-the-day",
+        "settings": {
+          "subheading": "Don't Miss",
+          "heading": "Deals of the Day",
+          "collection": "",
+          "products_to_show": 4,
+          "show_countdown": true,
+          "end_date": "2023-12-31T23:59:59",
+          "show_view_all": true,
+          "view_all_text": "View All Deals"
+        }
+      },
+      "promotional-banners": {
+        "type": "promotional-banners",
+        "settings": {}
+      },
+      "featured-brands": {
+        "type": "featured-brands",
+        "settings": {
+          "subheading": "Our Partners",
+          "heading": "Featured Brands",
+          "description": "Shop from our collection of premium clothing brands"
         }
       }
     },
