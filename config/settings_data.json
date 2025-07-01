@@ -472,7 +472,7 @@
       "special-product": {
         "type": "special-product",
         "settings": {
-          "product": "",
+          "product": "test",
           "label": "Special Offer",
           "heading": "",
           "description": "",
