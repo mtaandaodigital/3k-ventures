@@ -1,0 +1,174 @@
+{% comment %}
+  Deal Banner Section
+  Inspired by the Zenis grocery template design
+{% endcomment %}
+
+<div class="py-8 md:py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- First Banner -->
+      <div class="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary/10 to-primary/5 dark:from-primary/20 dark:to-gray-800">
+        {% if section.settings.banner1_image != blank %}
+          <img 
+            src="{{ section.settings.banner1_image | img_url: 'master' }}" 
+            alt="{{ section.settings.banner1_heading }}"
+            class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30"
+          >
+        {% endif %}
+        
+        <div class="relative p-8 md:p-10 h-full flex flex-col justify-center">
+          {% if section.settings.banner1_label != blank %}
+            <span class="inline-block bg-primary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
+              {{ section.settings.banner1_label }}
+            </span>
+          {% endif %}
+          
+          <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">
+            {{ section.settings.banner1_heading }}
+          </h3>
+          
+          <p class="text-gray-700 dark:text-gray-300 mb-6">
+            {{ section.settings.banner1_text }}
+          </p>
+          
+          {% if section.settings.banner1_button_text != blank and section.settings.banner1_button_link != blank %}
+            <a href="{{ section.settings.banner1_button_link }}" class="inline-flex items-center px-5 py-2 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg transition-colors duration-200 mt-auto self-start">
+              {{ section.settings.banner1_button_text }}
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Second Banner -->
+      <div class="relative overflow-hidden rounded-lg bg-gradient-to-r from-secondary/10 to-secondary/5 dark:from-secondary/20 dark:to-gray-800">
+        {% if section.settings.banner2_image != blank %}
+          <img 
+            src="{{ section.settings.banner2_image | img_url: 'master' }}" 
+            alt="{{ section.settings.banner2_heading }}"
+            class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30"
+          >
+        {% endif %}
+        
+        <div class="relative p-8 md:p-10 h-full flex flex-col justify-center">
+          {% if section.settings.banner2_label != blank %}
+            <span class="inline-block bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
+              {{ section.settings.banner2_label }}
+            </span>
+          {% endif %}
+          
+          <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">
+            {{ section.settings.banner2_heading }}
+          </h3>
+          
+          <p class="text-gray-700 dark:text-gray-300 mb-6">
+            {{ section.settings.banner2_text }}
+          </p>
+          
+          {% if section.settings.banner2_button_text != blank and section.settings.banner2_button_link != blank %}
+            <a href="{{ section.settings.banner2_button_link }}" class="inline-flex items-center px-5 py-2 bg-secondary hover:bg-secondary-dark text-white font-medium rounded-lg transition-colors duration-200 mt-auto self-start">
+              {{ section.settings.banner2_button_text }}
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Deal Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "First Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner1_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "banner1_label",
+      "label": "Label",
+      "default": "Black Friday Offer"
+    },
+    {
+      "type": "text",
+      "id": "banner1_heading",
+      "label": "Heading",
+      "default": "Organic Foods Up To 45% Off"
+    },
+    {
+      "type": "textarea",
+      "id": "banner1_text",
+      "label": "Text",
+      "default": "Limited time offer on our premium organic selection"
+    },
+    {
+      "type": "text",
+      "id": "banner1_button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "banner1_button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Second Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner2_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "banner2_label",
+      "label": "Label",
+      "default": "Daily Offer"
+    },
+    {
+      "type": "text",
+      "id": "banner2_heading",
+      "label": "Heading",
+      "default": "Vegetables Up To 65% Off"
+    },
+    {
+      "type": "textarea",
+      "id": "banner2_text",
+      "label": "Text",
+      "default": "Fresh vegetables delivered to your doorstep"
+    },
+    {
+      "type": "text",
+      "id": "banner2_button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "banner2_button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal Banner",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
