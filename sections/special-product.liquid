@@ -185,7 +185,9 @@
     const countdownElements = document.querySelectorAll('.countdown-timer');
     
     countdownElements.forEach(element => {
-      const endDate = new Date(element.getAttribute('data-end-date')).getTime();
+      const endDateStr = element.getAttribute('data-end-date');
+      // Default to 30 days from now if no end date is set
+      const endDate = endDateStr ? new Date(endDateStr).getTime() : new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).getTime();
       
       const daysElement = element.querySelector('.days');
       const hoursElement = element.querySelector('.hours');
@@ -269,8 +271,7 @@
     {
       "type": "date",
       "id": "end_date",
-      "label": "End Date",
-      "default": "2026-12-31"
+      "label": "End Date (Set to when the offer ends)"
     },
     {
       "type": "header",
