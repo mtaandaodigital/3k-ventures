@@ -40,22 +40,16 @@
           "show_social_icons": true,
           "social_icon_name_1": "Facebook",
           "social_icon_url_1": "",
-          "social_icon_svg_1": "",
           "social_icon_name_2": "Instagram",
           "social_icon_url_2": "",
-          "social_icon_svg_2": "",
           "social_icon_name_3": "Twitter",
           "social_icon_url_3": "",
-          "social_icon_svg_3": "",
           "social_icon_name_4": "Social Icon 4",
           "social_icon_url_4": "",
-          "social_icon_svg_4": "",
           "social_icon_name_5": "Social Icon 5",
           "social_icon_url_5": "",
-          "social_icon_svg_5": "",
           "social_icon_name_6": "Social Icon 6",
-          "social_icon_url_6": "",
-          "social_icon_svg_6": ""
+          "social_icon_url_6": ""
         }
       },
       "header-clean": {
@@ -370,6 +364,7 @@
       "header-with-categories": {
         "type": "header-with-categories",
         "settings": {
+          "logo": "shopify://shop_images/3k.png",
           "main_menu": "main-menu",
           "category_menu": "",
           "hotline_number": "+1 (555) 123-4567",
@@ -436,6 +431,53 @@
           "subheading": "Our Partners",
           "heading": "Featured Brands",
           "description": "Shop from our collection of premium clothing brands"
+        }
+      },
+      "hero-banner-v2": {
+        "type": "hero-banner-v2",
+        "settings": {
+          "image": "shopify://shop_images/vlcsnap-2024-11-12-15h10m12s474.png",
+          "subheading": "Special Offer",
+          "heading": "Get 30% Discount On All Items!",
+          "description": "Discover our latest collection with amazing deals. Limited time offer, shop now while supplies last.",
+          "button_label": "Shop Now",
+          "button_link": "",
+          "secondary_button_label": "Learn More",
+          "secondary_button_link": "",
+          "show_badge": true,
+          "badge_text": "30% OFF"
+        }
+      },
+      "small-banners": {
+        "type": "small-banners",
+        "settings": {}
+      },
+      "deal-banner": {
+        "type": "deal-banner",
+        "settings": {
+          "banner1_label": "Black Friday Offer",
+          "banner1_heading": "Organic Foods Up To 45% Off",
+          "banner1_text": "Limited time offer on our premium organic selection",
+          "banner1_button_text": "Shop Now",
+          "banner1_button_link": "",
+          "banner2_label": "Daily Offer",
+          "banner2_heading": "Vegetables Up To 65% Off",
+          "banner2_text": "Fresh vegetables delivered to your doorstep",
+          "banner2_button_text": "Shop Now",
+          "banner2_button_link": ""
+        }
+      },
+      "special-product": {
+        "type": "special-product",
+        "settings": {
+          "product": "",
+          "label": "Special Offer",
+          "heading": "",
+          "description": "",
+          "button_text": "Add to Cart",
+          "show_countdown": true,
+          "end_date": "",
+          "show_features": true
         }
       }
     },
