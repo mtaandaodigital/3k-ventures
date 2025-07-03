@@ -23,7 +23,6 @@
       "footer": {
         "type": "footer",
         "settings": {
-          "footer_logo": "shopify://shop_images/3k.png",
           "about_us_text": "<p>Your store description goes here. You can use this space to provide information about your brand, your products, and your mission.</p>",
           "show_newsletter": false,
           "newsletter_title": "Subscribe to our newsletter",
