@@ -478,7 +478,7 @@
           "description": "",
           "button_text": "Add to Cart",
           "show_countdown": true,
-          "end_date": "",
+          "end_date": "2024-12-31",
           "show_features": true
         }
       }
