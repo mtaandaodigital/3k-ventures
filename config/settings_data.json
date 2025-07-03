@@ -413,10 +413,10 @@
         "settings": {
           "subheading": "Don't Miss",
           "heading": "Deals of the Day",
-          "collection": "",
+          "collection": "new-arrivals",
           "products_to_show": 4,
           "show_countdown": true,
-          "end_date": "2023-12-31T23:59:59",
+          "end_date": "2025-12-31T23:59:59",
           "show_view_all": true,
           "view_all_text": "View All Deals"
         }
@@ -427,6 +427,58 @@
       },
       "featured-brands": {
         "type": "featured-brands",
+        "blocks": {
+          "brand_PW8Btx": {
+            "type": "brand",
+            "settings": {
+              "title": "Brand Name",
+              "link": ""
+            }
+          },
+          "brand_d4EkMm": {
+            "type": "brand",
+            "settings": {
+              "title": "Brand Name",
+              "link": ""
+            }
+          },
+          "brand_48fGj9": {
+            "type": "brand",
+            "settings": {
+              "title": "Brand Name",
+              "link": ""
+            }
+          },
+          "brand_xWy7PT": {
+            "type": "brand",
+            "settings": {
+              "title": "Brand Name",
+              "link": ""
+            }
+          },
+          "brand_MzaYKx": {
+            "type": "brand",
+            "settings": {
+              "title": "Brand Name",
+              "link": ""
+            }
+          },
+          "brand_m7nYjr": {
+            "type": "brand",
+            "settings": {
+              "title": "Brand Name",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "brand_PW8Btx",
+          "brand_d4EkMm",
+          "brand_48fGj9",
+          "brand_xWy7PT",
+          "brand_MzaYKx",
+          "brand_m7nYjr"
+        ],
         "settings": {
           "subheading": "Our Partners",
           "heading": "Featured Brands",
@@ -450,6 +502,40 @@
       },
       "small-banners": {
         "type": "small-banners",
+        "blocks": {
+          "banner_9rJfgW": {
+            "type": "banner",
+            "settings": {
+              "label": "New Arrival",
+              "heading": "Fresh Organic Fruits",
+              "button_text": "Shop Now",
+              "button_link": ""
+            }
+          },
+          "banner_3UUYNA": {
+            "type": "banner",
+            "settings": {
+              "label": "New Arrival",
+              "heading": "Fresh Organic Fruits",
+              "button_text": "Shop Now",
+              "button_link": ""
+            }
+          },
+          "banner_j8UrcJ": {
+            "type": "banner",
+            "settings": {
+              "label": "New Arrival",
+              "heading": "Fresh Organic Fruits",
+              "button_text": "Shop Now",
+              "button_link": ""
+            }
+          }
+        },
+        "block_order": [
+          "banner_9rJfgW",
+          "banner_3UUYNA",
+          "banner_j8UrcJ"
+        ],
         "settings": {}
       },
       "deal-banner": {
@@ -478,7 +564,7 @@
           "description": "",
           "button_text": "Add to Cart",
           "show_countdown": true,
-          "end_date": "2024-12-31",
+          "end_date": "2025-12-31",
           "show_features": true
         }
       }
