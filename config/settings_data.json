@@ -340,7 +340,7 @@
       "store-notice": {
         "type": "store-notice",
         "settings": {
-          "enable_store_notice": false,
+          "enable_store_notice": true,
           "title": "Important Announcement",
           "content": "<p>Enter your store notice here.</p>"
         }
@@ -487,7 +487,6 @@
       "hero-banner-v2": {
         "type": "hero-banner-v2",
         "settings": {
-          "image": "shopify://shop_images/vlcsnap-2024-11-12-15h10m12s474.png",
           "subheading": "Special Offer",
           "heading": "Get 30% Discount On All Items!",
           "description": "Discover our latest collection with amazing deals. Limited time offer, shop now while supplies last.",
